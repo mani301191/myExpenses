@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>myExpenses</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <img src="img/ExpenseLogo.png" class="img-rounded"
+					alt="Expensetracker" width="100" height="100">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                          
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a (click)="onNavClick(0)">Home</a></li>
+        <li><a (click)="onNavClick(1)">Assets</a></li>
+        <li><a (click)="onNavClick(2)">Fitness</a></li>
+        <li><a (click)="onNavClick(3)">Investments</a></li>
+        <li><a (click)="onNavClick(4)">Insurence</a></li>
+        <li><a (click)="onNavClick(5)">Appliances</a></li>
+      </ul>
+      <div class="username">  <img src="img/user.png" class="img-rounded"
+        alt="Expensetracker" width="50" height="50"> Manikandan Narasimhan</div>
+    </div>
+  </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <app-home *ngIf="tabIndex === 0"></app-home>
+  <app-assets *ngIf="tabIndex === 1"></app-assets>
+  <app-fitness *ngIf="tabIndex === 2"></app-fitness>
+  <app-investments *ngIf="tabIndex === 3"></app-investments>
+  <app-insurence *ngIf="tabIndex === 4"></app-insurence>
+  <app-appliances *ngIf="tabIndex === 5"></app-appliances>
+</div>
+
+<footer class="container-fluid text-center">
+  <div class="text-center small"> &copy; Manikandan Narasimhan(2024 - 2025)</div>
+</footer>
+
+</body>
+</html>
