@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ExpenseSummary } from './expense-summary-table';
+import { MatIconModule } from '@angular/material/icon';
 
 const summaryData: ExpenseSummary[] = [
   { year: 2024, month: 'March', income: 298, expense: 23,savings:4 },
@@ -23,12 +24,13 @@ const summaryData: ExpenseSummary[] = [
   templateUrl: './expense-summary-table.component.html',
   styleUrl: './expense-summary-table.component.css',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule],
+  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,MatIconModule],
 })
 export class ExpenseSummaryTableComponent implements AfterViewInit {
   displayedColumns: string[] = ['year', 'month', 'income', 'expense','savings'];
   dataSource: MatTableDataSource<ExpenseSummary>;
 
+  @Output() expenseData = new EventEmitter<ExpenseSummary[]>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -40,11 +42,16 @@ export class ExpenseSummaryTableComponent implements AfterViewInit {
       return x;
     });
     this.dataSource = new MatTableDataSource(summaryData);
+   
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.sort = this.sort; 
+  }
+
+  ngOnInit(): void {
+    this.expenseData.emit(summaryData);
   }
 
   applyFilter(event: Event) {

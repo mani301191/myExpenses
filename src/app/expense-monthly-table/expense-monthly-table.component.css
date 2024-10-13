@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  .customformat{
+    width: 85% !important;
+  }
+
+  .description{
+    width:25% !important;
+  }

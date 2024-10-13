@@ -4,29 +4,39 @@
       <li><a (click)="onNavClick(0)">Summary</a></li>
       <li><a (click)="onNavClick(1)">Monthly</a></li>
       <li><a (click)="onNavClick(2)">Yearly</a></li>
+      <li><a (click)="onNavClick(3)">Add Income/Expense</a></li>
     </ul>
   </div>
   <div *ngIf="selectedNav === 0">
-    <div class="col-sm-8">
+    <div class="col-sm-7">
       <div>
         <h3 class="text-center brandcolor">Expense Summary Details</h3>
-        <app-expense-summary-table></app-expense-summary-table>
+        <app-expense-summary-table (expenseData) = "chartData($event)"></app-expense-summary-table>
       </div>
     </div>
-    <div class="col-sm-2 sidenav">
+    <div class="col-sm-3 sidenav">
       <div class="well">
-        <p>Place holder for chart</p>
+        <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
       </div>
     </div>
   </div>
   <div *ngIf="selectedNav === 1">
-    <div class="col-sm-10">
-      <h3 class="text-left brandcolor">Monthly</h3>
+    <div class="col-sm-7">
+      <h3 class="text-center brandcolor">Monthly Expense Details</h3>
+      <app-expense-monthly-table></app-expense-monthly-table>
+    </div>
+    <div class="col-sm-3">
+      <app-monthly-income></app-monthly-income>
     </div>
   </div>
   <div *ngIf="selectedNav === 2">
     <div class="col-sm-10">
       <h3 class="text-left brandcolor">Yearly</h3>
+    </div>
+  </div>
+  <div *ngIf="selectedNav === 3">
+    <div class="col-sm-10">
+      <h3 class="text-left brandcolor">Add Income/Expense</h3>
     </div>
   </div>
 </div>

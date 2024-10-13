@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="row">
+        <mat-toolbar role="toolbar" class="header">
+            <div class="col-xs-10">
+                <h4 mat-dialog-title> Add Expense Details</h4>
+            </div>
+            <div class="col-xs-2">
+                <button class="close" mat-button (click)="close()">X</button>
+            </div>
+        </mat-toolbar>
+    </div>
+    <br>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+        <div class="row">
+            <div class="col-xs-4">
+                <mat-form-field appearance="outline" class="customformat">
+                    <input matInput [matDatepicker]="picker" placeholder="Expense date" formControlName="date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+            <div class="col-xs-4">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-select placeholder="ExpenseType" formControlName="expenseType">
+                        <mat-option value="UnPlanned">UnPlanned</mat-option>
+                        <mat-option value="Planned">Planned</mat-option>
+                        <mat-option value="Investment">Investment</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-xs-4">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-select placeholder="ExpenseOf" formControlName="expenseOf">
+                        <mat-option value="Common">Common</mat-option>
+                        <mat-option value="Manikandan">Manikandan</mat-option>
+                        <mat-option value="Radha">Radha</mat-option>
+                        <mat-option value="Akshara">Akshara</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <mat-form-field appearance="outline" class="customformat">
+                    <input matInput placeholder="Description" formControlName="description">
+                </mat-form-field>
+            </div>
+            <div class="col-xs-4">
+                <mat-form-field appearance="outline" class="customformat">
+                    <input matInput placeholder="Amount" formControlName="amount">
+                    <mat-icon matSuffix><span class="material-icons">
+                        currency_rupee
+                        </span></mat-icon>
+                        <mat-error *ngIf="formGroup.get('amount').hasError('pattern')">
+                            Please Enter only Numbers!
+                          </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-xs-4 ">
+                <button  color="primary" type="submit" class="button">Submit</button>
+                <a color="primary"   (click)="clear()">Clear</a>
+            </div>
+        </div>
+    </form>
+
+</div>

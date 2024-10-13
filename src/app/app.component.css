@@ -24,6 +24,19 @@
 .brandcolor {
   color: #075068f8;
 }
+
+.button {
+  display: inline-block;
+  padding: 15px 15px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #075068f8;
+  border: none;
+  border-radius: 15px;
+}
   
   /* Set black background color, white text and some padding */
   footer {
