@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { DateRangeComponent } from '../date-range/date-range.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { ExpenseAddComponent } from '../expense-add/expense-add.component';
+import { IncomeAddComponent } from '../income-add/income-add.component';
 
 
 let expenseData: ExpenseMonthly[] = [
@@ -73,24 +74,6 @@ export class ExpenseMonthlyTableComponent implements AfterViewInit {
     }
   }
 
-  myFilter(d: Date): boolean {
-		const day = d.getDay();
-    const month = d.getMonth();
-		const todays_date = d.getDate();
-		const todaysDateObject = new Date();
-		const today = todaysDateObject.getDate();
-    const actualMonth = todaysDateObject.getMonth();
-
-    	/** Prevent actual system date from being selected.*/
-    if (month === actualMonth && todays_date === today) {
-      return false;
-    } else if (day !== 0 && day !== 6) {
-      return true;
-    } else {
-      return false;
-    }
-  	}
-
     selectedDateRange(selectedRange): void {
       this.startDate= selectedRange.value.start;
       this.endDate= selectedRange.value.end;
@@ -98,10 +81,10 @@ export class ExpenseMonthlyTableComponent implements AfterViewInit {
  
     openDialogExpense() {
       const dialogRef = this.dialog.open(ExpenseAddComponent);
+    }
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log(`Dialog result: ${result}`);
-      });
+    openDialogIncome() {
+      this.dialog.open(IncomeAddComponent);
     }
 }
 

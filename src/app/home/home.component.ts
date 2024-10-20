@@ -5,11 +5,13 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { ExpenseSummary } from '../expense-summary-table/expense-summary-table';
 import { ExpenseMonthlyTableComponent } from '../expense-monthly-table/expense-monthly-table.component';
 import { MonthlyIncomeComponent } from '../monthly-income/monthly-income.component';
+import { ExpenseYearlyComponent } from '../expense-yearly/expense-yearly.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule,ExpenseSummaryTableComponent,ExpenseMonthlyTableComponent,CanvasJSAngularChartsModule,MonthlyIncomeComponent],
+  imports: [CommonModule,ExpenseSummaryTableComponent,ExpenseMonthlyTableComponent,CanvasJSAngularChartsModule,
+    MonthlyIncomeComponent,ExpenseYearlyComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

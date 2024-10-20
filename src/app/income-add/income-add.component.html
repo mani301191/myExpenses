@@ -1,1 +1,45 @@
-<p>income-add works!</p>
+<div class="container">
+    <div class="row">
+        <mat-toolbar role="toolbar" class="header">
+            <div class="col-xs-10">
+                <h4 mat-dialog-title> Add Income Details</h4>
+            </div>
+            <div class="col-xs-2">
+                <button class="close" mat-button (click)="close()">X</button>
+            </div>
+        </mat-toolbar>
+    </div>
+</div>
+<br>
+<div class="container">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+        <div class="row">
+            <div class="col-xs-3">
+                <mat-form-field appearance="outline" class="customformat">
+                    <input matInput [matDatepicker]="picker" placeholder="Income date" formControlName="date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-xs-3">
+                <mat-form-field appearance="outline" class="customformat">
+                    <input matInput placeholder="Source" formControlName="source">
+                </mat-form-field>
+            </div>
+            <div class="col-xs-3">
+                <mat-form-field appearance="outline" class="customformat">
+                    <input matInput placeholder="Amount" formControlName="amount">
+                    <mat-icon matSuffix><span class="material-icons">
+                            currency_rupee
+                        </span></mat-icon>
+                    <mat-error *ngIf="formGroup.get('amount').hasError('pattern')">
+                        Please Enter only Numbers!
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-xs-3"></div>
+            <button color="primary" type="submit" class="button">Submit</button>
+            <a color="primary" (click)="clear()">Clear</a>
+        </div>
+    </form>
+</div>

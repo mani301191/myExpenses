@@ -5,7 +5,9 @@
                 <mat-card-title>Income</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <p>Salary - 500 </p>
+                <div *ngFor="let data of incomeData">
+                   <p> {{data.source}} - {{data.amount}}</p>
+                  </div>
             </mat-card-content>
         </mat-card>
     </div>
@@ -15,7 +17,9 @@
                 <mat-card-title>Top 5 Expense</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <p>BankLoan - 20000 </p>
+                <div *ngFor="let data of expenseData">
+                   <p> {{data.description}} - {{data.amount}}</p>
+                  </div>
             </mat-card-content>
         </mat-card>
     </div>
@@ -25,8 +29,9 @@
                 <mat-card-title>Income VS Expense</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <p>Income - 20000 </p>
-                <p>Expense - 30000 </p>
+                <p>Income - {{totalIncome}} </p>
+                <p>Expense - {{totalExpense}} </p>
+                <p>Savings - {{ savings }}</p>
             </mat-card-content>
         </mat-card>
     </div>
