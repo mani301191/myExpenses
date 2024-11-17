@@ -27,7 +27,7 @@
 
 .button {
   display: inline-block;
-  padding: 15px 15px;
+  padding: 10px 10px;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
@@ -37,7 +37,26 @@
   border: none;
   border-radius: 15px;
 }
+
+.printIcon {
+  display: inline-block;
+  padding: 6px 6px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #075068f8;
+  border: none;
+  border-radius: 6px;
+}
   
+@media print{
+  .doNotPrint{display:none !important;}
+  .right { position: absolute; right: 0px; width: 300px; border: 1px solid #075068f8; padding: 10px }
+   th{background-color: #075068f8 !important; color:#ffffff !important;}
+}
+
+
   /* Set black background color, white text and some padding */
   footer {
     background-color: #075068f8;

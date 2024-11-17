@@ -8,11 +8,14 @@ import { InvestmentsComponent } from './investments/investments.component';
 import { InsurenceComponent } from './insurence/insurence.component';
 import { AppliancesComponent } from './appliances/appliances.component';
 import { ExpenseSummaryTableComponent } from './expense-summary-table/expense-summary-table.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AssetsComponent, CommonModule, HomeComponent, FitnessComponent, InvestmentsComponent, InsurenceComponent,ExpenseSummaryTableComponent, AppliancesComponent],
+  imports: [RouterOutlet, AssetsComponent, CommonModule, HomeComponent, 
+    FitnessComponent, InvestmentsComponent, InsurenceComponent,ExpenseSummaryTableComponent, 
+    AppliancesComponent,HttpClientModule],
   
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

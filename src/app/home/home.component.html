@@ -1,5 +1,5 @@
-<div class="row content">
-  <div class="col-sm-2 sidenav">
+<div class="row content" id="print-section">
+  <div class="col-sm-2 sidenav doNotPrint">
     <ul class="nav ">
       <li><a (click)="onNavClick(0)">Summary</a></li>
       <li><a (click)="onNavClick(1)">Monthly</a></li>
@@ -21,10 +21,9 @@
   </div>
   <div *ngIf="selectedNav === 1">
     <div class="col-sm-7">
-      <h3 class="text-center brandcolor">Monthly Expense Details</h3>
       <app-expense-monthly-table></app-expense-monthly-table>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-3 right">
       <app-monthly-income></app-monthly-income>
     </div>
   </div>

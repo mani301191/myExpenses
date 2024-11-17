@@ -6,7 +6,9 @@
             </mat-card-header>
             <mat-card-content>
                 <div *ngFor="let data of incomeData">
-                   <p> {{data.source}} - {{data.amount}}</p>
+                   <p> {{data.source}} - {{data.amount}}
+                    <button class="doNotPrint" (click)="deleteRow(data)"> <i class="fa fa-trash"></i> </button>
+                  </p>
                   </div>
             </mat-card-content>
         </mat-card>
