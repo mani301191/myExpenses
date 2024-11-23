@@ -9,7 +9,6 @@
   <div *ngIf="selectedNav === 0">
     <div class="col-sm-7">
       <div>
-        <h3 class="text-center brandcolor">Expense Summary Details</h3>
         <app-expense-summary-table (expenseData) = "chartData($event)"></app-expense-summary-table>
       </div>
     </div>

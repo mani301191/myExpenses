@@ -1,9 +1,6 @@
 
-
-<div class="container">
     <div class=" row">
-        <div class="col-xs-6">
-
+        <div class="col-xs-10">
             <!--view table-->
             <table mat-table [dataSource]="dataSource" matSort>
 
@@ -14,20 +11,45 @@
                 </ng-container>
 
                 <!-- ExpenseAmount Column -->
-                <ng-container matColumnDef="amount">
+                <ng-container matColumnDef="expense">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseAmount </th>
-                    <td mat-cell *matCellDef="let row"> {{row.amount}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.expense}}<span class="rupee">
+                        currency_rupee </span></td>
                 </ng-container>
 
                   <!-- IncomeAmount Column -->
-                  <ng-container matColumnDef="incomeAmount">
+                  <ng-container matColumnDef="income">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Income Amount </th>
-                    <td mat-cell *matCellDef="let row"> {{row.incomeAmount}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.income}}<span class="rupee">
+                        currency_rupee </span></td>
                 </ng-container>
                   <!-- Savings Column -->
                   <ng-container matColumnDef="savings">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Savings </th>
-                    <td mat-cell *matCellDef="let row"> {{row.savings}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.savings}}<span class="rupee">
+                        currency_rupee </span></td>
+                </ng-container>
+
+                   <!-- Estimated Column -->
+                   <ng-container matColumnDef="estimated">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Estimated </th>
+                    <td mat-cell *matCellDef="let row"> {{row.estimated}}<span class="rupee">
+                        currency_rupee </span></td>
+                </ng-container>
+                <ng-container matColumnDef="planned">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Planned </th>
+                    <td mat-cell *matCellDef="let row"> {{row.category[0].amount}}<span class="rupee">
+                        currency_rupee </span></td>
+                </ng-container>
+                 <ng-container matColumnDef="unPlanned">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> UnPlanned </th>
+                    <td mat-cell *matCellDef="let row"> {{row.category[1].amount}}<span class="rupee">
+                        currency_rupee </span></td>
+                </ng-container>
+                <ng-container matColumnDef="investment">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Investment </th>
+                    <td mat-cell *matCellDef="let row"> {{row.category[2]?.amount}}<span class="rupee">
+                        currency_rupee </span></td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -35,10 +57,7 @@
             </table>
         </div>
 
-        <div class="col-xs-6">
-            <div class="well">
+        <div class="col-xs-2">
                 <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
-              </div>
         </div>
     </div>
-</div>

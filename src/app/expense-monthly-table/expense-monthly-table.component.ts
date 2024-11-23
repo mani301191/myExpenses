@@ -10,7 +10,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import { DateRangeComponent } from '../date-range/date-range.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ExpenseAddComponent } from '../expense-add/expense-add.component';
 import { IncomeAddComponent } from '../income-add/income-add.component';
@@ -18,12 +17,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { CommonService } from '../common.service';
 import { NgxPrintDirective } from '../ngx-print.directive';
+import { EstimateAddComponent } from '../estimate-add/estimate-add.component';
 
 @Component({
   selector: 'app-expense-monthly-table',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule,
-    MatSelectModule, MatDatepickerModule, MatNativeDateModule, CommonModule, DateRangeComponent, MatDialogModule, 
+    MatSelectModule, MatDatepickerModule, MatNativeDateModule, CommonModule, MatDialogModule, 
     FormsModule,NgxPrintDirective],
   templateUrl: './expense-monthly-table.component.html',
   styleUrl: './expense-monthly-table.component.css',
@@ -92,6 +92,10 @@ export class ExpenseMonthlyTableComponent {
 
   openDialogIncome() {
     this.dialog.open(IncomeAddComponent).afterClosed().subscribe(()=> this.commonService.fetchIncomeData(this.selectedDate));
+  }
+
+  openEstimate() {
+    this.dialog.open(EstimateAddComponent).afterClosed().subscribe(()=> this.commonService.fetchEstimateData(this.selectedDate));;
   }
 
   sortData(sort: Sort) {

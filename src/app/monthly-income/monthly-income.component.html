@@ -1,13 +1,15 @@
 
     <div class="row" >
         <mat-card class="title_center"  appearance="outlined">
-            <mat-card-header class="header " >
-                <mat-card-title>Income</mat-card-title>
+            <mat-card-header class="header ">
+                    <mat-card-title>Income </mat-card-title>
             </mat-card-header>
             <mat-card-content>
                 <div *ngFor="let data of incomeData">
-                   <p> {{data.source}} - {{data.amount}}
-                    <button class="doNotPrint" (click)="deleteRow(data)"> <i class="fa fa-trash"></i> </button>
+                   <p> {{data.source}} - {{data.amount}}<span class="rupee">
+                    currency_rupee
+                </span>
+                    <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"> <i class="fa fa-trash"></i> </button>
                   </p>
                   </div>
             </mat-card-content>
@@ -16,24 +18,36 @@
     <div class="row">
         <mat-card  class="title_center" appearance="outlined">
             <mat-card-header class="header ">
-                <mat-card-title>Top 5 Expense</mat-card-title>
+                <mat-card-title>Top 5 Expense </mat-card-title>
             </mat-card-header>
             <mat-card-content>
                 <div *ngFor="let data of expenseData">
-                   <p> {{data.description}} - {{data.amount}}</p>
+                   <p> {{data.description}} - {{data.amount}} <span class="rupee">
+                    currency_rupee
+                </span></p>
                   </div>
             </mat-card-content>
         </mat-card>
     </div>
     <div class="row">
-        <mat-card  class="title_center" appearance="outlined">
+        <mat-card class="title_center" appearance="outlined">
             <mat-card-header class="header ">
-                <mat-card-title>Income VS Expense</mat-card-title>
+                <mat-card-title>Status</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <p>Income - {{totalIncome}} </p>
-                <p>Expense - {{totalExpense}} </p>
-                <p>Savings - {{ savings }}</p>
+                <p>Income - {{totalIncome}} <span class="rupee">
+                        currency_rupee
+                    </span>| Expense - {{totalExpense}} <span class="rupee">
+                        currency_rupee
+                    </span> </p>
+                <p>Savings - {{ savings }} <span class="rupee">
+                        currency_rupee
+                    </span>|
+                    Estimate - {{estimate}} <span class="rupee">
+                        currency_rupee
+                    </span></p>
+                    <p>Status - {{message}}</p>
+                    <mat-progress-bar mode="determinate" [value]="progress" [color]="updateColor(progress)"></mat-progress-bar>
             </mat-card-content>
         </mat-card>
     </div>

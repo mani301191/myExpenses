@@ -51,7 +51,7 @@ export class HomeComponent {
           type: "column",	
           name: "Expense",
           legendText: "Expense",
-          axisYType: "secondary",
+          // axisYType: "secondary",
           showInLegend: true,
           dataPoints:data.slice(0, 6).map((x) => {
             return  {label:x.month, y:x.expense }   

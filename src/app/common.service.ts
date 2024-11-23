@@ -4,6 +4,9 @@ import { ExpenseMonthly } from './expense-monthly-table/expense-monthly-table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { MonthlyIncome } from './monthly-income/monthly-income';
+import { MonthlyEstimate } from './estimate-add/estimate-month';
+import { ExpenseSummary } from './expense-summary-table/expense-summary-table';
+import { ExpenseYearly } from './expense-yearly/expense-yearly';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +21,9 @@ export class CommonService {
    expenseDataResponse = new BehaviorSubject<ExpenseMonthly[]>([]);
    expenseData = this.expenseDataResponse.asObservable();
    incomeDataResponse = new BehaviorSubject<MonthlyIncome[]>([]);
+   expenseSummaryResponse = new BehaviorSubject<ExpenseSummary[]>([]);
+   expenseYearlyResponse = new BehaviorSubject<ExpenseYearly[]>([]);
+   estimateResponse = new BehaviorSubject<any>({} );
    incomeData = this.incomeDataResponse.asObservable();
   
   constructor(private http: HttpClient) { }
@@ -58,6 +64,19 @@ export class CommonService {
     );
   }
 
+  fetchEstimateData(selectedDate: Date) {
+    this.updateSelectedDate(selectedDate);
+    let params = new HttpParams();
+    params = params.append('month', this.currentMonth);
+    params = params.append('year', this.year);
+    this.http.get<MonthlyEstimate>(this.baseUrl + '/monthlyTarget', { params: params }).subscribe(
+      (res) => {  
+        this.estimateResponse.next(res); 
+       },
+      () => this.displayMessage('Error Occured, Contact System Admin'));
+      return this.estimateResponse;
+  }
+
 
   displayMessage(message: string) {
     this._snackBar.open(message, 'dismiss', {
@@ -80,5 +99,26 @@ export class CommonService {
       },
       () => this.displayMessage('Error Occured, Contact System Admin')
     );
+  }
+
+  fetchSummaryData(selectedDate: Date) {
+    this.updateSelectedDate(selectedDate);
+    let params = new HttpParams();
+    params = params.append('year', this.year);
+    this.http.get<ExpenseSummary[]>(this.baseUrl + '/monthlySummary', { params: params }).subscribe(
+      (res) => {  
+        this.expenseSummaryResponse.next(res); 
+       },
+      () => this.displayMessage('Error Occured, Contact System Admin'));
+      return this.expenseSummaryResponse;
+  }
+
+  fetchyearlyData(){
+    this.http.get<ExpenseYearly[]>(this.baseUrl + '/yearlySummary').subscribe(
+      (res) => {  
+        this.expenseYearlyResponse.next(res); 
+       },
+      () => this.displayMessage('Error Occured, Contact System Admin'));
+      return this.expenseYearlyResponse;
   }
 }

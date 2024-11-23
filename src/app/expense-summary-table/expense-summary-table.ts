@@ -4,4 +4,5 @@ export interface ExpenseSummary {
     income: number;
     expense: number;
     savings: number;
+    estimated:number;
   }

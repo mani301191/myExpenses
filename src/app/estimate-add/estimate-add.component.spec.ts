@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DateRangeComponent } from './date-range.component';
+import { EstimateAddComponent } from './estimate-add.component';
 
-describe('DateRangeComponent', () => {
-  let component: DateRangeComponent;
-  let fixture: ComponentFixture<DateRangeComponent>;
+describe('EstimateAddComponent', () => {
+  let component: EstimateAddComponent;
+  let fixture: ComponentFixture<EstimateAddComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DateRangeComponent]
+      imports: [EstimateAddComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DateRangeComponent);
+    fixture = TestBed.createComponent(EstimateAddComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

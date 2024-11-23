@@ -1,5 +1,18 @@
+<div class="row ">
+  <div class="col-xs-2 printIcon">
+    <mat-icon>calendar_today</mat-icon>
+  </div>
+  <div class="col-xs-8">
 <h3 class="text-center brandcolor">Monthly Expense Details - {{months[selectedDate.getMonth()]}} -
   {{selectedDate.getFullYear()}}</h3>
+  </div>
+  <div class="col-xs-2 doNotPrint">
+    <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
+      [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="ExpenseReport" type="button"
+      printSectionId="print-section" ngxPrint><mat-icon>print</mat-icon></button>
+</div>
+</div>
+<hr class="lineBreak">
 <div class="row doNotPrint">
   <div class="col-xs-4">
     <mat-form-field>
@@ -16,16 +29,14 @@
     </mat-form-field>
   </div>
   <div class="col-xs-5">
-    <div class="col-xs-5">
-      <button class="button" (click)="openDialogExpense()">Add Expense</button>
+    <div class="col-xs-4">
+      <button class="button" (click)="openEstimate()">Estimate</button>
     </div>
-    <div class="col-xs-5">
-      <button class="button" (click)="openDialogIncome()">Add Income</button>
+    <div class="col-xs-4">
+      <button class="button" (click)="openDialogIncome()">Income</button>
     </div>
-    <div class="col-xs-2">
-      <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
-        [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="ExpenseReport" type="button"
-        printSectionId="print-section" ngxPrint><mat-icon>print</mat-icon></button>
+    <div class="col-xs-4">
+      <button class="button" (click)="openDialogExpense()">Expense</button>
     </div>
   </div>
 </div>
@@ -36,7 +47,7 @@
 
     <!-- ExpenseDate Column -->
     <ng-container matColumnDef="expenseDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseDate </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader myFont"> ExpenseDate </th>
       <td mat-cell *matCellDef="let row"> {{row.expenseDate}} </td>
     </ng-container>
 
@@ -61,14 +72,15 @@
     <!-- ExpenseAmount Column -->
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseAmount </th>
-      <td mat-cell *matCellDef="let row"> {{row.amount}}</td>
+      <td mat-cell *matCellDef="let row"> {{row.amount}} <span class="rupee">
+        currency_rupee </span></td>
     </ng-container>
 
     <ng-container matColumnDef="actionsColumn">
       <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> Action </th>
       <td mat-cell *matCellDef="let row;" class="doNotPrint">
-        <button (click)="deleteRow(row)">
-          <i class="fa fa-trash "></i>
+        <button class="buttonIcon" (click)="deleteRow(row)">
+          <i class="fa fa-trash"></i>
         </button>
       </td>
     </ng-container>
