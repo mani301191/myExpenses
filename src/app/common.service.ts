@@ -113,8 +113,14 @@ export class CommonService {
       return this.expenseSummaryResponse;
   }
 
-  fetchyearlyData(){
-    this.http.get<ExpenseYearly[]>(this.baseUrl + '/yearlySummary').subscribe(
+  fetchyearlyData(selectedDate:Date){
+   
+    let params = new HttpParams();
+    if(selectedDate) {
+      this.updateSelectedDate(selectedDate);
+       params = params.append('year', this.year);
+    }
+    this.http.get<ExpenseYearly[]>(this.baseUrl + '/yearlySummary', { params: params }).subscribe(
       (res) => {  
         this.expenseYearlyResponse.next(res); 
        },

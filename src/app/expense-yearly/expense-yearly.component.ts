@@ -6,22 +6,18 @@ import { MatInputModule } from '@angular/material/input';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { CommonService } from '../common.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
+import { NgxPrintDirective } from '../ngx-print.directive';
+import { MatIconModule } from '@angular/material/icon';
 
-// let expenseData: ExpenseYearly[] = [
-//   { year: 2022, amount: 1827530, incomeAmount: 1909875, savings: 56789 },
-//   { year: 2023, amount: 1986550, incomeAmount: 2087654, savings: 786543 },
-//   { year: 2024, amount: 2345670, incomeAmount: 1909875, savings: 234553 },
-// ];
-// let expenseDataWithCategory: ExpenseYearly[] = [
-//   { year: 2022, amount: 809876, expenseType: 'Planned', incomeAmount: 2345566, savings: 56789 },
-//   { year: 2022, amount: 309935, expenseType: 'UnPlanned', incomeAmount: 3456789, savings: 98877 },
-//   { year: 2022, amount: 605434, expenseType: 'Investment', incomeAmount: 4322222, savings: 56789 }
-// ];
 @Component({
   selector: 'app-expense-yearly',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule,
-    CommonModule, CanvasJSAngularChartsModule],
+    CommonModule, CanvasJSAngularChartsModule,MatDatepickerModule,MatNativeDateModule,FormsModule,
+    NgxPrintDirective,MatIconModule],
   templateUrl: './expense-yearly.component.html',
   styleUrl: './expense-yearly.component.css'
 })
@@ -29,28 +25,46 @@ export class ExpenseYearlyComponent {
   displayedColumns: string[] = ['year', 'expense', 'income', 'savings','estimated','planned','unPlanned','investment'];
   dataSource: MatTableDataSource<ExpenseYearly>;
   chartOptions: any;
+  selectedDate: Date = new Date();
+
   constructor(private commonService: CommonService) {
 
   }
 
   ngOnInit() {
-    this.commonService.fetchyearlyData().subscribe(
-      (res) => { 
-        this.dataSource = new MatTableDataSource(res);
-        this.chartData();
-      }
-    );
-    
+    this.loadYearlyData(null);
+  }
+
+ loadYearlyData(selectedDate: Date) {
+  this.commonService.fetchyearlyData(selectedDate).subscribe(
+    (res) => { 
+      this.dataSource = new MatTableDataSource(res);
+      this.chartData();
+    }
+  );
+}
+
+  openDatePicker(dp) {
+    dp.open();
+  }
+
+  closeDatePicker(eventData: any, dp?: any) {
+    // get month and year from eventData and close datepicker, thus not allowing user to select date
+    this.selectedDate = eventData;
+    dp.close();
+    this.loadYearlyData(this.selectedDate);
   }
 
   chartData(): void {
     this.chartOptions = {
       title: {
-        text: 'Yearly Expenses : '+ this.dataSource?.data[0]?.year,
+        text: 'Yearly Expenses : '+  this.selectedDate.getFullYear(),
       },
       toolTip: {
         shared: true
       },
+      width: 300,
+      height: 200,
       data: [
         {
           type: 'pie',
@@ -63,5 +77,9 @@ export class ExpenseYearlyComponent {
         }
       ],
     };
+  }
+
+  printYearlyData(){
+    window.print();
   }
 }

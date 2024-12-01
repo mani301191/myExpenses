@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -11,6 +11,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgxPrintDirective } from '../ngx-print.directive';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -21,18 +23,20 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './expense-summary-table.component.css',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
-    MatIconModule,MatDatepickerModule,MatNativeDateModule,CommonModule,FormsModule],
+    MatIconModule,MatDatepickerModule,MatNativeDateModule,CommonModule,FormsModule,NgxPrintDirective,
+    CanvasJSAngularChartsModule],
 })
 export class ExpenseSummaryTableComponent {
   displayedColumns: string[] = ['year', 'month', 'income', 'expense','estimated','savings'];
   dataSource: MatTableDataSource<ExpenseSummary>;
   selectedDate: Date = new Date();
+  chartOptions : any;
 
-  @Output() expenseData = new EventEmitter<ExpenseSummary[]>();
+ // @Output() expenseData = new EventEmitter<ExpenseSummary[]>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private commonService: CommonService) {
+  constructor(private commonService: CommonService,private cdr: ChangeDetectorRef) {
    
   }
   fetchSummaryData() {
@@ -40,7 +44,7 @@ export class ExpenseSummaryTableComponent {
       (res) => { this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort=this.sort;
-         this.expenseData.emit(this.dataSource.data);
+        this.chartData(this.dataSource.data);
       }
     );
   }
@@ -50,6 +54,10 @@ export class ExpenseSummaryTableComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort; 
   }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
   openDatePicker(dp) {
     dp.open();
   }
@@ -68,6 +76,46 @@ export class ExpenseSummaryTableComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  chartData(data : ExpenseSummary[]) : void {
+    this.chartOptions = {
+      title: {
+        text: 'Last 6 Months',
+      },
+      toolTip: {
+        shared: true
+      },
+      axisY: {
+        title: "Income",
+      },
+      axisY2: {
+        title: "Expense",
+      },
+      exportFileName:'Expense summary',
+      exportEnabled: true,
+      
+      data: [
+        {
+          type: 'column',
+          name: "Income",
+          legendText: "Income",
+          showInLegend: true,
+          dataPoints: data.slice(0, 6).map((x) => {
+            return  {label:x.month, y:x.income }   
+             }),
+        },
+        {
+          type: "column",	
+          name: "Expense",
+          legendText: "Expense",
+          // axisYType: "secondary",
+          showInLegend: true,
+          dataPoints:data.slice(0, 6).map((x) => {
+            return  {label:x.month, y:x.expense }   
+             })
+          }
+      ],
+    };
   }
 }
 

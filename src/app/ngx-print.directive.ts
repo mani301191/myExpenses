@@ -138,9 +138,8 @@ export class NgxPrintDirective {
         styles = this.getElementTag('style');
         links = this.getElementTag('link');
       }
-
       printContents = document.getElementById(this.printSectionId).innerHTML;
-      popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
+      popupWin = window.open('ExpenseTracker', 'ExpenseTracker', 'top=0,left=0,height=auto,width=auto');
       popupWin.document.open();
       popupWin.document.write(`
       <html>
@@ -165,7 +164,6 @@ export class NgxPrintDirective {
           </script>
         </body>
       </html>`);
-
       popupWin.document.close();
 
       //Revert back the paginator after printing
@@ -178,14 +176,18 @@ export class NgxPrintDirective {
   //hide Mat Paginator before Printing
   private hideMatPaginatorBeforePrinting()
   {
+    if(document.getElementById(this.paginatorId)){
     document.getElementById(this.paginatorId).style.display='none';
+    }
   }
 
   //Show Mat Paginator after Printing
   private showMatPaginatorAfterPrinting()
   {
+    if(document.getElementById(this.paginatorId)){
     this.matTableDataSource.paginator=this.paginator;
     document.getElementById(this.paginatorId).style.display='block';
+    }
   }
 
   /**
