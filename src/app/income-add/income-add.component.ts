@@ -36,7 +36,7 @@ export class IncomeAddComponent {
     this.formGroup = this.formBuilder.group({
       'incomeDate': [null, Validators.required],
       'source': [null, Validators.required],
-      'amount': [null, [Validators.required,Validators.pattern("^[0-9]*$")]]
+      'amount': [null, [Validators.required,Validators.pattern("^[0-9].*$")]]
     });
   }
 

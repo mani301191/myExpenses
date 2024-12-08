@@ -1,0 +1,20 @@
+mat-card-content{
+    font-size: 13px !important; 
+}
+.subHeader{
+    font-weight: bold;
+    margin-top: 0.5em; 
+}
+.data{
+    margin-top: 0.25em; 
+}
+
+.mat-mdc-progress-bar.mat-primary {
+    --mdc-linear-progress-active-indicator-color: green !important;
+}
+
+.mat-mdc-progress-bar.mat-warn {
+    --mdc-linear-progress-active-indicator-color: orange !important;
+}
+
+

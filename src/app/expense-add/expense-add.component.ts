@@ -39,7 +39,7 @@ export class ExpenseAddComponent {
       'expenseType': [null, Validators.required],
       'expenseOf': [null, Validators.required],
       'description': [null, Validators.required],
-      'amount': [null, [Validators.required,Validators.pattern("^[0-9]*$")]]
+      'amount': [null, [Validators.required,Validators.pattern("^[0-9].*$")]]
     });
   }
 

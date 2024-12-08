@@ -1,16 +1,13 @@
-
+<div class="print-boarder">
     <div class="row" >
         <mat-card class="title_center"  appearance="outlined">
             <mat-card-header class="header ">
                     <mat-card-title>Income </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <div *ngFor="let data of incomeData">
-                   <p> {{data.source}} - {{data.amount}}<span class="rupee">
-                    currency_rupee
-                </span>
+                <div *ngFor="let data of incomeData"  class="data">
+                   {{data.source}} - {{data.amount | currency: 'INR' }}
                     <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"> <i class="fa fa-trash"></i> </button>
-                  </p>
                   </div>
             </mat-card-content>
         </mat-card>
@@ -21,10 +18,8 @@
                 <mat-card-title>Top 5 Expense </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <div *ngFor="let data of expenseData">
-                   <p> {{data.description}} - {{data.amount}} <span class="rupee">
-                    currency_rupee
-                </span></p>
+                <div *ngFor="let data of expenseData" class="data">
+                   {{data.description}} - {{data.amount | currency: 'INR' }}
                   </div>
             </mat-card-content>
         </mat-card>
@@ -35,19 +30,35 @@
                 <mat-card-title>Status</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <p>Income - {{totalIncome}} <span class="rupee">
-                        currency_rupee
-                    </span>| Expense - {{totalExpense}} <span class="rupee">
-                        currency_rupee
-                    </span> </p>
-                <p>Savings - {{ savings }} <span class="rupee">
-                        currency_rupee
-                    </span>|
-                    Estimate - {{estimate}} <span class="rupee">
-                        currency_rupee
-                    </span></p>
-                    <p>Status - {{message}}</p>
+               <div class="row">
+                        <div class="row subHeader" >
+                            <div class="col-xs-6">Income</div>
+                            <div class="col-xs-6">Savings</div>
+                        </div>
+                        <div class="row" >
+                            <div class="col-xs-6">{{totalIncome| currency: 'INR' }}</div>
+                            <div class="col-xs-6">{{ savings| currency: 'INR'  }} </div>
+                        </div>
+                    <div class="row subHeader" >
+                        <div class="col-xs-6">Estimated</div>
+                        <div class="col-xs-6">Expense</div>
+                    </div>
+                    <div class="row" >
+                        <div class="col-xs-6">{{estimate| currency: 'INR' }}</div>
+                        <div class="col-xs-6"> {{totalExpense| currency: 'INR'}} </div>
+                    </div>
+                </div>
+                    <div class="row" >
+                        <div class="col-xs-12">
+                            <div class="row subHeader">Expense Amount by Category</div>
+                                <div class="row">Planned - {{plannedExpense | currency: 'INR' }} </div>
+                                <div class="row">UnPlanned - {{unPlannedExpense | currency: 'INR' }}</div>
+                                <div class="row">Investments - {{investmentExpense| currency: 'INR' }}</div>
+                        </div>  
+                    </div>
+                    <p class="subHeader">Over All Expense Percentage - {{progress | number: '1.0-2'}}%</p>
                     <mat-progress-bar mode="determinate" [value]="progress" [color]="updateColor(progress)"></mat-progress-bar>
-            </mat-card-content>
+                </mat-card-content>
         </mat-card>
     </div>
+</div>

@@ -11,12 +11,12 @@
   <app-expense-summary-table></app-expense-summary-table>
   </div>
   </div>
-  <div id="print-section" *ngIf="selectedNav === 1">
-    <div class="col-sm-7">
+  <div *ngIf="selectedNav === 1">
+    <div  id="print-section" class="col-sm-7">
       <app-expense-monthly-table></app-expense-monthly-table>
     </div>
     <div class="col-sm-3 right">
-      <app-monthly-income></app-monthly-income>
+      <app-monthly-income id = "print-income" ></app-monthly-income>
     </div>
   </div>
   <div id="print-yearly" *ngIf="selectedNav === 2">

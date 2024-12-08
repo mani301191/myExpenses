@@ -35,7 +35,7 @@ export class EstimateAddComponent {
   createForm() {
     this.formGroup = this.formBuilder.group({
       'date': [null, Validators.required],
-      'amount': [null, [Validators.required,Validators.pattern("^[0-9]*$")]]
+      'amount': [null, [Validators.required,Validators.pattern("^[0-9].*$")]]
     });
   }
 

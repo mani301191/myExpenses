@@ -131,7 +131,7 @@ export class NgxPrintDirective {
       this.hideMatPaginatorBeforePrinting();
 
       // Do something after
-      let printContents, popupWin, styles = '', links = '';
+      let printContents, popupWin, styles = '', links = '',chart, printIncome;
 
       if (this.useExistingCss)
       {
@@ -139,6 +139,15 @@ export class NgxPrintDirective {
         links = this.getElementTag('link');
       }
       printContents = document.getElementById(this.printSectionId).innerHTML;
+      printIncome= document.getElementById('print-income');
+      chart= document.getElementsByTagName("canvas")[0];
+      if(chart) {
+      chart=chart.toDataURL("image/jpeg");
+      printContents = printContents+'<br><img src="'+chart+'" alt="chart"  />'
+      }
+      if(printIncome) {
+        printContents = printContents+ printIncome.innerHTML;
+      }
       popupWin = window.open('ExpenseTracker', 'ExpenseTracker', 'top=0,left=0,height=auto,width=auto');
       popupWin.document.open();
       popupWin.document.write(`
@@ -162,6 +171,9 @@ export class NgxPrintDirective {
             }
             window.addEventListener('load', triggerPrint, false);
           </script>
+          <footer>
+            <div> &copy; Manikandan Narasimhan(2024 - 2030)</div>
+          </footer>
         </body>
       </html>`);
       popupWin.document.close();

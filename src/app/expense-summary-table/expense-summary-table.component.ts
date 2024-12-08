@@ -27,7 +27,7 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     CanvasJSAngularChartsModule],
 })
 export class ExpenseSummaryTableComponent {
-  displayedColumns: string[] = ['year', 'month', 'income', 'expense','estimated','savings'];
+  displayedColumns: string[] = ['year', 'month', 'income', 'expense','estimated','savings','actionsColumn'];
   dataSource: MatTableDataSource<ExpenseSummary>;
   selectedDate: Date = new Date();
   chartOptions : any;
@@ -101,8 +101,11 @@ export class ExpenseSummaryTableComponent {
           legendText: "Income",
           showInLegend: true,
           dataPoints: data.slice(0, 6).map((x) => {
-            return  {label:x.month, y:x.income }   
+            return  {label:x.month, y:+x.income }   
              }),
+             indexLabelFormatter: function (e) {
+              return '₹'+e.dataPoint.y ;
+              }
         },
         {
           type: "column",	
@@ -112,7 +115,11 @@ export class ExpenseSummaryTableComponent {
           showInLegend: true,
           dataPoints:data.slice(0, 6).map((x) => {
             return  {label:x.month, y:x.expense }   
-             })
+             }
+            ),
+            indexLabelFormatter: function (e) {
+              return '₹'+e.dataPoint.y ;
+              }
           }
       ],
     };

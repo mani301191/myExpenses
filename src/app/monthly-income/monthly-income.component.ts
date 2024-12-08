@@ -18,11 +18,13 @@ export class MonthlyIncomeComponent {
   selectedDate: Date =new Date();
   incomeData: MonthlyIncome[];
   expenseData: ExpenseMonthly[];
-  totalIncome: number;
-  totalExpense: number;
-  estimate:number;
-  savings: number;
-  message:string;
+  totalIncome: number=0;
+  totalExpense: number=0;
+  plannedExpense: number=0;
+  unPlannedExpense: number=0;
+  investmentExpense: number=0;
+  estimate:number=0;
+  savings: number=0;
   progress: number = 0;
 
   constructor( private commonService: CommonService) { }
@@ -46,8 +48,11 @@ export class MonthlyIncomeComponent {
 
   topExpenseData() {
     this.commonService.fetchExpenseData(this.selectedDate).subscribe(
-      (res) => { this.expenseData = res.sort((a,b) => b.amount-a.amount).slice(0,5) 
+      (res) => { this.expenseData = res.sort((a,b) => b.amount-a.amount).slice(0,5); 
         this.totalExpense = res.map(data => data.amount).reduce((a, b) => a + b ,0);
+        this.plannedExpense = res.filter(r=>r.expenseType=='Planned').map(data => data.amount).reduce((a, b) => a + b ,0);
+        this.unPlannedExpense = res.filter(r=>r.expenseType=='UnPlanned').map(data => data.amount).reduce((a, b) => a + b ,0);
+        this.investmentExpense = res.filter(r=>r.expenseType=='Investment').map(data => data.amount).reduce((a, b) => a + b ,0);
         this.savings = this.totalIncome - this.totalExpense;
         this.setMessage();
       }
@@ -67,19 +72,20 @@ export class MonthlyIncomeComponent {
   }
 
   setMessage() {
-    if(this.estimate  && this.totalExpense) {
-    this.message = (this.estimate >= this.totalExpense) ? "On Track" : " Exceeded";
-    this.progress= this.totalExpense/this.estimate * 100;
+    let  percent = 0;
+    if(this.totalExpense >0 && this.estimate  > 0) {
+      percent= this.totalExpense/this.estimate * 100;
     }
+    this.progress= percent;
   }
 
   updateColor(progress) {
-    if (progress<50){
-       return 'primary';
-    } else if (progress>80){
-       return 'accent';
-    } else {
-      return 'warn';
-    }
+    if (progress<80){
+      return 'primary';
+   } else if (progress>100){
+      return 'accent';
+   } else {
+     return 'warn';
+   }
  }
 }

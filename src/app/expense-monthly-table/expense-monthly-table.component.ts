@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonService } from '../common.service';
 import { NgxPrintDirective } from '../ngx-print.directive';
 import { EstimateAddComponent } from '../estimate-add/estimate-add.component';
+import { ExcelServicesService } from '../export-service';
 
 @Component({
   selector: 'app-expense-monthly-table',
@@ -37,12 +38,14 @@ export class ExpenseMonthlyTableComponent {
   selectedDate: Date = new Date();
   _snackBar = inject(MatSnackBar);
   readonly dialog = inject(MatDialog);
+  expenseDataResponse:ExpenseMonthly[]=[];
 
   @Output() expenseData = new EventEmitter<ExpenseMonthly[]>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort
+  @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private commonService: CommonService,private cdr: ChangeDetectorRef) {
+  constructor(private commonService: CommonService,private cdr: ChangeDetectorRef,
+   private excelService:ExcelServicesService,){
   }
 
   ngOnInit() {
@@ -62,11 +65,13 @@ export class ExpenseMonthlyTableComponent {
     dp.close();
     this.fetchExpenseData()
     this.commonService.fetchIncomeData(this.selectedDate);
+    this.commonService.fetchEstimateData(this.selectedDate);
   }
 
   fetchExpenseData() {
     this.commonService.fetchExpenseData(this.selectedDate).subscribe(
       (res) => { this.dataSource = new MatTableDataSource(res);
+        this.expenseDataResponse=res;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort=this.sort;
       }
@@ -120,6 +125,20 @@ export class ExpenseMonthlyTableComponent {
    compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+
+   export() {
+     this.expenseDataResponse.sort((a,b) =>{ 
+      return  this.convertDate(a.expenseDate.toString()).getTime() > 
+      this.convertDate(b.expenseDate.toString()).getTime()? 0 : -1;});
+    this.excelService.exportAsExcelFile(this.expenseDataResponse, 'MonthlyExpense-'+
+      this.months[this.selectedDate.getMonth()]+this.selectedDate.getFullYear());
+  }
+
+    convertDate(dateString) {
+      let dateParts = dateString.split("/");
+      return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0])
+    }
+
 }
 
 
