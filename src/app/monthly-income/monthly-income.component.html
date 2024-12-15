@@ -33,19 +33,19 @@
                <div class="row">
                         <div class="row subHeader" >
                             <div class="col-xs-6">Income</div>
-                            <div class="col-xs-6">Savings</div>
+                            <div class="col-xs-6">Expense</div>
                         </div>
                         <div class="row" >
                             <div class="col-xs-6">{{totalIncome| currency: 'INR' }}</div>
-                            <div class="col-xs-6">{{ savings| currency: 'INR'  }} </div>
+                            <div class="col-xs-6">{{ totalExpense| currency: 'INR'  }} </div>
                         </div>
                     <div class="row subHeader" >
                         <div class="col-xs-6">Estimated</div>
-                        <div class="col-xs-6">Expense</div>
+                        <div class="col-xs-6">Savings</div>
                     </div>
                     <div class="row" >
                         <div class="col-xs-6">{{estimate| currency: 'INR' }}</div>
-                        <div class="col-xs-6"> {{totalExpense| currency: 'INR'}} </div>
+                        <div class="col-xs-6"> {{savings| currency: 'INR'}} </div>
                     </div>
                 </div>
                     <div class="row" >
@@ -59,6 +59,26 @@
                     <p class="subHeader">Over All Expense Percentage - {{progress | number: '1.0-2'}}%</p>
                     <mat-progress-bar mode="determinate" [value]="progress" [color]="updateColor(progress)"></mat-progress-bar>
                 </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="row">
+        <mat-card  class="title_center" appearance="outlined">
+            <mat-card-header class="header ">
+                <mat-card-title>Estimate VS Expense</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                     <b> Description-Estimated-CurrentExpense</b>                 
+                    <div *ngFor="let data of expenseStatus" class="data">
+                       {{data.description}} - {{data.estimatedAmount | currency: 'INR' }}-
+                       {{data.expenseAmount | currency: 'INR' }} 
+                       <div *ngIf="data.expenseAmount <= data.estimatedAmount">
+                        <mat-icon class="satisfied">thumb_up</mat-icon>
+                      </div>
+                      <div *ngIf="data.expenseAmount >= data.estimatedAmount">
+                        <mat-icon class="disatisfied">thumb_down</mat-icon>
+                      </div>
+                    </div>
+            </mat-card-content>
         </mat-card>
     </div>
 </div>

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -9,52 +9,58 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MonthlyEstimate } from './estimate-month';
+import { CommonService } from '../common.service';
+
 
 @Component({
   selector: 'app-estimate-add',
   standalone: true,
   imports: [MatDatepickerModule,MatNativeDateModule,MatFormFieldModule, MatInputModule,ReactiveFormsModule,
-    MatFormFieldModule,CommonModule,MatIconModule,MatToolbarModule],
+    MatFormFieldModule,CommonModule,MatIconModule,MatToolbarModule,MatTableModule,FormsModule],
   templateUrl: './estimate-add.component.html',
   styleUrl: './estimate-add.component.css'
 })
 export class EstimateAddComponent {
 
   formGroup: FormGroup;
-  baseUrl = 'http://localhost:8003/api/expenseTracker';
   readonly dialogExpense = inject(MatDialogRef<EstimateAddComponent>);
   _snackBar = inject(MatSnackBar);
+  displayedColumns: string[] = ['date', 'description','amount', 'action'];
+  dataSource : any=[];
+  selectedDate: Date = new Date();
 
-  constructor(private formBuilder: FormBuilder,private http: HttpClient) { }
+  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
+
+  constructor(private commonService: CommonService) { }
 
   ngOnInit() {
-    this.createForm();
+   this.getMonthlyTargetData();
+   this.dataSource = this.table.dataSource;
   }
 
-  createForm() {
-    this.formGroup = this.formBuilder.group({
-      'date': [null, Validators.required],
-      'amount': [null, [Validators.required,Validators.pattern("^[0-9].*$")]]
-    });
+  getMonthlyTargetData() {
+    this.commonService.fetchEstimateData(this.selectedDate).subscribe(
+      (res)=>{
+        this.table.dataSource=res;    
+  });
+  }
+
+  openDatePicker(dp) {
+    dp.open();
+  }
+
+  closeDatePicker(eventData: any, dp?: any) {
+    // get month and year from eventData and close datepicker, thus not allowing user to select date
+    this.selectedDate = eventData;
+    dp.close();
+    this.getMonthlyTargetData();
   }
 
   close():void {
     this.dialogExpense.close();
-  }
-
-  onSubmit(data) {
-    if(this.formGroup.valid) {
-      data.date = this.getFormattedDate(data.date);
-    this.http.post<any>(this.baseUrl+'/monthlyTarget',data).subscribe(
-      (res) =>{
-        this. displayMessage('Record created Successfully, month : '+res.month);
-        this.clear();
-      },
-       () => {
-       this. displayMessage('Error Occured, Contact System Admin');
-  });
-    }
   }
 
   displayMessage( message: string) {
@@ -64,17 +70,35 @@ export class EstimateAddComponent {
     });
   }
 
-  getFormattedDate(date) {
-    let day = ('0' + date.getDate()).slice(-2);
-    let month = date.getMonth() + 1;
-    return day + '/' + month + '/' +  date.getFullYear();
-}
-
-  clear():void{
-    this.formGroup.setValue(  {
-      'date': '',
-      'amount': ''
+  addRowData(){
+    let dataSource:any=[];
+    dataSource= this.table.dataSource;
+     dataSource.push({
+      date:new Date(),
+      description:'',
+      amount:0.0
     });
+    this.table.dataSource=dataSource;
+
+    this.table.renderRows();
+  }
+
+  deleteRow(row_obj){
+    if(row_obj.description != '') {
+    this.commonService.deleteMonthlyTargetData(row_obj);
+    }
+    this.table.dataSource=this.dataSource;
+    this.table.renderRows();
+  }
+
+  saveRowData(){
+   let data:any = this.table.dataSource;
+   const filteredData = data.filter((o1, i) => {
+    return !this.dataSource.some((o2) => {
+      return o1.description === o2.description;
+    });
+  });
+    this.commonService.saveEstimateData(filteredData);
   }
 
 }

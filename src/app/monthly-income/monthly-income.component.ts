@@ -6,11 +6,13 @@ import { CommonModule } from '@angular/common';
 import { ExpenseMonthly } from '../expense-monthly-table/expense-monthly-table';
 import { CommonService } from '../common.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ExpenseStatus } from '../estimate-add/estimate-month';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-monthly-income',
   standalone: true,
-  imports: [MatCardModule, MatChipsModule, CommonModule, MatProgressBarModule],
+  imports: [MatCardModule, MatChipsModule, CommonModule, MatProgressBarModule,MatIcon],
   templateUrl: './monthly-income.component.html',
   styleUrl: './monthly-income.component.css'
 })
@@ -18,6 +20,7 @@ export class MonthlyIncomeComponent {
   selectedDate: Date =new Date();
   incomeData: MonthlyIncome[];
   expenseData: ExpenseMonthly[];
+  expenseStatus :ExpenseStatus[];
   totalIncome: number=0;
   totalExpense: number=0;
   plannedExpense: number=0;
@@ -33,6 +36,7 @@ export class MonthlyIncomeComponent {
     this.estimateData();
     this.initIncomeData();
     this.topExpenseData();
+    this.plannedExpenseStatus();
 
   }
 
@@ -60,11 +64,20 @@ export class MonthlyIncomeComponent {
   }
   estimateData() {
     this.commonService.fetchEstimateData(this.selectedDate).subscribe(
-      (res) => { 
-        this.estimate=res.amount;
+      (res) => {
+        if(res && res.length >0) {
+        this.estimate=res.reduce( (acc,e ) => acc + e.amount , 0);
+        }
         this.setMessage();
       }
     );
+  }
+
+  plannedExpenseStatus() {
+    this.commonService.plannedExpenseStatus(this.selectedDate).subscribe(
+      (res) => { 
+        this.expenseStatus=res;
+       });
   }
 
   deleteRow(data) {
@@ -77,6 +90,7 @@ export class MonthlyIncomeComponent {
       percent= this.totalExpense/this.estimate * 100;
     }
     this.progress= percent;
+    this.plannedExpenseStatus();
   }
 
   updateColor(progress) {

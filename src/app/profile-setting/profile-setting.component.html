@@ -1,0 +1,22 @@
+<mat-toolbar role="toolbar" class="titleHeader">
+    <div class="col-xs-10">
+        <h4 class="myFont"> Profile Settings</h4>
+    </div>
+    <div class="col-xs-2">
+        <button class="close" mat-button (click)="close()">X</button>
+    </div>
+</mat-toolbar>
+<br>
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+    <mat-form-field appearance="outline" class="customformat">
+        <input matInput placeholder="Profile Name" formControlName="profileName">
+    </mat-form-field>
+    <label>
+        <input type="file" (change)="onSelectFile($event)" style="display:none" />
+        <a mat-raised-button color="primary">
+            <mat-icon>file_upload</mat-icon>
+            Upload ProfilePic
+        </a>
+    </label>
+    <button color="primary" type="submit" class="button">Submit</button>
+</form>

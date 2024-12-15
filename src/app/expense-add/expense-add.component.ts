@@ -1,22 +1,24 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar'; 
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CommonService } from '../common.service';
+import { Dropdown } from '../estimate-add/estimate-month';
 
 @Component({
   selector: 'app-expense-add',
   standalone: true,
   imports: [MatDatepickerModule,MatNativeDateModule,MatFormFieldModule, MatInputModule,ReactiveFormsModule,
-    MatFormFieldModule,CommonModule,MatSelectModule,MatIconModule,MatToolbarModule
+    CommonModule,MatSelectModule,MatIconModule,MatToolbarModule,FormsModule
 ],
   templateUrl: './expense-add.component.html',
   styleUrl: './expense-add.component.css'
@@ -26,11 +28,17 @@ export class ExpenseAddComponent {
   baseUrl = 'http://localhost:8003/api/expenseTracker';
   readonly dialogExpense = inject(MatDialogRef<ExpenseAddComponent>);
   _snackBar = inject(MatSnackBar);
+   items:Dropdown[];
+   selectedDate: Date = new Date();
 
-  constructor(private formBuilder: FormBuilder,private http: HttpClient) { }
+
+  constructor(private formBuilder: FormBuilder,private http: HttpClient,public dialog: MatDialog,
+    private commonService:CommonService
+  ) { }
 
   ngOnInit() {
     this.createForm();
+    this.commonService.plannedExpense(this.selectedDate).subscribe(r=> this.items=r);
   }
 
   createForm() {
@@ -61,6 +69,11 @@ export class ExpenseAddComponent {
         }
     );
     }
+  }
+
+
+  onDateChange(eventData: any) {
+    this.commonService.plannedExpense(eventData.value).subscribe(r=> this.items=r);
   }
 
   displayMessage(message:string ) {

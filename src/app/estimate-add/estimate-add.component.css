@@ -1,0 +1,11 @@
+.titleHeader {
+    text-align: center  !important;
+    color: #075068f8 !important;
+    background-color: white !important;
+  }
+  .fixedHeightContainer {
+    height: 600px;
+    width:900px;  
+    overflow-y: scroll;
+  }
+  

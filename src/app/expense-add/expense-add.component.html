@@ -14,9 +14,10 @@
         <div class="row">
             <div class="col-xs-4">
                 <mat-form-field appearance="outline" class="customformat">
-                    <input matInput [matDatepicker]="picker" placeholder="Expense date" formControlName="expenseDate">
+                    <input matInput [matDatepicker]="picker" placeholder="Expense date" formControlName="expenseDate" 
+                     (dateChange)="onDateChange($event)">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-datepicker #picker ></mat-datepicker>
                 </mat-form-field>
 
             </div>
@@ -32,10 +33,7 @@
             <div class="col-xs-4">
                 <mat-form-field appearance="outline" class="customformat">
                     <mat-select placeholder="ExpenseOf" formControlName="expenseOf">
-                        <mat-option value="Common">Common</mat-option>
-                        <mat-option value="Manikandan">Manikandan</mat-option>
-                        <mat-option value="Radha">Radha</mat-option>
-                        <mat-option value="Akshara">Akshara</mat-option>
+                        <mat-option *ngFor="let e of items" [value]="e .value">{{e.value }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -63,5 +61,4 @@
             </div>
         </div>
     </form>
-
 </div>

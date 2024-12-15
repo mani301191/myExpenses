@@ -131,7 +131,7 @@ export class NgxPrintDirective {
       this.hideMatPaginatorBeforePrinting();
 
       // Do something after
-      let printContents, popupWin, styles = '', links = '',chart, printIncome;
+      let printContents, popupWin, styles = '', links = '',chart, printIncome,printUser;
 
       if (this.useExistingCss)
       {
@@ -140,6 +140,7 @@ export class NgxPrintDirective {
       }
       printContents = document.getElementById(this.printSectionId).innerHTML;
       printIncome= document.getElementById('print-income');
+      printUser= document.getElementById('print-user').innerHTML;
       chart= document.getElementsByTagName("canvas")[0];
       if(chart) {
       chart=chart.toDataURL("image/jpeg");
@@ -160,7 +161,7 @@ export class NgxPrintDirective {
           ${links}
         </head>
         <body>
-          ${printContents}
+          ${printUser+printContents}
           <script defer>
             function triggerPrint(event) {
               window.removeEventListener('load', triggerPrint, false);
