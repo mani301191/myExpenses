@@ -79,7 +79,8 @@ export class ExpenseYearlyComponent {
     };
   }
 
-  printYearlyData(){
+  printYearlyData() {
     window.print();
-  }
+}
+
 }

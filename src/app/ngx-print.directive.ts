@@ -172,9 +172,7 @@ export class NgxPrintDirective {
             }
             window.addEventListener('load', triggerPrint, false);
           </script>
-          <footer>
-            <div> &copy; Manikandan Narasimhan(2024 - 2030)</div>
-          </footer>
+          <div> &copy; Manikandan Narasimhan(2024 - 2030)</div>
         </body>
       </html>`);
       popupWin.document.close();
