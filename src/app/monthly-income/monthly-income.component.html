@@ -19,7 +19,7 @@
             </mat-card-header>
             <mat-card-content>
                 <div *ngFor="let data of expenseData" class="data">
-                   {{data.description}} - {{data.amount | currency: 'INR' }}
+                  {{data.expenseOf}} {{data.description}} - {{data.amount | currency: 'INR' }}
                   </div>
             </mat-card-content>
         </mat-card>
@@ -62,23 +62,26 @@
         </mat-card>
     </div>
     <div class="row">
-        <mat-card  class="title_center" appearance="outlined">
-            <mat-card-header class="header ">
-                <mat-card-title>Estimate VS Expense</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                     <b> Description-Estimated-CurrentExpense</b>                 
-                    <div *ngFor="let data of expenseStatus" class="data">
-                       {{data.description}} - {{data.estimatedAmount | currency: 'INR' }}-
-                       {{data.expenseAmount | currency: 'INR' }} 
-                       <div *ngIf="data.expenseAmount <= data.estimatedAmount">
-                        <mat-icon class="satisfied">thumb_up</mat-icon>
-                      </div>
-                      <div *ngIf="data.expenseAmount >= data.estimatedAmount">
-                        <mat-icon class="disatisfied">thumb_down</mat-icon>
-                      </div>
-                    </div>
-            </mat-card-content>
-        </mat-card>
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header >
+              <mat-panel-title  class="header"> Estimate VS Expense </mat-panel-title>
+              <mat-panel-description> <b> Description-Estimated-CurrentExpense</b>  </mat-panel-description>
+            </mat-expansion-panel-header>
+                             
+                <div *ngFor="let data of expenseStatus" class="data">
+                   {{data.description}} - {{data.estimatedAmount | currency: 'INR' }}-
+                   {{data.expenseAmount | currency: 'INR' }} 
+                   <span *ngIf="data.expenseAmount < data.estimatedAmount">
+                    <mat-icon class="satisfied">thumb_up</mat-icon>
+                  </span>
+                  <span *ngIf="data.expenseAmount > data.estimatedAmount">
+                    <mat-icon class="disatisfied">thumb_down</mat-icon>
+                  </span> 
+                  <span *ngIf="data.expenseAmount === data.estimatedAmount">
+                    <mat-icon class="onTarget">thumbs_up_down</mat-icon>
+                  </span>
+                </div>
+          </mat-expansion-panel>
+
     </div>
 </div>

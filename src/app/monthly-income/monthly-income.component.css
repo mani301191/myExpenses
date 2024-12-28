@@ -1,12 +1,13 @@
 mat-card-content{
     font-size: 13px !important; 
 }
+.header {
+    font-size: 14px !important;
+  }
+
 .subHeader{
     font-weight: bold;
     margin-top: 0.5em; 
-}
-.data{
-    margin-top: 0.25em; 
 }
 
 .mat-mdc-progress-bar.mat-primary {

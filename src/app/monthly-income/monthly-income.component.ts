@@ -8,11 +8,12 @@ import { CommonService } from '../common.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ExpenseStatus } from '../estimate-add/estimate-month';
 import { MatIcon } from '@angular/material/icon';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-monthly-income',
   standalone: true,
-  imports: [MatCardModule, MatChipsModule, CommonModule, MatProgressBarModule,MatIcon],
+  imports: [MatCardModule, MatChipsModule, CommonModule, MatProgressBarModule,MatIcon,MatExpansionModule],
   templateUrl: './monthly-income.component.html',
   styleUrl: './monthly-income.component.css'
 })
@@ -67,6 +68,8 @@ export class MonthlyIncomeComponent {
       (res) => {
         if(res && res.length >0) {
         this.estimate=res.reduce( (acc,e ) => acc + e.amount , 0);
+        }else{
+        this.estimate=0;
         }
         this.setMessage();
       }
@@ -90,7 +93,6 @@ export class MonthlyIncomeComponent {
       percent= this.totalExpense/this.estimate * 100;
     }
     this.progress= percent;
-    this.plannedExpenseStatus();
   }
 
   updateColor(progress) {

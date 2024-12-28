@@ -99,6 +99,9 @@
 .disatisfied{
   color: red;
 }
+.onTarget{
+  color: yellowgreen;
+}
 
 @media print{
   .doNotPrint{display:none !important;}
@@ -135,6 +138,9 @@ img {
 .username{
   right:0 !important;
   color: #075068f8!important;
+}
+.data{
+  text-align: center !important;
 }
 }
 
