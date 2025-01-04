@@ -29,6 +29,7 @@ export class CommonService {
    dropdownDataResponse = new BehaviorSubject<Dropdown[]>([]);
    expenseStatusResponse =new BehaviorSubject<ExpenseStatus[]>([]);
    incomeData = this.incomeDataResponse.asObservable();
+   apiResponse = new BehaviorSubject<any>({} );
   
   constructor(private http: HttpClient) { }
 
@@ -51,7 +52,7 @@ export class CommonService {
     let params = new HttpParams();
     params = params.append('month', this.currentMonth);
     params = params.append('year', this.year);
-    this.http.get<MonthlyIncome[]>(this.baseUrl + 'expenseTracker/incomeDetails', { params: params }).subscribe(
+    this.http.get<MonthlyIncome[]>(this.baseUrl + 'incomeTracker/incomeDetails', { params: params }).subscribe(
       (res) => {  
         this.incomeDataResponse.next(res); 
        },
@@ -63,6 +64,8 @@ export class CommonService {
     this.http.delete<any>(this.baseUrl + 'expenseTracker/expenseDetail/' + data.expenseId).subscribe(
       (res) => {this.displayMessage(res.message);
         this.fetchExpenseData(this.selectedDate);
+        this.plannedExpenseStatus(this.selectedDate);
+        this.fetchEstimateData(this.selectedDate);
       },
       () => this.displayMessage('Error Occured, Contact System Admin')
     );
@@ -73,7 +76,7 @@ export class CommonService {
     let params = new HttpParams();
     params = params.append('month', this.currentMonth);
     params = params.append('year', this.year);
-    this.http.get<MonthlyEstimate>(this.baseUrl + 'expenseTracker/monthlyTarget', { params: params }).subscribe(
+    this.http.get<MonthlyEstimate>(this.baseUrl + 'monthlyTarget', { params: params }).subscribe(
       (res) => {  
         this.estimateResponse.next(res); 
        },
@@ -96,7 +99,7 @@ export class CommonService {
 
   
   deleteIncomeRecord(data) {
-    this.http.delete<any>(this.baseUrl + 'expenseTracker/incomeDetail/' + data.incomeId).subscribe(
+    this.http.delete<any>(this.baseUrl + 'incomeTracker/incomeDetail/' + data.incomeId).subscribe(
       (res) => {this.displayMessage(res.message);
         this.fetchIncomeData(this.selectedDate);
       },
@@ -108,7 +111,7 @@ export class CommonService {
     this.updateSelectedDate(selectedDate);
     let params = new HttpParams();
     params = params.append('year', this.year);
-    this.http.get<ExpenseSummary[]>(this.baseUrl + 'expenseTracker/monthlySummary', { params: params }).subscribe(
+    this.http.get<ExpenseSummary[]>(this.baseUrl + 'monthlySummary', { params: params }).subscribe(
       (res) => {  
         this.expenseSummaryResponse.next(res); 
        },
@@ -123,7 +126,7 @@ export class CommonService {
       this.updateSelectedDate(selectedDate);
        params = params.append('year', this.year);
     }
-    this.http.get<ExpenseYearly[]>(this.baseUrl + 'expenseTracker/yearlySummary', { params: params }).subscribe(
+    this.http.get<ExpenseYearly[]>(this.baseUrl + 'yearlySummary', { params: params }).subscribe(
       (res) => {  
         this.expenseYearlyResponse.next(res); 
        },
@@ -155,7 +158,7 @@ export class CommonService {
   }
 
   saveEstimateData(data){
-  this.http.post<any>(this.baseUrl+'expenseTracker/monthlyTarget',data).subscribe(
+  this.http.post<any>(this.baseUrl+'monthlyTarget',data).subscribe(
     () =>{
       this. displayMessage('Record created Successfully ');
     },
@@ -164,8 +167,24 @@ export class CommonService {
     });
   } 
 
+  cloneEstimateData(selectedDate: Date){
+    this.updateSelectedDate(selectedDate);
+    let params = new HttpParams();
+    params = params.append('month', this.currentMonth);
+    params = params.append('year', this.year);
+    this.http.get<any>(this.baseUrl+'monthlyTarget/clone',{ params: params }).subscribe(
+      (res) =>{
+        this. displayMessage('Record created Successfully ');
+        this.estimateResponse.next(res); 
+      },
+       () => {
+       this. displayMessage('Error Occured, Contact System Admin');
+      });
+      return this.estimateResponse;
+    } 
+
   deleteMonthlyTargetData(data) {
-    this.http.delete<any>(this.baseUrl + 'expenseTracker/monthlyTarget/' + data.id).subscribe(
+    this.http.delete<any>(this.baseUrl + 'monthlyTarget/' + data.id).subscribe(
       (res) => {this.displayMessage(res.message);
         this.fetchEstimateData(this.selectedDate);
       },
@@ -178,7 +197,7 @@ export class CommonService {
     let params = new HttpParams();
     params = params.append('month', this.currentMonth);
     params = params.append('year', this.year);
-    this.http.get<Dropdown[]>(this.baseUrl + 'expenseTracker/plannedExpense', { params: params }).subscribe(
+    this.http.get<Dropdown[]>(this.baseUrl + 'plannedExpense', { params: params }).subscribe(
       (res) => {
         this.dropdownDataResponse.next(res);
       },
@@ -193,7 +212,7 @@ export class CommonService {
     let params = new HttpParams();
     params = params.append('month', this.currentMonth);
     params = params.append('year', this.year);
-    this.http.get<ExpenseStatus[]>(this.baseUrl + 'expenseTracker/monthlyStatus', { params: params }).subscribe(
+    this.http.get<ExpenseStatus[]>(this.baseUrl + 'monthlyStatus', { params: params }).subscribe(
       (res) => {
         this.expenseStatusResponse.next(res);
       },
@@ -202,5 +221,36 @@ export class CommonService {
       });
     return this.expenseStatusResponse;
   }
+
+  addExpenseDetail(expenseData) {
+    this.http.post<any>(this.baseUrl + 'expenseTracker/expenseDetail', expenseData).subscribe(
+      (res) => {
+        this.displayMessage('Record added sucessfully - ID :' + res.expenseId);
+        this.apiResponse.next(res);
+      },
+      () => {
+        this.displayMessage('Error Occured, Contact System Admin');
+      }
+    );
+    return this.apiResponse;
+  } 
+
+  addIncomeDetail(inputData) {
+    this.http.post<any>(this.baseUrl + 'incomeTracker/incomeDetail', inputData).subscribe(
+      (res) => {
+        this.displayMessage('Record created Successfully, Id : ' + res.incomeId);
+        this.apiResponse.next(res);
+      },
+      () => {
+        this.displayMessage('Error Occured, Contact System Admin');
+      });
+    return this.apiResponse;
+  }
+
+  getFormattedDate(date) {
+    let day = ('0' + date.getDate()).slice(-2);
+    let month = date.getMonth() + 1;
+    return day + '/' + month + '/' +  date.getFullYear();
+}
 
 }

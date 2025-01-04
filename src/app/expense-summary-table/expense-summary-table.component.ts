@@ -32,7 +32,6 @@ export class ExpenseSummaryTableComponent {
   selectedDate: Date = new Date();
   chartOptions : any;
 
- // @Output() expenseData = new EventEmitter<ExpenseSummary[]>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -79,14 +78,11 @@ export class ExpenseSummaryTableComponent {
   }
   chartData(data : ExpenseSummary[]) : void {
     this.chartOptions = {
-      title: {
-        text: 'Last 6 Months',
-      },
       toolTip: {
         shared: true
       },
       axisY: {
-        title: "Income",
+        title: "Estimate",
       },
       axisY2: {
         title: "Expense",
@@ -97,11 +93,11 @@ export class ExpenseSummaryTableComponent {
       data: [
         {
           type: 'column',
-          name: "Income",
-          legendText: "Income",
+          name: "Estimate",
+          legendText: "Estimate",
           showInLegend: true,
           dataPoints: data.slice(0, 6).map((x) => {
-            return  {label:x.month, y:+x.income }   
+            return  {label:x.month, y:+x.estimated }   
              }),
              indexLabelFormatter: function (e) {
               return '₹'+e.dataPoint.y ;

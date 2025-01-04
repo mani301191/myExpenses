@@ -20,11 +20,18 @@
             <mat-datepicker #dp2 startView="multi-year" (monthSelected)="closeDatePicker($event, dp2)"></mat-datepicker>
           </mat-form-field>
           </div>
-          <div class="col-xs-4">
-        <button mat-button (click)="addRowData()" class="button" mat-flat-button color="primary">Add Row</button>
-        <button mat-button (click)="saveRowData()" class="button" mat-flat-button color="primary">Submit</button>
+        <div class="col-xs-8">
+            <div class="col-xs-3">
+                <button mat-button (click)="addRowData()" class="button" mat-flat-button color="primary">Add Row</button>
+            </div>
+            <div class="col-xs-2">
+                <button mat-button (click)="saveRowData()" class="button" mat-flat-button color="primary">Submit</button>
+            </div>
+            <div class="col-xs-2">
+                <button mat-button (click)="openClone()" class="button" mat-flat-button color="primary">Clone</button>
+            </div>
         </div>
-    </div>
+        </div>
     <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">
 
         <!-- Date Column -->

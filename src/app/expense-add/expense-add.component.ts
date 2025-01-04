@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,7 +9,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar'; 
-import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonService } from '../common.service';
 import { Dropdown } from '../estimate-add/estimate-month';
@@ -25,14 +24,13 @@ import { Dropdown } from '../estimate-add/estimate-month';
 })
 export class ExpenseAddComponent {
   formGroup: FormGroup;
-  baseUrl = 'http://localhost:8003/api/expenseTracker';
   readonly dialogExpense = inject(MatDialogRef<ExpenseAddComponent>);
   _snackBar = inject(MatSnackBar);
    items:Dropdown[];
    selectedDate: Date = new Date();
 
 
-  constructor(private formBuilder: FormBuilder,private http: HttpClient,public dialog: MatDialog,
+  constructor(private formBuilder: FormBuilder,public dialog: MatDialog,
     private commonService:CommonService
   ) { }
 
@@ -57,17 +55,8 @@ export class ExpenseAddComponent {
  
   onSubmit(expenseData) {
     if(this.formGroup.valid) {
-      expenseData.expenseDate = this.getFormattedDate(expenseData.expenseDate);
-      this.http.post<any>(this.baseUrl+'/expenseDetail',expenseData).subscribe(
-        (res) => {
-          this.displayMessage('Record added sucessfully - ID :'+res.expenseId ); 
-          this.clear();
-           },
-        () => {
-          this.displayMessage('Error Occured, Contact System Admin' ); 
-         
-        }
-    );
+      expenseData.expenseDate = this.commonService.getFormattedDate(expenseData.expenseDate);
+      this.commonService.addExpenseDetail(expenseData).subscribe(() => this.clear());
     }
   }
 
@@ -75,19 +64,6 @@ export class ExpenseAddComponent {
   onDateChange(eventData: any) {
     this.commonService.plannedExpense(eventData.value).subscribe(r=> this.items=r);
   }
-
-  displayMessage(message:string ) {
-    this._snackBar.open(message , 'dismiss', {
-      verticalPosition: 'top',
-      duration: 3000
-    });
-  }
-
-  getFormattedDate(date) {
-    let day = ('0' + date.getDate()).slice(-2);
-    let month = date.getMonth() + 1;
-    return day + '/' + month + '/' +  date.getFullYear();
-}
 
   clear():void{
     this.formGroup.setValue(  {

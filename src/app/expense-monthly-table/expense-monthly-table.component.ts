@@ -81,7 +81,6 @@ export class ExpenseMonthlyTableComponent {
 
   deleteRow(data) {
     this.commonService.deleteRow(data);
-    this.commonService.plannedExpenseStatus(this.selectedDate);
   }
 
   applyFilter(event: Event) {
@@ -94,7 +93,10 @@ export class ExpenseMonthlyTableComponent {
   }
 
   openDialogExpense() {
-    this.dialog.open(ExpenseAddComponent).afterClosed().subscribe(()=> this.fetchExpenseData());
+    this.dialog.open(ExpenseAddComponent).afterClosed().subscribe(()=> {
+      this.fetchExpenseData();
+      this.commonService.plannedExpenseStatus(this.selectedDate);
+     });
   }
 
   openDialogIncome() {
@@ -102,7 +104,10 @@ export class ExpenseMonthlyTableComponent {
   }
 
   openEstimate() {
-    this.dialog.open(EstimateAddComponent).afterClosed().subscribe(()=> this.commonService.fetchEstimateData(this.selectedDate));
+    this.dialog.open(EstimateAddComponent).afterClosed().subscribe(()=>{ 
+      this.commonService.fetchEstimateData(this.selectedDate);
+      this.commonService.plannedExpenseStatus(this.selectedDate);
+    });
   }
 
   sortData(sort: Sort) {

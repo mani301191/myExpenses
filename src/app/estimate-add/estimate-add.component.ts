@@ -101,4 +101,8 @@ export class EstimateAddComponent {
     this.commonService.saveEstimateData(filteredData);
   }
 
+  openClone(){
+    this.commonService.cloneEstimateData(this.selectedDate).subscribe( (res)=> this.table.dataSource=res);
+  }
+
 }
