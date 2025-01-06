@@ -29,8 +29,8 @@
         <li><a (click)="onNavClick(5)">Appliances</a></li>
       </ul>
       <div id="print-user">
-       <div class="username" >  <img  [src]="profileData.profilePic ? profileData.profilePic  : 'img/img_avatar.png'" class="img-rounded"
-        alt="Expensetracker" width="75" height="75"> {{profileData.profileName ? profileData.profileName : 'user' }}  
+       <div class="username" >  <img  [src]="profileData ? profileData.profilePic  : 'img/img_avatar.png'" class="img-rounded"
+        alt="Expensetracker" width="75" height="75"> {{profileData ? profileData.profileName : 'user' }}  
         <button class="settings doNotPrint" (click)="openDialogProfileSetting()"><mat-icon>settings</mat-icon></button></div>
       </div>
      </div>
