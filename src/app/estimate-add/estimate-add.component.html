@@ -39,7 +39,8 @@
             <th mat-header-cell *matHeaderCellDef class="tableHeader"> Date </th>
             <td mat-cell *matCellDef="let element">
                 <mat-form-field appearance="outline" class="customformat">
-                    <input matInput [matDatepicker]="picker" placeholder="date" [(ngModel)]="element.date">
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="picker" placeholder="Date" [(ngModel)]="element.date">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -51,6 +52,7 @@
             <th mat-header-cell *matHeaderCellDef class="tableHeader"> Description </th>
             <td mat-cell *matCellDef="let element">
                 <mat-form-field>
+                    <mat-label>Description</mat-label>
                     <input matInput placeholder="Description" [value]="element.description"
                         [(ngModel)]="element.description">
                 </mat-form-field>
@@ -62,6 +64,7 @@
             <th mat-header-cell *matHeaderCellDef class="tableHeader"> Amount </th>
             <td mat-cell *matCellDef="let element">
                 <mat-form-field>
+                    <mat-label>Amount</mat-label>
                     <input matInput placeholder="Amount" [value]="element.amount" [(ngModel)]="element.amount">
                 </mat-form-field>
             </td>

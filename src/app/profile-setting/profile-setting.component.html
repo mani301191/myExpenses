@@ -9,6 +9,7 @@
 <br>
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
     <mat-form-field appearance="outline" class="customformat">
+        <mat-label>ProfileName</mat-label>
         <input matInput placeholder="Profile Name" formControlName="profileName">
     </mat-form-field>
     <label>

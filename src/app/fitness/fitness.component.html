@@ -1,17 +1,64 @@
-<div class="row content">
-    <div class="col-sm-2 sidenav">
-      <ul class="nav ">
-        <li><a >BMI</a></li>
-        <li><a >Medical Details</a></li>
-      </ul>
-    </div>
-    <div class="col-sm-8"> 
-     <div> <h1 class="text-center">Fitness Details</h1>
-      <p>Places holder for fitness details</p> </div>
-    </div>
-    <div class="col-sm-2 sidenav">
-      <div class="well">
-        <p>Place holder for graph</p>
+<div class="row">
+  <div class="col-xs-8">
+    <h3 class="brandcolor"> <mat-icon>fitness_center</mat-icon> Fitnes Tracker
+    </h3>
+  </div>
+  <div class="col-xs-4">
+    <div class=" brandcolor person">
+      <div class="col-xs-4">
+        <button class="button" (click)="addFitnessInfo()">Add Person</button>
+      </div>
+      <div class="col-xs-4">
+        <button class="button" (click)="addMedicalDetails()">Add Medical</button>
+      </div>
+      <div class="col-xs-4">
+        <button class="button" (click)="addWeightDetails()">Add Weight</button>
       </div>
     </div>
   </div>
+</div>
+<hr class="lineBreak">
+<div class="wrap">
+  <mat-card class="card" *ngFor="let data of fitnessData">
+    <mat-card-header>
+      <div class="col-xs-1">
+        <div mat-card-avatar class="header-image"></div>
+      </div>
+      <div class="col-xs-10">
+        <mat-card-title>{{data.name}}</mat-card-title>
+      </div>
+      <div class="col-xs-1">
+        <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"> <i class="fa fa-trash"></i> </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="fitness-detail">
+        <app-fitness-detail [trend]="data.trend"></app-fitness-detail>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          Current Height :
+        </div>
+        <div class="col-xs-4">
+          {{data.height}} cm
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          Current Weight :
+        </div>
+        <div class="col-xs-4">
+          {{data.weight}} kg
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="col-xs-6">
+        <button class="button" (click)="openMedicalDetails()">Medical Details</button>
+      </div>
+      <div class="col-xs-6">
+        <button class="button" (click)="openWeightDetails()"> Weight Details</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

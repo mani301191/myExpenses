@@ -148,12 +148,12 @@ img {
   /* Set black background color, white text and some padding */
   footer {
     background-color: #075068f8;
+    bottom: 0;
     color: white;
-    clear: both;
-    position: relative;
-    height: 10%;
-    margin-top: -10%;
-    padding:20px;
+    height: 1em;
+    left: 0;
+    position: fixed;
+    width:100%;
   }
 
   .username {

@@ -1,0 +1,26 @@
+<mat-toolbar role="toolbar" class="titleHeader">
+    <div class="col-xs-10">
+        <h4 class="myFont"> Add Person Fitness</h4>
+    </div>
+    <div class="col-xs-2">
+        <button class="close" mat-button (click)="close()">X</button>
+    </div>
+</mat-toolbar>
+<br>
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+    <div class="col-xs-4">
+        <img [src]="url ? url  : 'img/img_avatar.png'" class="img-rounded" alt="Expensetracker" width="75" height="75">
+        <label>
+            <input type="file" (change)="onSelectFile($event)" style="display:none" />
+            <a mat-raised-button color="primary">
+                <mat-icon>file_upload</mat-icon>
+                Upload Pic
+            </a>
+        </label>
+    </div>
+    <mat-form-field appearance="outline" class="customformat">
+        <mat-label>PersonName</mat-label>
+        <input matInput placeholder="Person Name" formControlName="personName">
+    </mat-form-field>
+    <button color="primary" type="submit" class="button">Submit</button>
+</form>

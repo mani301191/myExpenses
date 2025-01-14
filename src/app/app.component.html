@@ -22,8 +22,8 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a (click)="onNavClick(0)">Home</a></li>
-        <li><a (click)="onNavClick(1)">Assets</a></li>
-        <li><a (click)="onNavClick(2)">Fitness</a></li>
+        <li><a (click)="onNavClick(1)">Fitness</a></li>
+        <li><a (click)="onNavClick(2)">Assets</a></li>
         <li><a (click)="onNavClick(3)">Investments</a></li>
         <li><a (click)="onNavClick(4)">Insurence</a></li>
         <li><a (click)="onNavClick(5)">Appliances</a></li>
@@ -39,8 +39,8 @@
   
 <div class="container-fluid text-center">    
   <app-home *ngIf="tabIndex === 0"></app-home>
-  <app-assets *ngIf="tabIndex === 1"></app-assets>
-  <app-fitness *ngIf="tabIndex === 2"></app-fitness>
+  <app-fitness *ngIf="tabIndex === 1"></app-fitness>
+  <app-assets *ngIf="tabIndex === 2"></app-assets>
   <app-investments *ngIf="tabIndex === 3"></app-investments>
   <app-insurence *ngIf="tabIndex === 4"></app-insurence>
   <app-appliances *ngIf="tabIndex === 5"></app-appliances>

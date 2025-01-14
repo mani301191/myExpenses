@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="row">
+        <mat-toolbar role="toolbar" class="titleHeader">
+            <div class="col-xs-10">
+                <h4 class="myFont"> Add Medical Details</h4>
+            </div>
+            <div class="col-xs-2">
+                <button class="close" mat-button (click)="close()">X</button>
+            </div>
+        </mat-toolbar>
+    </div>
+</div>
+<br>
+<div class="container">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+        <div class="row">
+            <div class="col-xs-4">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-xs-4">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>PatientName</mat-label>
+                    <mat-select placeholder="PatientName" formControlName="patientName">
+                        <mat-option *ngFor="let e of patient" [value]="e .value">{{e.value }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-xs-4">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>Problem</mat-label>
+                    <input matInput placeholder="Problem" formControlName="problem">
+                </mat-form-field>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <mat-form-field appearance="outline" class="customformat">
+                        <mat-label>Hospital</mat-label>
+                        <input matInput placeholder="Hospital" formControlName="hospital">
+                    </mat-form-field>
+                </div>
+                <div class="col-xs-4">
+                    <mat-form-field appearance="outline" class="customformat">
+                        <mat-label>DocterName</mat-label>
+                        <input matInput placeholder="DocterName" formControlName="docterName">
+                    </mat-form-field>
+                </div>
+                <div class="col-xs-4">
+                    <mat-form-field appearance="outline" class="customformat">
+                        <mat-label>Docter's Diagnosis</mat-label>
+                        <textarea matInput formControlName="diagnosis"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-xs-4">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>Other Details</mat-label>
+                    <textarea matInput formControlName="otherDetails"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="col-xs-4">
+            <button color="primary" type="submit" class="button">Submit</button>
+            <a color="primary" (click)="clear()">Clear</a>
+           </div>
+        </div>
+    </form>
+</div>

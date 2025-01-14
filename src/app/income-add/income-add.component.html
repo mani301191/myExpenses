@@ -16,18 +16,21 @@
         <div class="row">
             <div class="col-xs-3">
                 <mat-form-field appearance="outline" class="customformat">
-                    <input matInput [matDatepicker]="picker" placeholder="Income date" formControlName="incomeDate">
+                    <mat-label>Income Date</mat-label>
+                    <input matInput [matDatepicker]="picker" placeholder="Income Date" formControlName="incomeDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
             </div>
             <div class="col-xs-3">
                 <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>Source</mat-label>
                     <input matInput placeholder="Source" formControlName="source">
                 </mat-form-field>
             </div>
             <div class="col-xs-3">
                 <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>Amount</mat-label>
                     <input matInput placeholder="Amount" formControlName="amount">
                     <mat-icon matSuffix><span class="material-icons">
                             currency_rupee
