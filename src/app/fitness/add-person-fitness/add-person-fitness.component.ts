@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FitnessService } from '../../fitness.service';
 
 @Component({
   selector: 'app-add-person-fitness',
@@ -20,7 +21,8 @@ export class AddPersonFitnessComponent {
   formGroup: FormGroup;
   readonly dialogPerson = inject(MatDialogRef<AddPersonFitnessComponent>);
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private fitnessService: FitnessService) { }
+
   ngOnInit() {
     this.createForm();
   }
@@ -45,14 +47,12 @@ export class AddPersonFitnessComponent {
     this.dialogPerson.close();
   }
 
-  onSubmit(profileSetting) {
+  onSubmit(personDetail) {
     if(this.formGroup.valid) {
-     profileSetting.profilePic = this.url;
-    // servicecall
+      personDetail.personPic = this.url;
+     this.fitnessService.savePersonDetails(personDetail).subscribe(()=> this.formGroup.reset());
   }
-  this.formGroup.setValue(  {
-    'personName': ''
-  });
+
 }
 
 }

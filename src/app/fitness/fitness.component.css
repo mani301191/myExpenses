@@ -21,10 +21,11 @@
     text-align: center;
     margin: 10px;
 }
-.header-image {
-    background-image: url('../../img/img_avatar.png');
-    background-size: cover;
-}
+
+img {
+    border-radius: 15px;
+  }
+
 .person{
     margin-top: 20px;
     margin-bottom: 10px;
@@ -32,4 +33,8 @@
 .mat-mdc-card-avatar {
     height: 50px;
     width: 50px;
+}
+
+.mat-mdc-card-content {
+    padding:10px 10px !important
 }

@@ -9,13 +9,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
-const patient = [{value:'Manikandan Narasimhan'},{value:'Radha'}];
+import { FitnessService } from '../../fitness.service';
 
 @Component({
   selector: 'app-add-medical-details',
   standalone: true,
-  imports: [ MatFormFieldModule, MatToolbarModule, ReactiveFormsModule,
+  imports: [MatFormFieldModule, MatToolbarModule, ReactiveFormsModule,
     MatInputModule, CommonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule],
   templateUrl: './add-medical-details.component.html',
   styleUrl: './add-medical-details.component.css'
@@ -24,13 +23,13 @@ export class AddMedicalDetailsComponent {
 
   formGroup: FormGroup;
   readonly dialogPerson = inject(MatDialogRef<AddPersonFitnessComponent>);
-  patient:any;
-  
-  constructor(private formBuilder: FormBuilder) { }
-  
+  patient: any;
+
+  constructor(private formBuilder: FormBuilder, private fitnessService: FitnessService) { }
+
   ngOnInit() {
     this.createForm();
-    this.patient=patient;
+    this.fitnessService.fetchPersonNames().subscribe((res) => this.patient = res);
   }
 
   createForm() {
@@ -49,23 +48,13 @@ export class AddMedicalDetailsComponent {
     this.dialogPerson.close();
   }
 
-  onSubmit(otherDetails) {
-    console.log(otherDetails);
-    if(this.formGroup.valid) {
-    // servicecall
+  onSubmit(fields) {
+    if (this.formGroup.valid) {
+      this.fitnessService.saveMedicalDetails(fields).subscribe(() => this.clear());
+    }
   }
- this.clear();
-}
 
-clear():void{
-  this.formGroup.setValue(  {
-    'date': '',
-    'patientName': '',
-    'problem': '',
-    'hospital': '',
-    'docterName': '',
-    'diagnosis': '',
-    'otherDetails':''
-  });
-}
+  clear(): void {
+    this.formGroup.reset();
+  }
 }

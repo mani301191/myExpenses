@@ -8,7 +8,7 @@
 </mat-toolbar>
 <br>
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
-    <div class="col-xs-4">
+    <div class="col-xs-4 right">
         <img [src]="url ? url  : 'img/img_avatar.png'" class="img-rounded" alt="Expensetracker" width="75" height="75">
         <label>
             <input type="file" (change)="onSelectFile($event)" style="display:none" />
@@ -22,5 +22,7 @@
         <mat-label>PersonName</mat-label>
         <input matInput placeholder="Person Name" formControlName="personName">
     </mat-form-field>
-    <button color="primary" type="submit" class="button">Submit</button>
+    <div class="right">
+        <button color="primary" type="submit" class="button">Submit</button>
+    </div>
 </form>

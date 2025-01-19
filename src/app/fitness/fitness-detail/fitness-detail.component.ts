@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 @Component({
@@ -36,7 +34,7 @@ export class FitnessDetailComponent {
           legendText: "Date",
           showInLegend: true,
           dataPoints: trend.slice(0, 12).map((x) => {
-            return  {label:x.date.toJSON().slice(0, 10), y:x.weight }   
+            return  {label:x.date, y:x.weight }   
              })
         }
       ],

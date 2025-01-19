@@ -1,1 +1,44 @@
-<p>add-weight-details works!</p>
+
+    <mat-toolbar role="toolbar" class="titleHeader">
+        <div class="col-xs-10">
+            <h4 class="myFont"> Add Weight Details</h4>
+        </div>
+        <div class="col-xs-2">
+            <button class="close" mat-button (click)="close()">X</button>
+        </div>
+    </mat-toolbar>
+<br>
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+        <div class="col-xs-4">
+            <mat-form-field appearance="outline" class="customformat">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-xs-4">
+            <mat-form-field appearance="outline" class="customformat">
+                <mat-label>PersonName</mat-label>
+                <mat-select placeholder="PersonName" formControlName="personName">
+                    <mat-option *ngFor="let e of person" [value]="e .value">{{e.value }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-xs-4">
+            <mat-form-field appearance="outline" class="customformat">
+                <mat-label>Height</mat-label>
+                <input matInput placeholder="Height" formControlName="height">
+            </mat-form-field>
+        </div>
+        <div class="col-xs-4">
+            <mat-form-field appearance="outline" class="customformat">
+                <mat-label>Weight</mat-label>
+                <input matInput placeholder="Weight" formControlName="weight">
+            </mat-form-field>
+        </div>
+        <div class="col-xs-4">
+            <button color="primary" type="submit" class="button">Submit</button>
+            <a color="primary" (click)="clear()">Clear</a>
+        </div>
+</form>
