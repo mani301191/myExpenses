@@ -26,7 +26,10 @@ export class MedicalDetailsComponent {
   constructor(private fitnessService: FitnessService) { }
 
   ngOnInit(): void {
-    this.fitnessService.fetchMedicalDetails(this.patientName).subscribe((res)=> this.dataSource = new MatTableDataSource(res));
+    this.fitnessService.fetchMedicalDetails(this.patientName).subscribe((res)=> {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+      });
   }
 
   close():void {

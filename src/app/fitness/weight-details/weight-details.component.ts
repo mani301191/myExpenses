@@ -29,7 +29,10 @@ export class WeightDetailsComponent {
   constructor(private fitnessService: FitnessService) { }
   
   ngOnInit(): void {
-    this.fitnessService.fetchPersonWeight(this.personName).subscribe((res)=> this.dataSource = new MatTableDataSource(res));
+    this.fitnessService.fetchPersonWeight(this.personName).subscribe((res)=>{
+       this.dataSource = new MatTableDataSource(res);
+       this.dataSource.paginator = this.paginator;
+  });
 
   }
 

@@ -45,7 +45,10 @@ export class AddWeightDetailsComponent {
 
   onSubmit(fields) {
     if (this.formGroup.valid) {
-      this.fitnessService.savePersonWeight(fields).subscribe(() => this.clear());
+      this.fitnessService.savePersonWeight(fields).subscribe(() => { 
+        this.formGroup.get('weight').reset();
+       }
+      );
     }
   }
 

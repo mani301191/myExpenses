@@ -35,7 +35,10 @@ export class FitnessDetailComponent {
           showInLegend: true,
           dataPoints: trend.slice(0, 12).map((x) => {
             return  {label:x.date, y:x.weight }   
-             })
+             }),
+             indexLabelFormatter: function (e) {
+              return e.dataPoint.y ;
+              }
         }
       ],
     };
