@@ -1,26 +1,27 @@
-
 .navbar {
-    margin-bottom: 0;
-    border-radius: 0;
-  }
-  
-  /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-  .row.content {height: 450px}
-  
-  /* Set gray background color and 100% height */
-  .sidenav {
-    padding-top: 20px;
-    height: 125%;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-  }
+  margin-bottom: 0;
+  border-radius: 0;
+}
 
-  .tableHeader{
-    background-color: #075068f8 !important;
-    color:white !important;
-    font-family: Arial, Helvetica, sans-serif !important;
-    font-weight: normal !important;
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+  height: 450px
+}
+
+/* Set gray background color and 100% height */
+.sidenav {
+  padding-top: 20px;
+  height: 125%;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+}
+
+.tableHeader {
+  background-color: #075068f8 !important;
+  color: white !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-weight: normal !important;
 }
 
 .titleHeader {
@@ -29,7 +30,7 @@
   background-color: #075068f8 !important;
 }
 
-.myFont{
+.myFont {
   font-family: Arial, Helvetica, sans-serif !important;
   font-weight: normal !important;
 }
@@ -40,10 +41,11 @@
   font-family: Arial, Helvetica, sans-serif !important;
   font-weight: normal !important;
 }
+
 .title_center {
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
   font-size: 16px !important;
 }
 
@@ -66,107 +68,127 @@
   font-weight: normal !important;
 }
 
-.lineBreak{
-  height:2px;
-  border-width:0;
-  background-color:#075068f8;
+.lineBreak {
+  height: 2px;
+  border-width: 0;
+  background-color: #075068f8;
 }
-.rupee{
+
+.rupee {
   font-family: 'Material Icons';
 }
 
-.buttonIcon{
+.buttonIcon {
   border: none;
   color: #075068f8;
   background-color: transparent;
 }
-  
-.printIcon{
+
+.printIcon {
   border: none;
   color: #075068f8;
   background-color: transparent;
-  padding-top:20px;
+  padding-top: 20px;
 }
-.settings{
+
+.settings {
   border: none;
   color: white;
   background-color: transparent;
-  padding-top:20px;
+  padding-top: 20px;
 }
-.satisfied{
+
+.satisfied {
   color: green;
 }
-.disatisfied{
+
+.disatisfied {
   color: red;
 }
-.onTarget{
+
+.onTarget {
   color: yellowgreen;
 }
 
-@media print{
-  .doNotPrint{display:none !important;}
- table {
-  border: 1px solid #075068f8 !important;
- }
- .tableHeader{
-  color: #fff !important;
-  background-color: #76a8b8f8 !important;
- }
- .brandcolor{
-  margin-right: 75px !important;
- }
- h3 {
-  text-align: center;
-  color:#075068f8 !important;
-  font-size: 18px !important;
- }
- mat-card-title {
-  color: #075068f8 !important;
-}
-html {
-  border: 2px solid #075068f8;
+@media print {
+  .doNotPrint {
+    display: none !important;
   }
-img {
- margin-left: 100px !important;
- bottom: 0  !important;
- color: #075068f8 !important;
-} 
-.print-boarder{
-  font-size: 16px !important;
-  border: 2px solid #075068f8;
-}
-.username{
-  right:0 !important;
-  color: #075068f8!important;
-}
-.data{
-  text-align: center !important;
-}
-}
 
+  table {
+    border: 1px solid #075068f8 !important;
+  }
 
-  /* Set black background color, white text and some padding */
-  footer {
-    background-color: #075068f8;
-    bottom: 0;
-    color: white;
-    height: 1em;
-    left: 0;
-    position: fixed;
-    width:100%;
+  .tableHeader {
+    color: #fff !important;
+    background-color: #76a8b8f8 !important;
+  }
+
+  .brandcolor {
+    margin-right: 75px !important;
+  }
+
+  h3 {
+    text-align: center;
+    color: #075068f8 !important;
+    font-size: 18px !important;
+  }
+
+  mat-card-title {
+    color: #075068f8 !important;
+  }
+
+  html {
+    border: 2px solid #075068f8;
+  }
+
+  img {
+    margin-left: 100px !important;
+    bottom: 0 !important;
+    color: #075068f8 !important;
+  }
+
+  .print-boarder {
+    font-size: 16px !important;
+    border: 2px solid #075068f8;
   }
 
   .username {
-    color: #fff;
-    position: absolute;
-    right: 0px;
+    right: 0 !important;
+    color: #075068f8 !important;
+  }
+
+  .data {
+    text-align: center !important;
+  }
 }
 
-  /* On small screens, set height to 'auto' for sidenav and grid */
-  @media screen and (max-width: 767px) {
-    .sidenav {
-      height: auto;
-      padding: 15px;
-    }
-    .row.content {height:auto;} 
+
+/* Set black background color, white text and some padding */
+footer {
+  background-color: #075068f8;
+  bottom: 0;
+  color: white;
+  height: 1em;
+  left: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.username {
+  color: #fff;
+  position: absolute;
+  right: 0px;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+  .sidenav {
+    height: auto;
+    padding: 15px;
   }
+
+  .row.content {
+    height: auto;
+  }
+}

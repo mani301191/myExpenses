@@ -24,17 +24,32 @@
 
 img {
     border-radius: 15px;
-  }
+}
 
-.person{
+.person {
     margin-top: 20px;
     margin-bottom: 10px;
 }
+
 .mat-mdc-card-avatar {
     height: 50px;
     width: 50px;
 }
 
 .mat-mdc-card-content {
-    padding:10px 10px !important
+    padding: 10px 10px !important
+}
+
+.printAlign {
+    text-align: right;
+}
+
+@media print {
+    img {
+        margin-left: 0px !important;
+    }
+
+    mat-card {
+        page-break-after: always
+    }
 }

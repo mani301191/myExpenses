@@ -10,7 +10,7 @@ export class NgxPrintDirective {
 
   constructor() { }
 
-  
+
 
   /**
    *
@@ -54,12 +54,9 @@ export class NgxPrintDirective {
    * @memberof NgxPrintDirective
    */
   @Input()
-  set printStyle(values: { [key: string]: { [key: string]: string } })
-  {
-    for (let key in values)
-    {
-      if (values.hasOwnProperty(key))
-      {
+  set printStyle(values: { [key: string]: { [key: string]: string } }) {
+    for (let key in values) {
+      if (values.hasOwnProperty(key)) {
         this._printStyle.push((key + JSON.stringify(values[key])).replace(/['"]+/g, ''));
       }
     }
@@ -80,20 +77,16 @@ export class NgxPrintDirective {
    * @param cssList
    */
   @Input()
-  set styleSheetFile(cssList: string)
-  {
+  set styleSheetFile(cssList: string) {
     let linkTagFn = cssFileName =>
-        `<link rel="stylesheet" type="text/css" href="${cssFileName}">`;
-    if (cssList.indexOf(',') !== -1)
-    {
+      `<link rel="stylesheet" type="text/css" href="${cssFileName}">`;
+    if (cssList.indexOf(',') !== -1) {
       const valueArr = cssList.split(',');
-      for (let val of valueArr)
-      {
+      for (let val of valueArr) {
         this._styleSheetFile = this._styleSheetFile + linkTagFn(val);
       }
     }
-    else
-    {
+    else {
       this._styleSheetFile = linkTagFn(cssList);
     }
   }
@@ -108,8 +101,7 @@ export class NgxPrintDirective {
    *
    * @memberof NgxPrintDirective
    */
-  public returnStyleValues()
-  {
+  public returnStyleValues() {
     return `<style> ${this._printStyle.join(' ').replace(/,/g, ';')} </style>`;
   }
 
@@ -119,35 +111,33 @@ export class NgxPrintDirective {
    * @memberof NgxPrintDirective
    */
   @HostListener('click')
-  public print(): void
-  {
-    if(this.matTableDataSource.paginator!==undefined && this.matTableDataSource.paginator!==null && this.hidePaginator)
-    {
-      this.matTableDataSource.paginator=null;
+  public print(): void {
+    if (this.matTableDataSource.paginator !== undefined && this.matTableDataSource.paginator !== null && this.hidePaginator) {
+      this.matTableDataSource.paginator = null;
     }
 
-    setTimeout(() =>
-    {
+    setTimeout(() => {
       this.hideMatPaginatorBeforePrinting();
 
       // Do something after
-      let printContents, popupWin, styles = '', links = '',chart, printIncome,printUser;
+      let printContents, popupWin, styles = '', links = '', chart, printIncome, printUser;
 
-      if (this.useExistingCss)
-      {
+      if (this.useExistingCss) {
         styles = this.getElementTag('style');
         links = this.getElementTag('link');
       }
       printContents = document.getElementById(this.printSectionId).innerHTML;
-      printIncome= document.getElementById('print-income');
-      printUser= document.getElementById('print-user').innerHTML;
-      chart= document.getElementsByTagName("canvas")[0];
-      if(chart) {
-      chart=chart.toDataURL("image/jpeg");
-      printContents = printContents+'<br><img src="'+chart+'" alt="chart"  />'
-      }
-      if(printIncome) {
-        printContents = printContents+ printIncome.innerHTML;
+      printIncome = document.getElementById('print-income');
+      if (this.printSectionId != 'print-fitness') {
+        printContents = document.getElementById('print-user').innerHTML + printContents;
+        chart = document.getElementsByTagName("canvas")[0];
+        if (chart) {
+          chart = chart.toDataURL("image/jpeg");
+          printContents = printContents + '<br><img src="' + chart + '" alt="chart"  />'
+        }
+        if (printIncome) {
+          printContents = printContents + printIncome.innerHTML;
+        }
       }
       popupWin = window.open('ExpenseTracker', 'ExpenseTracker', 'top=0,left=0,height=auto,width=auto');
       popupWin.document.open();
@@ -161,7 +151,7 @@ export class NgxPrintDirective {
           ${links}
         </head>
         <body>
-          ${printUser+printContents}
+          ${printContents}
           <script defer>
             function triggerPrint(event) {
               window.removeEventListener('load', triggerPrint, false);
@@ -185,19 +175,17 @@ export class NgxPrintDirective {
   }
 
   //hide Mat Paginator before Printing
-  private hideMatPaginatorBeforePrinting()
-  {
-    if(document.getElementById(this.paginatorId)){
-    document.getElementById(this.paginatorId).style.display='none';
+  private hideMatPaginatorBeforePrinting() {
+    if (document.getElementById(this.paginatorId)) {
+      document.getElementById(this.paginatorId).style.display = 'none';
     }
   }
 
   //Show Mat Paginator after Printing
-  private showMatPaginatorAfterPrinting()
-  {
-    if(document.getElementById(this.paginatorId)){
-    this.matTableDataSource.paginator=this.paginator;
-    document.getElementById(this.paginatorId).style.display='block';
+  private showMatPaginatorAfterPrinting() {
+    if (document.getElementById(this.paginatorId)) {
+      this.matTableDataSource.paginator = this.paginator;
+      document.getElementById(this.paginatorId).style.display = 'block';
     }
   }
 
@@ -206,17 +194,14 @@ export class NgxPrintDirective {
    * be injected later within <head></head> tag.
    *
    */
-  private returnStyleSheetLinkTags()
-  {
+  private returnStyleSheetLinkTags() {
     return this._styleSheetFile;
   }
 
-  private getElementTag(tag: keyof HTMLElementTagNameMap): string
-  {
+  private getElementTag(tag: keyof HTMLElementTagNameMap): string {
     const html: string[] = [];
     const elements = document.getElementsByTagName(tag);
-    for (let index = 0; index < elements.length; index++)
-    {
+    for (let index = 0; index < elements.length; index++) {
       html.push(elements[index].outerHTML);
     }
     return html.join('\r\n');

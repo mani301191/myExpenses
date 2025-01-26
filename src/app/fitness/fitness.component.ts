@@ -14,54 +14,60 @@ import { FitnessService } from '../fitness.service';
 @Component({
   selector: 'app-fitness',
   standalone: true,
-  imports: [MatCardModule,MatIconModule,FitnessDetailComponent,CommonModule,
+  imports: [MatCardModule, MatIconModule, FitnessDetailComponent, CommonModule,
     MatDialogModule],
   templateUrl: './fitness.component.html',
   styleUrl: './fitness.component.css'
 })
 export class FitnessComponent {
 
- fitnessData = null;
- readonly dialog = inject(MatDialog);
+  fitnessData = null;
+  readonly dialog = inject(MatDialog);
 
- constructor(private fitnessService: FitnessService) { }
+  constructor(private fitnessService: FitnessService) { }
 
   ngOnInit(): void {
-   this.loadPersonData();
+    this.loadPersonData();
   }
 
-  loadPersonData() : void{
-    this.fitnessService.fetchPersonDetails().subscribe((res)=> this.fitnessData = res);
+  loadPersonData(): void {
+    this.fitnessService.fetchPersonDetails().subscribe((res) => this.fitnessData = res);
   }
 
-  addPerson() :void {
-    this.dialog.open(AddPersonFitnessComponent).afterClosed().subscribe(()=>{ 
+  addPerson(): void {
+    this.dialog.open(AddPersonFitnessComponent).afterClosed().subscribe(() => {
       this.loadPersonData();
     });
   }
 
-  openMedicalDetails(data) :void {
-   let dialogRef=  this.dialog.open(MedicalDetailsComponent);
+  openMedicalDetails(data): void {
+    let dialogRef = this.dialog.open(MedicalDetailsComponent);
     let instance = dialogRef.componentInstance;
     instance.patientName = data.personName;
+    instance.personPic = data.personPic;
   }
 
-  openWeightDetails(data) :void {
-    let dialogRef= this.dialog.open(WeightDetailsComponent);
+  openWeightDetails(data): void {
+    let dialogRef = this.dialog.open(WeightDetailsComponent);
     let instance = dialogRef.componentInstance;
     instance.personName = data.personName;
-    dialogRef.afterClosed().subscribe(()=>this.loadPersonData());
+    instance.personPic = data.personPic;
+    dialogRef.afterClosed().subscribe(() => this.loadPersonData());
   }
 
-  addMedicalDetails() :void {
+  addMedicalDetails(): void {
     this.dialog.open(AddMedicalDetailsComponent);
   }
 
-  addWeightDetails() :void {
-    this.dialog.open(AddWeightDetailsComponent).afterClosed().subscribe(()=>this.loadPersonData());
+  addWeightDetails(): void {
+    this.dialog.open(AddWeightDetailsComponent).afterClosed().subscribe(() => this.loadPersonData());
   }
 
-  deleteRow(data):void{
+  deleteRow(data): void {
     this.fitnessService.deletePersonData(data);
+  }
+
+  printData(): void {
+    window.print();
   }
 }

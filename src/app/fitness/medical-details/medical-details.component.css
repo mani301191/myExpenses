@@ -1,4 +1,25 @@
-.container{
+.container {
     padding-top: 15px;
     padding-bottom: 15px;
+}
+
+.weightContainer {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.center {
+    text-align: center;
+}
+
+.print {
+    display: none !important;
+}
+
+@media print {
+    .print {
+        display: block !important;
+    }
 }

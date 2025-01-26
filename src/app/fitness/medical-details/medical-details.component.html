@@ -1,5 +1,5 @@
-<div class="container text-center fixedHeightContainer">
-    <div class="row">
+<div class="weightContainer text-center fixedHeightContainer" id="print-fitness">
+    <div class="row doNotPrint">
         <div class="col-xs-10">
             <mat-form-field>
                 <mat-icon matTextPrefix>search</mat-icon>
@@ -7,70 +7,84 @@
             </mat-form-field>
         </div>
         <div class="col-xs-2">
+            <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator"
+                paginatorId="mat-paginator" [hidePaginator]="true" mat-raised-button [useExistingCss]="true"
+                printTitle="FitnessMedicalReport" type="button" printSectionId="print-fitness"
+                ngxPrint><mat-icon>print</mat-icon></button>
             <button class="close" mat-button (click)="close()">X</button>
         </div>
     </div>
-    <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">
+    <div class="row print">
+        <div class="col-xs-3">
+            <img [src]="personPic ? personPic  : 'img/img_avatar.png'" alt="personPic" width="65" height="65">
+        </div>
+        <div class="col-xs-7">
+            <h3 class="text-center brandcolor">{{patientName}} Medical Detail</h3>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">
 
-        <!-- Date Column -->
-        <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Date </th>
-            <td mat-cell *matCellDef="let row"> {{row.date}}</td>
-        </ng-container>
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Date </th>
+                <td mat-cell *matCellDef="let row"> {{row.date}}</td>
+            </ng-container>
 
-        <!-- patientName Column -->
-        <ng-container matColumnDef="patientName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Patient Name </th>
-            <td mat-cell *matCellDef="let row"> {{row.patientName}}</td>
-        </ng-container>
+            <!-- patientName Column -->
+            <ng-container matColumnDef="patientName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Patient Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.patientName}}</td>
+            </ng-container>
 
-        <!-- problem Column -->
-        <ng-container matColumnDef="problem">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Problem </th>
-            <td mat-cell *matCellDef="let row"> {{row.problem}}</td>
-        </ng-container>
+            <!-- problem Column -->
+            <ng-container matColumnDef="problem">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Problem </th>
+                <td mat-cell *matCellDef="let row"> {{row.problem}}</td>
+            </ng-container>
 
-        <!-- hospital Column -->
-        <ng-container matColumnDef="hospital">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Hospital </th>
-            <td mat-cell *matCellDef="let row"> {{row.hospital}}</td>
-        </ng-container>
+            <!-- hospital Column -->
+            <ng-container matColumnDef="hospital">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Hospital </th>
+                <td mat-cell *matCellDef="let row"> {{row.hospital}}</td>
+            </ng-container>
 
-        <!-- hospital Column -->
-        <ng-container matColumnDef="docterName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Docter Name </th>
-            <td mat-cell *matCellDef="let row"> {{row.docterName}}</td>
-        </ng-container>
+            <!-- hospital Column -->
+            <ng-container matColumnDef="docterName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Docter Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.docterName}}</td>
+            </ng-container>
 
-        <!-- diagnosis Column -->
-        <ng-container matColumnDef="diagnosis">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Diagnosis </th>
-            <td mat-cell *matCellDef="let row"> {{row.diagnosis}}</td>
-        </ng-container>
+            <!-- diagnosis Column -->
+            <ng-container matColumnDef="diagnosis">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Diagnosis </th>
+                <td mat-cell *matCellDef="let row"> {{row.diagnosis}}</td>
+            </ng-container>
 
-        <!-- otherDetails Column -->
-        <ng-container matColumnDef="otherDetails">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Other Details </th>
-            <td mat-cell *matCellDef="let row"> {{row.otherDetails}}</td>
-        </ng-container>
+            <!-- otherDetails Column -->
+            <ng-container matColumnDef="otherDetails">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Other Details </th>
+                <td mat-cell *matCellDef="let row"> {{row.otherDetails}}</td>
+            </ng-container>
 
-        <!-- actionsColumn Column -->
-        <ng-container matColumnDef="actionsColumn">
-            <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
-            <td mat-cell *matCellDef="let row;" class="doNotPrint">
-                <button class="buttonIcon" (click)="deleteRow(row)">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </td>
-        </ng-container>
+            <!-- actionsColumn Column -->
+            <ng-container matColumnDef="actionsColumn">
+                <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
+                <td mat-cell *matCellDef="let row;" class="doNotPrint">
+                    <button class="buttonIcon" (click)="deleteRow(row)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <!-- Row shown when there is no matching data. -->
-        <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="1">No data matching the filter "{{input.value}}"</td>
-        </tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page " id="mat-paginator"></mat-paginator>
-
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="1">No data matching the filter "{{input.value}}"</td>
+            </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page "
+            id="mat-paginator"></mat-paginator>
+    </div>
 </div>
