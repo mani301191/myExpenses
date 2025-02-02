@@ -7,7 +7,7 @@
     </div>
     <div class="col-xs-2 doNotPrint">
         <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
-            [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="WeighDetails" type="button"
+            [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="{{personName}} Fitness Detail" type="button"
             printSectionId="print-fitness" ngxPrint><mat-icon>print</mat-icon></button>
         <button class="close" mat-button (click)="close()">X</button>
     </div>

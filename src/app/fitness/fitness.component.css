@@ -49,7 +49,4 @@ img {
         margin-left: 0px !important;
     }
 
-    mat-card {
-        page-break-after: always
-    }
 }

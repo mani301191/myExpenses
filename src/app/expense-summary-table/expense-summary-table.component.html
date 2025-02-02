@@ -4,7 +4,7 @@
 </div>
 <div class="col-xs-2 doNotPrint">
   <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
-    [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="ExpenseSummaryReport" type="button"
+    [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="Expense Summary Details-{{selectedDate.getFullYear()}}" type="button"
     printSectionId="print-summary"  ngxPrint><mat-icon>print</mat-icon></button>
 </div>
 </div>
@@ -70,7 +70,7 @@
               <div *ngIf="row.expense <= row.estimated">
               <mat-icon class="satisfied">sentiment_very_satisfied</mat-icon>
             </div>
-            <div *ngIf="row.expense >= row.estimated">
+            <div *ngIf="row.expense > row.estimated">
               <mat-icon class="disatisfied">sentiment_very_dissatisfied</mat-icon>
             </div>
             </td>

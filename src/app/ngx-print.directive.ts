@@ -120,7 +120,7 @@ export class NgxPrintDirective {
       this.hideMatPaginatorBeforePrinting();
 
       // Do something after
-      let printContents, popupWin, styles = '', links = '', chart, printIncome, printUser;
+      let printContents, popupWin, styles = '', links = '', chart, printIncome;
 
       if (this.useExistingCss) {
         styles = this.getElementTag('style');
@@ -139,7 +139,7 @@ export class NgxPrintDirective {
           printContents = printContents + printIncome.innerHTML;
         }
       }
-      popupWin = window.open('ExpenseTracker', 'ExpenseTracker', 'top=0,left=0,height=auto,width=auto');
+      popupWin = window.open('', 'ExpenseTracker', 'top=0,left=0,height=auto,width=auto');
       popupWin.document.open();
       popupWin.document.write(`
       <html>
@@ -176,16 +176,28 @@ export class NgxPrintDirective {
 
   //hide Mat Paginator before Printing
   private hideMatPaginatorBeforePrinting() {
-    if (document.getElementById(this.paginatorId)) {
-      document.getElementById(this.paginatorId).style.display = 'none';
+    let paginator = document.getElementById(this.paginatorId);
+    let expansionPanal = document.getElementById('cdk-accordion-child-0');
+    if (paginator) {
+      paginator.style.display = 'none';
+    }
+    if (expansionPanal) {
+      expansionPanal.style.visibility = '';
+      expansionPanal.style.height = '';
     }
   }
 
   //Show Mat Paginator after Printing
   private showMatPaginatorAfterPrinting() {
-    if (document.getElementById(this.paginatorId)) {
+    let paginator = document.getElementById(this.paginatorId);
+    let expansionPanal = document.getElementById('cdk-accordion-child-0');
+    if (paginator) {
       this.matTableDataSource.paginator = this.paginator;
-      document.getElementById(this.paginatorId).style.display = 'block';
+      paginator.style.display = 'block';
+    }
+    if (expansionPanal) {
+      expansionPanal.style.visibility = 'hidden';
+      expansionPanal.style.height = '0px';
     }
   }
 

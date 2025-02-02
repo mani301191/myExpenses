@@ -1,13 +1,14 @@
-mat-card-content{
-    font-size: 13px !important; 
+mat-card-content {
+    font-size: 13px !important;
 }
+
 .header {
     font-size: 14px !important;
-  }
+}
 
-.subHeader{
+.subHeader {
     font-weight: bold;
-    margin-top: 0.5em; 
+    margin-top: 0.5em;
 }
 
 .mat-mdc-progress-bar.mat-primary {
@@ -19,3 +20,14 @@ mat-card-content{
 }
 
 
+@media print {
+
+    mat-card,
+    mat-expansion-panel {
+        page-break-inside: avoid;
+        border: 2px solid #075068f8 !important;
+        margin-top: 5% !important;
+        margin-right: 5% !important;
+        margin-left: 5% !important;
+    }
+}

@@ -68,6 +68,7 @@ export class FitnessComponent {
   }
 
   printData(): void {
+    window.document.title='Fitness Summary';
     window.print();
   }
 }

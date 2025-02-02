@@ -90,13 +90,7 @@ export class EstimateAddComponent {
   }
 
   saveRowData(){
-   let data:any = this.table.dataSource;
-   const filteredData = data.filter((o1, i) => {
-    return !this.dataSource.some((o2) => {
-      return o1.description === o2.description;
-    });
-  });
-    this.commonService.saveEstimateData(filteredData);
+    this.commonService.saveEstimateData(this.table.dataSource);
   }
 
   openClone(){

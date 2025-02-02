@@ -8,8 +8,9 @@
   </div>
   <div class="col-xs-2 doNotPrint">
     <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
-      [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="ExpenseReport" type="button"
-      printSectionId="print-section" ngxPrint><mat-icon>print</mat-icon></button>
+      [hidePaginator]="true" mat-raised-button [useExistingCss]="true"
+       printTitle="My Expense Tracker-{{months[selectedDate.getMonth()]}}-{{selectedDate.getFullYear()}}" 
+       type="button"printSectionId="print-section" ngxPrint><mat-icon>print</mat-icon></button>
 
       <button class="printIcon" (click)="export()"><mat-icon>file_download</mat-icon></button>
 </div>
