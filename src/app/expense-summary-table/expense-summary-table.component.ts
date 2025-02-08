@@ -43,7 +43,8 @@ export class ExpenseSummaryTableComponent {
       (res) => { this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort=this.sort;
-        this.chartData(this.dataSource.data);
+        const data = this.dataSource.data.slice().reverse();
+        this.chartData(data);
       }
     );
   }
