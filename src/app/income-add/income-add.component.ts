@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormGroupDirective } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -24,6 +24,7 @@ export class IncomeAddComponent {
   formGroup: FormGroup;
   readonly dialogExpense = inject(MatDialogRef<IncomeAddComponent>);
   _snackBar = inject(MatSnackBar);
+  @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
   constructor(private formBuilder: FormBuilder,private commonService: CommonService) { }
 
@@ -51,11 +52,7 @@ export class IncomeAddComponent {
   }
 
   clear():void{
-    this.formGroup.setValue(  {
-      'incomeDate': '',
-      'source':'',
-      'amount': ''
-    });
+    this.formGroupDirective.resetForm(); 
   }
 
 }

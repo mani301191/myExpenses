@@ -29,12 +29,18 @@
             <mat-form-field appearance="outline" class="customformat">
                 <mat-label>Height</mat-label>
                 <input matInput placeholder="Height" formControlName="height">
+                <mat-error *ngIf="formGroup.get('height').hasError('pattern')">
+                    Please Enter only Numbers!
+                </mat-error>
             </mat-form-field>
         </div>
         <div class="col-xs-4">
             <mat-form-field appearance="outline" class="customformat">
                 <mat-label>Weight</mat-label>
                 <input matInput placeholder="Weight" formControlName="weight">
+                <mat-error *ngIf="formGroup.get('weight').hasError('pattern')">
+                    Please Enter only Numbers!
+                </mat-error>
             </mat-form-field>
         </div>
         <div class="col-xs-4">

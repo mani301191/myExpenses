@@ -1,18 +1,169 @@
 <div class="row content">
-    <div class="col-sm-2 sidenav">
-      <ul class="nav ">
-        <li><a >Gold</a></li>
-        <li><a >Silver</a></li>
-        <li><a >Property</a></li>
-      </ul>
+  <div class="col-sm-2 sidenav"  id="assetDetailsSummary">
+    <div class="row">
+      <mat-card class="title_center" appearance="outlined">
+        <mat-card-header class="header ">
+          <mat-card-title>Movable Assets Summary</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let item of aggregatedMovableAssetData" class="cardContent">
+            {{item.asset}} - {{item.totalWeight}} gms
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div class="col-sm-8"> 
-     <div> <h1 class="text-center">Asset Details</h1>
-      <p>Places holder for asset details</p> </div>
+    <div class="row">
+      <mat-card class="title_center" appearance="outlined">
+        <mat-card-header class="header ">
+          <mat-card-title>Non-Movable Assets Summary</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let item of nonMovableAssetData" class="cardContent">
+            {{item.description}} - {{item.status}}
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div class="col-sm-2 sidenav">
-      <div class="well">
-        <p>Place holder for chart</p>
+  </div>
+  <div class="col-sm-7">
+    <div class="row">
+      <div class="col-xs-10">
+        <h3 class="brandcolor">AssetDetails</h3>
+      </div>
+      <div class="col-xs-2 doNotPrint">
+
+        <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
+          [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="AssetDetails" type="button"
+          printSectionId="assetDetails" optionalPrintSectionId="assetDetailsSummary" ngxPrint><mat-icon>print</mat-icon></button>
       </div>
     </div>
+    <hr class="lineBreak doNotPrint">
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-form-field class="doNotPrint">
+          <mat-icon matTextPrefix>search</mat-icon>
+          <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z8" id="assetDetails">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+            <!-- Asset Type Column -->
+            <ng-container matColumnDef="assetType">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Asset Type </th>
+              <td mat-cell *matCellDef="let element"> {{element.assetType}} </td>
+            </ng-container>
+
+            <!-- Asset Column -->
+            <ng-container matColumnDef="asset">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Asset </th>
+              <td mat-cell *matCellDef="let element"> {{element.asset}} </td>
+            </ng-container>
+
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Asset Description </th>
+              <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="assetWeight">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Asset Weight (gms) </th>
+              <td mat-cell *matCellDef="let element"> {{element.assetWeight}} </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Status </th>
+              <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+            </ng-container>
+            <!-- Aditional Details Column -->
+            <ng-container matColumnDef="addtionalDetails">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Additional Details</th>
+              <td mat-cell *matCellDef="let element"> {{element.addtionalDetails}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actionsColumn">
+              <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
+              <td mat-cell *matCellDef="let row;" class="doNotPrint">
+                <button class="buttonIcon" (click)="deleteRow(row)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </ng-container>
+            <!-- Header and Row Declarations -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" aria-label="Select page " id="mat-paginator"
+            showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-sm-3 sidenav doNotPrint">
+    <div class="row">
+      <h3 class="header">Add Asset</h3>
+    </div>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Asset Type</mat-label>
+          <mat-select placeholder="Asset Type" formControlName="assetType">
+            <mat-option value="Movable">Movable</mat-option>
+            <mat-option value="Non-Movable">Non-Movable</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Asset</mat-label>
+          <mat-select placeholder="Asset" formControlName="asset">
+            <mat-option value="Gold">Gold</mat-option>
+            <mat-option value="Silver">Silver</mat-option>
+            <mat-option value="Property">Property</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Asset Description</mat-label>
+          <input matInput placeholder="Asset Description" formControlName="description">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Asset Weight (gms)</mat-label>
+          <input matInput placeholder="Asset Weight" formControlName="assetWeight">
+          <mat-error *ngIf="formGroup.get('assetWeight').hasError('pattern')">
+            Please Enter only Numbers!
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Status</mat-label>
+          <mat-select placeholder="Status" formControlName="status">
+            <mat-option value="In-Loan/EMI">In-Loan/EMI</mat-option>
+            <mat-option value="In-Locker">In-Locker</mat-option>
+            <mat-option value="In-Use">In-use</mat-option>
+            <mat-option value="In-Loan/EMI">Loan/EMI Closed</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Additional Details</mat-label>
+          <input matInput placeholder="Additional Details" formControlName="addtionalDetails">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <button color="primary" type="submit" class="button">Submit</button>
+        <a color="primary" (click)="clear()">Clear</a>
+      </div>
+    </form>
   </div>

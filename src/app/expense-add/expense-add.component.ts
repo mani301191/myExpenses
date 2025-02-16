@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -28,6 +28,7 @@ export class ExpenseAddComponent {
   _snackBar = inject(MatSnackBar);
    items:Dropdown[];
    selectedDate: Date = new Date();
+  @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
 
   constructor(private formBuilder: FormBuilder,public dialog: MatDialog,
@@ -66,13 +67,7 @@ export class ExpenseAddComponent {
   }
 
   clear():void{
-    this.formGroup.setValue(  {
-      'expenseDate': '',
-      'expenseType':'',
-      'expenseOf': '',
-      'description':'',
-      'amount': ''
-    });
+    this.formGroupDirective.resetForm(); 
   }
 
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -24,6 +24,7 @@ export class AddMedicalDetailsComponent {
   formGroup: FormGroup;
   readonly dialogPerson = inject(MatDialogRef<AddPersonFitnessComponent>);
   patient: any;
+  @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
   constructor(private formBuilder: FormBuilder, private fitnessService: FitnessService) { }
 
@@ -55,6 +56,6 @@ export class AddMedicalDetailsComponent {
   }
 
   clear(): void {
-    this.formGroup.reset();
+    this.formGroupDirective.resetForm();
   }
 }

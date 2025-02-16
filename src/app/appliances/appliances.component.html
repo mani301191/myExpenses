@@ -1,16 +1,141 @@
-<div class="row content">
-    <div class="col-sm-2 sidenav">
-      <ul class="nav ">
-        <li><a >Service Details</a></li>
-      </ul>
+<div class="row content" >
+  <div class="col-sm-2 sidenav">
+    <div class="row" id="applianceSummary">
+      <mat-card class="title_center" appearance="outlined">
+        <mat-card-header class="header ">
+          <mat-card-title>Appliances in AMC</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let item of activeAMCData" class="cardContent">
+            <div class="row">
+              <div class="col-xs-4"><b>Name:</b></div>
+              <div class="col-xs-8">{{item.applianceName}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4"><b>AMC End:</b> </div>
+              <div class="col-xs-8">{{item.amcEndDate}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4"><b>Last Serviced:</b> </div>
+              <div class="col-xs-8">{{item.lastServicedDate}}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div class="col-sm-8"> 
-     <div> <h1 class="text-center">Appliances Details</h1>
-      <p>Places holder for Appliances details</p> </div>
-    </div>
-    <div class="col-sm-2 sidenav">
-      <div class="well">
-        <p>Place holder for other details</p>
+  </div>
+  <div class="col-sm-7">
+    <div class="row">
+      <div class="col-xs-10">
+        <h3 class="brandcolor">Appliances Details</h3>
+      </div>
+      <div class="col-xs-2 doNotPrint">
+
+        <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
+          [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="InsurenceDetails" type="button"
+          printSectionId="applianceDetails" optionalPrintSectionId="applianceSummary" ngxPrint><mat-icon>print</mat-icon></button>
       </div>
     </div>
+    <hr class="lineBreak doNotPrint">
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-form-field class="doNotPrint">
+          <mat-icon matTextPrefix>search</mat-icon>
+          <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z8" id="applianceDetails">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+            <ng-container matColumnDef="applianceName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Appliance Name</th>
+              <td mat-cell *matCellDef="let element">{{element.applianceName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="amc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">AMC</th>
+              <td mat-cell *matCellDef="let element">{{element.amc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="additionalDetails">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Additional Details</th>
+              <td mat-cell *matCellDef="let element">{{element.additionalDetails}}</td>
+            </ng-container>
+            <ng-container matColumnDef="amcEndDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">AMC End Date</th>
+              <td mat-cell *matCellDef="let element">{{element.amcEndDate | date }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="lastServicedDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Last Serviced Date</th>
+              <td mat-cell *matCellDef="let element">{{element.lastServicedDate | date}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actionsColumn">
+              <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
+              <td mat-cell *matCellDef="let row;" class="doNotPrint">
+                <button class="buttonIcon" (click)="deleteRow(row)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </ng-container>
+            <!-- Header and Row Declarations -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" aria-label="Select page " id="mat-paginator"
+            showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-sm-3 sidenav doNotPrint">
+    <div class="row">
+      <h3 class="header">Add Appliances Details</h3>
+    </div>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Appliance Name</mat-label>
+          <input matInput placeholder="Nominee Details" formControlName="applianceName">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>AMC</mat-label>
+          <mat-select placeholder="AMC" formControlName="amc">
+            <mat-option value="Yes">Yes</mat-option>
+            <mat-option value="No">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>AMC EndDate</mat-label>
+          <input matInput [matDatepicker]="amcEndDate" placeholder="AMC EndDate" formControlName="amcEndDate">
+          <mat-datepicker-toggle matSuffix [for]="amcEndDate"></mat-datepicker-toggle>
+          <mat-datepicker #amcEndDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Last Serviced Date</mat-label>
+          <input matInput [matDatepicker]="lastServicedDate" placeholder="Last Serviced Date"
+            formControlName="lastServicedDate">
+          <mat-datepicker-toggle matSuffix [for]="lastServicedDate"></mat-datepicker-toggle>
+          <mat-datepicker #lastServicedDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Additional Details</mat-label>
+          <input matInput placeholder="Additional Details" formControlName="additionalDetails">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <button color="primary" type="submit" class="button">Submit</button>
+        <a color="primary" (click)="clear()">Clear</a>
+      </div>
+    </form>
   </div>

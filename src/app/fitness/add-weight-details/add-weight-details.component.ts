@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -22,6 +22,7 @@ export class AddWeightDetailsComponent {
   formGroup: FormGroup;
   readonly dialogPerson = inject(MatDialogRef<AddWeightDetailsComponent>);
   person: any;
+  @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
   constructor(private formBuilder: FormBuilder, private fitnessService: FitnessService) { }
 
@@ -53,6 +54,6 @@ export class AddWeightDetailsComponent {
   }
 
   clear(): void {
-    this.formGroup.reset();
+    this.formGroupDirective.resetForm();
   }
 }

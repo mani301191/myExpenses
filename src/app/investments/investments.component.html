@@ -1,21 +1,164 @@
-<div class="row content">
-    <div class="col-sm-2 sidenav">
-      <ul class="nav ">
-        <li><a >PF</a></li>
-        <li><a >NPS</a></li>
-        <li><a >MutualFunds</a></li>
-        <li><a >Equity</a></li>
-        <li><a >PostOffice</a></li>
-        <li><a >FixedDeposit</a></li>
-      </ul>
+<div class="row content" >
+  <div class="col-sm-2 sidenav" id="investmentSummary">
+    <div class="row">
+      <mat-card class="title_center" appearance="outlined">
+        <mat-card-header class="header ">
+          <mat-card-title>Active Investments</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let item of activeInvestmentData" class="cardContent">
+            <div class="row">
+              <div class="col-xs-4">
+                <b>Investment:</b>
+              </div>
+              <div class="col-xs-8">
+                {{item.investment}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4"><b>Detail:</b> </div>
+              <div class="col-xs-8">{{item.investmentDetail}} </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4"><b>Number:</b> </div>
+              <div class="col-xs-8">{{item.vendorAccountNumber}}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div class="col-sm-8"> 
-     <div> <h1 class="text-center">Investment Details</h1>
-      <p>Places holder for investments details</p> </div>
-    </div>
-    <div class="col-sm-2 sidenav">
-      <div class="well">
-        <p>Place holder for other details</p>
+  </div>
+  <div class="col-sm-7">
+    <div class="row">
+      <div class="col-xs-10">
+        <h3 class="brandcolor">Investment Details</h3>
+      </div>
+      <div class="col-xs-2 doNotPrint">
+
+        <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
+          [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="InvestmentDetails" type="button"
+          printSectionId="investmentDetails" optionalPrintSectionId="investmentSummary" ngxPrint><mat-icon>print</mat-icon></button>
       </div>
     </div>
+    <hr class="lineBreak doNotPrint">
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-form-field class="doNotPrint">
+          <mat-icon matTextPrefix>search</mat-icon>
+          <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z8" id="investmentDetails">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+            <ng-container matColumnDef="investment">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Investment </th>
+              <td mat-cell *matCellDef="let element"> {{element.investment}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="investmentDetail">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> investmentDetail </th>
+              <td mat-cell *matCellDef="let element"> {{element.investmentDetail}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="vendorAccountNumber">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Vendor Account Number </th>
+              <td mat-cell *matCellDef="let element"> {{element.vendorAccountNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nominee">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Nominee </th>
+              <td mat-cell *matCellDef="let element"> {{element.nominee}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Status </th>
+              <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+            </ng-container>
+            <ng-container matColumnDef="additionalDetails">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Additional Details</th>
+              <td mat-cell *matCellDef="let element"> {{element.additionalDetails}} </td>
+            </ng-container>
+            <ng-container matColumnDef="actionsColumn">
+              <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
+              <td mat-cell *matCellDef="let row;" class="doNotPrint">
+                <button class="buttonIcon" (click)="deleteRow(row)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </ng-container>
+            <!-- Header and Row Declarations -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" aria-label="Select page " id="mat-paginator"
+            showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-sm-3 sidenav doNotPrint">
+    <div class="row">
+      <h3 class="header">Add Investment Details</h3>
+    </div>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Investment</mat-label>
+          <mat-select placeholder="Investment" formControlName="investment">
+            <mat-option value="PF">PF</mat-option>
+            <mat-option value="NPS">NPS</mat-option>
+            <mat-option value="SSA">SSA</mat-option>
+            <mat-option value="Mutualfund">Mutalfund</mat-option>
+            <mat-option value="Equity">Equity</mat-option>
+            <mat-option value="BankAccount">BankAccount</mat-option>
+            <mat-option value="FixedDeposits">FixedDeposits</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Investment Detail</mat-label>
+          <input matInput placeholder="Investment Detail" formControlName="investmentDetail">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Vendor Account Number</mat-label>
+          <input matInput placeholder="Vendor Account Number" formControlName="vendorAccountNumber">
+          <mat-error *ngIf="formGroup.get('vendorAccountNumber').hasError('pattern')">
+            Please Enter only Numbers!
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Nominee Details</mat-label>
+          <input matInput placeholder="Nominee Details" formControlName="nominee">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Status</mat-label>
+          <mat-select placeholder="Status" formControlName="status">
+            <mat-option value="Active">Active</mat-option>
+            <mat-option value="Closed">Closed</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Additional Details</mat-label>
+          <input matInput placeholder="Additional Details" formControlName="additionalDetails">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <button color="primary" type="submit" class="button">Submit</button>
+        <a color="primary" (click)="clear()">Clear</a>
+      </div>
+    </form>
   </div>

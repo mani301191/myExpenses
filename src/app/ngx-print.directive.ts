@@ -19,6 +19,8 @@ export class NgxPrintDirective {
    */
   @Input() printSectionId: string;
 
+  @Input() optionalPrintSectionId: string;
+
   @Input() matTableDataSource: MatTableDataSource<any>;
 
   @Input() paginator: MatPaginator;
@@ -120,13 +122,17 @@ export class NgxPrintDirective {
       this.hideMatPaginatorBeforePrinting();
 
       // Do something after
-      let printContents, popupWin, styles = '', links = '', chart, printIncome;
+      let printContents, popupWin, styles = '', links = '', chart, printIncome, optionalPrintSectionId;
 
       if (this.useExistingCss) {
         styles = this.getElementTag('style');
         links = this.getElementTag('link');
       }
       printContents = document.getElementById(this.printSectionId).innerHTML;
+      optionalPrintSectionId = document.getElementById(this.optionalPrintSectionId);
+      if (optionalPrintSectionId) {
+        printContents = optionalPrintSectionId.innerHTML + printContents;
+      }
       printIncome = document.getElementById('print-income');
       if (this.printSectionId != 'print-fitness') {
         printContents = document.getElementById('print-user').innerHTML + printContents;
