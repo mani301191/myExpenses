@@ -15,7 +15,8 @@
         <button class="button" (click)="addWeightDetails()">Add Weight</button>
       </div>
       <div class="col-xs-1">
-        <button class="printIcon doNotPrint" (click)="printData()"><mat-icon>print</mat-icon></button>
+        <button class="printIcon doNotPrint" (click)="printData()" matTooltip="Print"
+        matTooltipPosition="after"><mat-icon>print</mat-icon></button>
       </div>
     </div>
   </div>
@@ -33,7 +34,8 @@
         <mat-card-title>{{data.personName}}</mat-card-title>
       </div>
       <div class="col-xs-1">
-        <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"> <i class="fa fa-trash"></i> </button>
+        <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"  matTooltip="Delete Record"
+        matTooltipPosition="after"> <i class="fa fa-trash"></i> </button>
       </div>
     </mat-card-header>
     <mat-card-content>

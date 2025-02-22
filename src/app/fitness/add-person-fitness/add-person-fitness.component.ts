@@ -7,12 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FitnessService } from '../../fitness.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-add-person-fitness',
   standalone: true,
   imports: [MatIconModule, MatFormFieldModule, MatToolbarModule,ReactiveFormsModule,
-    MatInputModule,CommonModule],
+    MatInputModule,CommonModule,MatTooltipModule],
   templateUrl: './add-person-fitness.component.html',
   styleUrl: './add-person-fitness.component.css'
 })

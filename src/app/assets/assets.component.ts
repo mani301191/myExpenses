@@ -10,13 +10,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { NgxPrintDirective } from '../ngx-print.directive';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-assets',
   standalone: true,
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
     MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective],
+    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective,MatTooltipModule],
   templateUrl: './assets.component.html',
   styleUrls: ['./assets.component.css']
 })

@@ -1,23 +1,43 @@
-<mat-toolbar role="toolbar" class="titleHeader">
-    <div class="col-xs-10">
-        <h4 class="myFont"> Profile Settings</h4>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <mat-toolbar role="toolbar" class="titleHeader">
+                    <div class="col-xs-10">
+                        <h4 class="myFont"> Profile Settings</h4>
+                    </div>
+                    <div class="col-xs-2">
+                        <button class="close" mat-icon-button (click)="close()" matTooltip="Close the form"
+                            matTooltipPosition="before"><mat-icon>cancel</mat-icon> </button>
+                    </div>
+                </mat-toolbar>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xs-12">
+                    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+
+                        <div class="row">
+                            <div class="col-xs-2"></div>
+                            <div class="col-xs-2">
+                                <label>
+                                <img [src]="profilePic ? profilePic  : 'img/img_avatar.png'" class="img-rounded"
+                                    alt="Expensetracker" width="75" height="75" mat-raised-button color="primary"  matTooltip="Upload ProfilePic"
+                                    matTooltipPosition="before">
+                                    <input type="file" (change)="onSelectFile($event)" style="display:none" />
+                                </label>
+                            </div>
+                            <div class="col-xs-4">
+                                <mat-form-field appearance="outline" class="customformat">
+                                    <mat-label>ProfileName</mat-label>
+                                    <input matInput placeholder="Profile Name" formControlName="profileName">
+                                </mat-form-field>
+                                <button color="primary" type="submit" class="button">Submit</button>
+                            </div>
+                            <div class="col-xs-4"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-xs-2">
-        <button class="close" mat-button (click)="close()">X</button>
-    </div>
-</mat-toolbar>
-<br>
-<form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
-    <mat-form-field appearance="outline" class="customformat">
-        <mat-label>ProfileName</mat-label>
-        <input matInput placeholder="Profile Name" formControlName="profileName">
-    </mat-form-field>
-    <label>
-        <input type="file" (change)="onSelectFile($event)" style="display:none" />
-        <a mat-raised-button color="primary">
-            <mat-icon>file_upload</mat-icon>
-            Upload ProfilePic
-        </a>
-    </label>
-    <button color="primary" type="submit" class="button">Submit</button>
-</form>

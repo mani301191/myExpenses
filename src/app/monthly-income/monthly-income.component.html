@@ -7,7 +7,8 @@
             <mat-card-content>
                 <div *ngFor="let data of incomeData"  class="data">
                    {{data.source}} - {{data.amount | currency: 'INR' }}
-                    <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"> <i class="fa fa-trash"></i> </button>
+                    <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"  matTooltip="Delete Record"
+                    matTooltipPosition="after"> <i class="fa fa-trash"></i> </button>
                   </div>
             </mat-card-content>
         </mat-card>
@@ -72,13 +73,16 @@
                    {{data.description}} - {{data.estimatedAmount | currency: 'INR' }}-
                    {{data.expenseAmount | currency: 'INR' }} 
                    <span *ngIf="data.expenseAmount < data.estimatedAmount">
-                    <mat-icon class="satisfied">thumb_up</mat-icon>
+                    <mat-icon class="satisfied"  matTooltip="Target Achived"
+                    matTooltipPosition="after">thumb_up</mat-icon>
                   </span>
                   <span *ngIf="data.expenseAmount > data.estimatedAmount">
-                    <mat-icon class="disatisfied">thumb_down</mat-icon>
+                    <mat-icon class="disatisfied" matTooltip="Target Missed"
+                    matTooltipPosition="after">thumb_down</mat-icon>
                   </span> 
                   <span *ngIf="data.expenseAmount === data.estimatedAmount">
-                    <mat-icon class="onTarget">thumbs_up_down</mat-icon>
+                    <mat-icon class="onTarget"  matTooltip="On Target"
+                    matTooltipPosition="after">thumbs_up_down</mat-icon>
                   </span>
                 </div>
           </mat-expansion-panel>

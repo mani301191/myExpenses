@@ -10,12 +10,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FitnessService } from '../../fitness.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-add-medical-details',
   standalone: true,
   imports: [MatFormFieldModule, MatToolbarModule, ReactiveFormsModule,
-    MatInputModule, CommonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule],
+    MatInputModule, CommonModule, MatSelectModule, MatDatepickerModule, 
+    MatNativeDateModule, MatTooltipModule,MatIcon],
   templateUrl: './add-medical-details.component.html',
   styleUrl: './add-medical-details.component.css'
 })

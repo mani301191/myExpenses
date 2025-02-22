@@ -11,13 +11,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { NgxPrintDirective } from '../ngx-print.directive';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-expense-yearly',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule,
     CommonModule, CanvasJSAngularChartsModule,MatDatepickerModule,MatNativeDateModule,FormsModule,
-    NgxPrintDirective,MatIconModule],
+    NgxPrintDirective,MatIconModule,MatTooltipModule],
   templateUrl: './expense-yearly.component.html',
   styleUrl: './expense-yearly.component.css'
 })

@@ -12,13 +12,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { NgxPrintDirective } from '../ngx-print.directive';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-appliances',
   standalone: true,
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
     MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, MatDatepickerModule, MatNativeDateModule],
+    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, MatDatepickerModule, 
+    MatNativeDateModule,MatTooltipModule],
   templateUrl: './appliances.component.html',
   styleUrl: './appliances.component.css'
 })

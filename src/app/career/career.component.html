@@ -1,0 +1,150 @@
+<div class="row content">
+    <div class="col-sm-2 sidenav" id="summary">
+        <div class="row">
+            <mat-card class="title_center" appearance="outlined">
+                <mat-card-header class="header ">
+                    <mat-card-title>Work Summary</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div *ngFor="let item of employmentData" class="cardContent">
+                        <div class="row"><div class="col-xs-12"><b>{{item.orgName}}</b></div></div>
+                        <div class="row"><div class="col-xs-12">{{item.designation}}</div> </div>
+                        <div class="row"><div class="col-xs-12">{{item.startDate}} - {{item.endDate ? item.endDate : 'Present'}}</div></div>
+                        <div class="row"><div class="col-xs-12">{{ calculateDuration(item.startDate,item.endDate)}}</div></div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div class="col-sm-7">
+        <div class="row">
+            <div class="col-xs-10">
+                <h3 class="brandcolor">Employment/Education Details</h3>
+            </div>
+            <div class="col-xs-2 doNotPrint">
+
+                <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator"
+                    paginatorId="mat-paginator" [hidePaginator]="true" mat-raised-button [useExistingCss]="true"
+                    printTitle="Employment/Education Details" type="button" printSectionId="careerDetails"
+                    optionalPrintSectionId="summary" ngxPrint matTooltip="Print"
+                    matTooltipPosition="before"><mat-icon>print</mat-icon></button>
+            </div>
+        </div>
+        <hr class="lineBreak doNotPrint">
+        <div class="row">
+            <div class="col-xs-12">
+                <mat-form-field class="doNotPrint">
+                    <mat-icon matTextPrefix>search</mat-icon>
+                    <input matInput (keyup)="applyFilter($event)" #input>
+                </mat-form-field>
+                <div class="mat-elevation-z8" id="careerDetails">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+                        <ng-container matColumnDef="recordType">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Record Type</th>
+                            <td mat-cell *matCellDef="let element">{{element.recordType}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="orgName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Name</th>
+                            <td mat-cell *matCellDef="let element">{{element.orgName}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="designation">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Designation</th>
+                            <td mat-cell *matCellDef="let element">{{element.designation}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="startDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Start Date</th>
+                            <td mat-cell *matCellDef="let element">{{element.startDate | date}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="endDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">End Date</th>
+                            <td mat-cell *matCellDef="let element">{{element.endDate | date}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="comments">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Comments</th>
+                            <td mat-cell *matCellDef="let element">{{element.comments}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actionsColumn">
+                            <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
+                            <td mat-cell *matCellDef="let row;" class="doNotPrint">
+                                <button class="buttonIcon" (click)="deleteRow(row)" matTooltip="Delete Record"
+                                    matTooltipPosition="after">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <!-- Header and Row Declarations -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                        </tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" aria-label="Select page " id="mat-paginator"
+                        showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-3 sidenav doNotPrint">
+        <div class="row">
+            <h3 class="header">Add Employment/Education Details</h3>
+        </div>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+            <div class="row">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>Record Type</mat-label>
+                    <mat-select placeholder="Record Type" formControlName="recordType">
+                        <mat-option value="Education">Education</mat-option>
+                        <mat-option value="Employment">Employment</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>Employment/Education</mat-label>
+                    <input matInput placeholder="Name" formControlName="orgName">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>Designation</mat-label>
+                    <input matInput placeholder="Designation" formControlName="designation">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>Comments</mat-label>
+                    <input matInput placeholder="comments" formControlName="comments">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>StartDate</mat-label>
+                    <input matInput [matDatepicker]="startDatePicker" placeholder="Start Date"
+                        formControlName="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="outline" class="customformat">
+                    <mat-label>EndDate</mat-label>
+                    <input matInput [matDatepicker]="endDatePicker" placeholder="End Date" formControlName="endDate">
+                    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #endDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <button color="primary" type="submit" class="button">Submit</button>
+                <a color="primary" (click)="clear()">Clear</a>
+            </div>
+        </form>
+    </div>

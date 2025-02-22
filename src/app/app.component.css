@@ -91,11 +91,22 @@
   padding-top: 20px;
 }
 
-.settings {
+.profileDisplay {
+  padding-top: 10px;
+}
+
+.profileIcon {
   border: none;
   color: white;
   background-color: transparent;
+}
+
+.profileName {
   padding-top: 20px;
+}
+
+.profileAlign {
+  padding-left: 70px;
 }
 
 .satisfied {
@@ -110,13 +121,26 @@
   color: yellowgreen;
 }
 
+.notification {
+  background-color: #4caf50;
+  color: white;
+  padding: 15px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.5s;
+}
+
 @media print {
+
   .doNotPrint {
     display: none !important;
   }
 
   table {
-   border: 1px solid #075068f8 !important;
+    border: 1px solid #075068f8 !important;
   }
 
   .tableHeader {
@@ -149,7 +173,6 @@
   }
 
   .username {
-    right: 0 !important;
     color: #075068f8 !important;
   }
 
@@ -160,6 +183,7 @@
   mat-card {
     page-break-inside: avoid;
   }
+
   .satisfied {
     color: green !important;
   }
@@ -192,7 +216,7 @@ footer {
   right: 0px;
 }
 
-.cardContent{
+.cardContent {
   padding: 10px;
   margin: 10px;
   border: 1px solid #ccc;

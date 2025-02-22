@@ -1,5 +1,11 @@
 .container {
-    width:800px !important;
-    padding-right: 10px !important;
-    padding-left: 10px !important;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+img {
+    margin-left: auto;
+    margin-right: auto;
 }

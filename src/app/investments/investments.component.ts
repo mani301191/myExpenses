@@ -10,20 +10,21 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgxPrintDirective } from '../ngx-print.directive';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-investments',
   standalone: true,
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
       MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-      MatSelectModule, FormsModule, CommonModule, NgxPrintDirective],
+      MatSelectModule, FormsModule, CommonModule, NgxPrintDirective,MatTooltipModule],
   templateUrl: './investments.component.html',
   styleUrl: './investments.component.css'
 })
 export class InvestmentsComponent implements OnInit {
   formGroup: FormGroup;
   displayedColumns: string[] = ['investment', 'investmentDetail', 'vendorAccountNumber','nominee', 'status','additionalDetails', 'actionsColumn'];
-
+  status:String;
   activeInvestmentData: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

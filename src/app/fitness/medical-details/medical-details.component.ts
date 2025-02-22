@@ -7,11 +7,12 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FitnessService } from '../../fitness.service';
 import { NgxPrintDirective } from '../../ngx-print.directive';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-medical-details',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, MatInputModule, NgxPrintDirective],
+  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, MatInputModule, NgxPrintDirective, MatTooltipModule],
   templateUrl: './medical-details.component.html',
   styleUrl: './medical-details.component.css'
 })

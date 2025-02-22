@@ -9,11 +9,12 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ExpenseStatus } from '../estimate-add/estimate-month';
 import { MatIcon } from '@angular/material/icon';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-monthly-income',
   standalone: true,
-  imports: [MatCardModule, MatChipsModule, CommonModule, MatProgressBarModule,MatIcon,MatExpansionModule],
+  imports: [MatCardModule, MatChipsModule, CommonModule, MatProgressBarModule,MatIcon,MatExpansionModule,MatTooltipModule],
   templateUrl: './monthly-income.component.html',
   styleUrl: './monthly-income.component.css'
 })

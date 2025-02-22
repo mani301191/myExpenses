@@ -10,12 +10,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonService } from '../common.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-income-add',
   standalone: true,
   imports: [MatDatepickerModule,MatNativeDateModule,MatFormFieldModule, MatInputModule,ReactiveFormsModule,
-    MatFormFieldModule,CommonModule,MatIconModule,MatToolbarModule],
+    MatFormFieldModule,CommonModule,MatIconModule,MatToolbarModule,MatTooltipModule],
   templateUrl: './income-add.component.html',
   styleUrl: './income-add.component.css'
 })

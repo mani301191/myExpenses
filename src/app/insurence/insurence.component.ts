@@ -12,13 +12,15 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { NgxPrintDirective } from '../ngx-print.directive';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-insurence',
   standalone: true,
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
         MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-        MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, MatDatepickerModule, MatNativeDateModule],
+        MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, 
+        MatDatepickerModule, MatNativeDateModule,MatTooltipModule],
   templateUrl: './insurence.component.html',
   styleUrl: './insurence.component.css'
 })

@@ -10,12 +10,13 @@ import { WeightDetailsComponent } from './weight-details/weight-details.componen
 import { AddMedicalDetailsComponent } from './add-medical-details/add-medical-details.component';
 import { AddWeightDetailsComponent } from './add-weight-details/add-weight-details.component';
 import { FitnessService } from '../fitness.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-fitness',
   standalone: true,
   imports: [MatCardModule, MatIconModule, FitnessDetailComponent, CommonModule,
-    MatDialogModule],
+    MatDialogModule,MatTooltipModule],
   templateUrl: './fitness.component.html',
   styleUrl: './fitness.component.css'
 })

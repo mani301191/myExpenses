@@ -4,7 +4,10 @@
             <h4 class="myFont"> Add Weight Details</h4>
         </div>
         <div class="col-xs-2">
-            <button class="close" mat-button (click)="close()">X</button>
+            <button class="close" mat-icon-button 
+            (click)="close()"         
+            matTooltip="Close the form"
+            matTooltipPosition="before"><mat-icon>cancel</mat-icon> </button>
         </div>
     </mat-toolbar>
 <br>

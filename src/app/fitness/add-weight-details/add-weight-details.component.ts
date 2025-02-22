@@ -9,12 +9,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FitnessService } from '../../fitness.service';
+import { matTooltipAnimations, MatTooltipModule } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-add-weight-details',
   standalone: true,
   imports: [MatFormFieldModule, MatToolbarModule, ReactiveFormsModule,
-    MatInputModule, CommonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule],
+    MatInputModule, CommonModule, MatSelectModule, MatDatepickerModule, 
+    MatNativeDateModule,MatTooltipModule,MatIcon],
   templateUrl: './add-weight-details.component.html',
   styleUrl: './add-weight-details.component.css'
 })

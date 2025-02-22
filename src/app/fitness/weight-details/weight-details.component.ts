@@ -7,6 +7,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FitnessService } from '../../fitness.service';
 import { NgxPrintDirective } from '../../ngx-print.directive';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const res =[{date:'11/01/2025',height:180,weight:95},
   {date:'08/01/2025',height:150,weight:62}]
@@ -14,7 +15,7 @@ const res =[{date:'11/01/2025',height:180,weight:95},
 @Component({
   selector: 'app-weight-details',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, MatInputModule, NgxPrintDirective],
+  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, MatInputModule, NgxPrintDirective,MatTooltipModule],
   templateUrl: './weight-details.component.html',
   styleUrl: './weight-details.component.css'
 })

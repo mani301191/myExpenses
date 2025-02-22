@@ -71,7 +71,7 @@ export class EstimateAddComponent {
   addRowData(){
     let dataSource:any=[];
     dataSource= this.table.dataSource;
-     dataSource.push({
+     dataSource.unshift({
       date:new Date(),
       description:'',
       amount:0.0

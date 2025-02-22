@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPrintDirective } from '../ngx-print.directive';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -24,7 +25,7 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
     MatIconModule,MatDatepickerModule,MatNativeDateModule,CommonModule,FormsModule,NgxPrintDirective,
-    CanvasJSAngularChartsModule],
+    CanvasJSAngularChartsModule,MatTooltipModule],
 })
 export class ExpenseSummaryTableComponent {
   displayedColumns: string[] = ['year', 'month', 'income', 'expense','estimated','savings','actionsColumn'];

@@ -135,7 +135,7 @@ export class NgxPrintDirective {
       }
       printIncome = document.getElementById('print-income');
       if (this.printSectionId != 'print-fitness') {
-        printContents = document.getElementById('print-user').innerHTML + printContents;
+     //   printContents = document.getElementById('print-user').innerHTML + printContents;
         chart = document.getElementsByTagName("canvas")[0];
         if (chart) {
           chart = chart.toDataURL("image/jpeg");

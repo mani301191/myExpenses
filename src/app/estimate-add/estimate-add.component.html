@@ -6,7 +6,10 @@
                 <h4 class="myFont"> Add Estimate</h4>
             </div>
             <div class="col-xs-2">
-                <button class="close" mat-button (click)="close()">X</button>
+                <button class="close" mat-icon-button 
+                (click)="close()"         
+                matTooltip="Close the form"
+                matTooltipPosition="before"><mat-icon>cancel</mat-icon> </button>
             </div>
         </mat-toolbar>
         <hr class="lineBreak">
@@ -74,7 +77,8 @@
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> Action </th>
             <td mat-cell *matCellDef="let row;" class="doNotPrint">
-                <button class="buttonIcon" (click)="deleteRow(row)">
+                <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
+                matTooltipPosition="after">
                     <i class="fa fa-trash"></i>
                 </button>
             </td>

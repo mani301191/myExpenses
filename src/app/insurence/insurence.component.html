@@ -37,7 +37,8 @@
 
         <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
           [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="InsurenceDetails" type="button"
-          printSectionId="insurenceDetails" optionalPrintSectionId="insurenceSummary"ngxPrint><mat-icon>print</mat-icon></button>
+          printSectionId="insurenceDetails" optionalPrintSectionId="insurenceSummary"ngxPrint matTooltip="Print"
+          matTooltipPosition="before"><mat-icon>print</mat-icon></button>
       </div>
     </div>
     <hr class="lineBreak doNotPrint">
@@ -82,7 +83,8 @@
             <ng-container matColumnDef="actionsColumn">
               <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
               <td mat-cell *matCellDef="let row;" class="doNotPrint">
-                <button class="buttonIcon" (click)="deleteRow(row)">
+                <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
+                matTooltipPosition="after">
                   <i class="fa fa-trash"></i>
                 </button>
               </td>

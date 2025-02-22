@@ -12,12 +12,13 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonService } from '../common.service';
 import { Dropdown } from '../estimate-add/estimate-month';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-expense-add',
   standalone: true,
   imports: [MatDatepickerModule,MatNativeDateModule,MatFormFieldModule, MatInputModule,ReactiveFormsModule,
-    CommonModule,MatSelectModule,MatIconModule,MatToolbarModule,FormsModule
+    CommonModule,MatSelectModule,MatIconModule,MatToolbarModule,FormsModule,MatTooltipModule
 ],
   templateUrl: './expense-add.component.html',
   styleUrl: './expense-add.component.css'

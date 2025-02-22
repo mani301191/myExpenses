@@ -19,13 +19,14 @@ import { CommonService } from '../common.service';
 import { NgxPrintDirective } from '../ngx-print.directive';
 import { EstimateAddComponent } from '../estimate-add/estimate-add.component';
 import { ExcelServicesService } from '../export-service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-expense-monthly-table',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule,
     MatSelectModule, MatDatepickerModule, MatNativeDateModule, CommonModule, MatDialogModule, 
-    FormsModule,NgxPrintDirective],
+    FormsModule,NgxPrintDirective,MatTooltipModule],
   templateUrl: './expense-monthly-table.component.html',
   styleUrl: './expense-monthly-table.component.css',
   providers: [MatDatepickerModule, MatNativeDateModule]
