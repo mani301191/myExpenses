@@ -1,25 +1,25 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AssetsComponent } from './assets/assets.component';
+import { AssetsComponent } from './component/assets/assets.component';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home/home.component';
-import { FitnessComponent } from './fitness/fitness.component';
-import { InvestmentsComponent } from './investments/investments.component';
-import { InsuranceComponent } from './insurance/insurance.component';
-import { AppliancesComponent } from './appliances/appliances.component';
-import { ExpenseSummaryTableComponent } from './expense-summary-table/expense-summary-table.component';
+import { HomeComponent } from './component/home/home.component';
+import { FitnessComponent } from './component/fitness/fitness.component';
+import { InvestmentsComponent } from './component/investments/investments.component';
+import { InsuranceComponent } from './component/insurance/insurance.component';
+import { AppliancesComponent } from './component/appliances/appliances.component';
+import { ExpenseSummaryTableComponent } from './component/expense-summary-table/expense-summary-table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { ProfileSettingComponent } from './profile-setting/profile-setting.component';
+import { ProfileSettingComponent } from './component/profile-setting/profile-setting.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CommonService } from './common.service';
-import { ProfileData } from './profile-setting/profile-data';
-import { ConfigComponent } from './config/config.component';
-import { RemindersComponent } from './reminders/reminders.component';
-import { CareerComponent } from './career/career.component';
+import { CommonService } from './service/common.service';
+import { ProfileData } from './component/profile-setting/profile-data';
+import { ConfigComponent } from './component/config/config.component';
+import { RemindersComponent } from './component/reminders/reminders.component';
+import { CareerComponent } from './component/career/career.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NotificationService } from './notification.service';
+import { NotificationService } from './service/notification.service';
 
 @Component({
   selector: 'app-root',
