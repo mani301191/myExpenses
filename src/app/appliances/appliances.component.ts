@@ -65,7 +65,7 @@ export class AppliancesComponent {
     this.formGroup = this.formBuilder.group({
       'applianceName': [null, Validators.required],
       'amc': [null, Validators.required],
-      'amcEndDate': [null, Validators.required],
+      'amcEndDate': [null],
       'lastServicedDate': [null],
       'additionalDetails': [null]
     });

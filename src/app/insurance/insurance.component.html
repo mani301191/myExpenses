@@ -1,23 +1,23 @@
 <div class="row content" >
-  <div class="col-sm-2 sidenav" id="insurenceSummary">
+  <div class="col-sm-2 sidenav" id="insuranceSummary">
     <div class="row">
       <mat-card class="title_center" appearance="outlined">
         <mat-card-header class="header ">
-          <mat-card-title>Active Insurences</mat-card-title>
+          <mat-card-title>Active Insurances</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <div *ngFor="let item of activeInsurenceData" class="cardContent">
+          <div *ngFor="let item of activeInsuranceData" class="cardContent">
             <div class="row">
               <div class="col-xs-4">
                 <b>Type:</b>
               </div>
               <div class="col-xs-8">
-                {{item.insurenceType}}
+                {{item.insuranceType}}
               </div>
             </div>
             <div class="row">
               <div class="col-xs-4"><b>Provider:</b> </div>
-              <div class="col-xs-8">{{item.insurenceProvider}} </div>
+              <div class="col-xs-8">{{item.insuranceProvider}} </div>
             </div>
             <div class="row">
               <div class="col-xs-4"><b>Number:</b> </div>
@@ -31,13 +31,13 @@
   <div class="col-sm-7">
     <div class="row">
       <div class="col-xs-10">
-        <h3 class="brandcolor">Insurence Details</h3>
+        <h3 class="brandcolor">Insurance Details</h3>
       </div>
       <div class="col-xs-2 doNotPrint">
 
         <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
-          [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="InsurenceDetails" type="button"
-          printSectionId="insurenceDetails" optionalPrintSectionId="insurenceSummary"ngxPrint matTooltip="Print"
+          [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="InsuranceDetails" type="button"
+          printSectionId="insuranceDetails" optionalPrintSectionId="insuranceSummary"ngxPrint matTooltip="Print"
           matTooltipPosition="before"><mat-icon>print</mat-icon></button>
       </div>
     </div>
@@ -48,16 +48,16 @@
           <mat-icon matTextPrefix>search</mat-icon>
           <input matInput (keyup)="applyFilter($event)" #input>
         </mat-form-field>
-        <div class="mat-elevation-z8" id="insurenceDetails">
+        <div class="mat-elevation-z8" id="insuranceDetails">
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-            <ng-container matColumnDef="insurenceType">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Insurence Type</th>
-              <td mat-cell *matCellDef="let element">{{element.insurenceType}}</td>
+            <ng-container matColumnDef="insuranceType">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Insurance Type</th>
+              <td mat-cell *matCellDef="let element">{{element.insuranceType}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="insurenceProvider">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Insurence Provider</th>
-              <td mat-cell *matCellDef="let element">{{element.insurenceProvider}}</td>
+            <ng-container matColumnDef="insuranceProvider">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Insurance Provider</th>
+              <td mat-cell *matCellDef="let element">{{element.insuranceProvider}}</td>
             </ng-container>
 
             <ng-container matColumnDef="policyNumber">
@@ -106,13 +106,13 @@
   </div>
   <div class="col-sm-3 sidenav doNotPrint">
     <div class="row">
-      <h3 class="header">Add Insurence Details</h3>
+      <h3 class="header">Add Insurance Details</h3>
     </div>
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
       <div class="row">
         <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Insurence Type</mat-label>
-          <mat-select placeholder="Insurence Type" formControlName="insurenceType">
+          <mat-label>Insurance Type</mat-label>
+          <mat-select placeholder="Insurance Type" formControlName="insuranceType">
             <mat-option value="Health">Health</mat-option>
             <mat-option value="Term">Term</mat-option>
             <mat-option value="Property">Property</mat-option>
@@ -122,8 +122,8 @@
       </div>
       <div class="row">
         <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Insurence Provider</mat-label>
-          <input matInput placeholder="Insurence Provider" formControlName="insurenceProvider">
+          <mat-label>Insurance Provider</mat-label>
+          <input matInput placeholder="Insurance Provider" formControlName="insuranceProvider">
         </mat-form-field>
       </div>
       <div class="row">

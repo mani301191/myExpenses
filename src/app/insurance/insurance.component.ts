@@ -15,21 +15,21 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-insurence',
+  selector: 'app-insurance',
   standalone: true,
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
         MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
         MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, 
         MatDatepickerModule, MatNativeDateModule,MatTooltipModule],
-  templateUrl: './insurence.component.html',
-  styleUrl: './insurence.component.css'
+  templateUrl: './insurance.component.html',
+  styleUrl: './insurance.component.css'
 })
-export class InsurenceComponent { 
+export class InsuranceComponent { 
   
   formGroup: FormGroup;
-  displayedColumns: string[] = ['insurenceType', 'insurenceProvider', 'policyNumber','nominee', 'startDate','endDate', 'actionsColumn'];
+  displayedColumns: string[] = ['insuranceType', 'insuranceProvider', 'policyNumber','nominee', 'startDate','endDate', 'actionsColumn'];
  readonly currentDate = new Date();
-  activeInsurenceData: any;
+ activeInsuranceData: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -38,18 +38,18 @@ export class InsurenceComponent {
   constructor(private formBuilder: FormBuilder) {
   }
   dataSource = new MatTableDataSource([
-    { insurenceType: 'Life', insurenceProvider: 'XYZ', policyNumber: 123456, nominee: 'John Doe', startDate: '01/01/2020', endDate: '01/03/2025' },
-    { insurenceType: 'Health', insurenceProvider: 'ABC', policyNumber: 654321, nominee: 'Jane Doe', startDate: '02/01/2020', endDate: '02/01/2025' },
-    { insurenceType: 'Auto', insurenceProvider: 'DEF', policyNumber: 112233, nominee: 'Jim Beam', startDate: '03/01/2020', endDate: '03/03/2025' },
-    { insurenceType: 'Home', insurenceProvider: 'GHI', policyNumber: 445566, nominee: 'Jack Daniels', startDate: '04/01/2020', endDate: '04/01/2025' },
-    { insurenceType: 'Travel', insurenceProvider: 'JKL', policyNumber: 778899, nominee: 'Johnny Walker', startDate: '05/01/2020', endDate: '05/01/2025' }
+    { insuranceType: 'Life', insuranceProvider: 'XYZ', policyNumber: 123456, nominee: 'John Doe', startDate: '01/01/2020', endDate: '01/03/2025' },
+    { insuranceType: 'Health', insuranceProvider: 'ABC', policyNumber: 654321, nominee: 'Jane Doe', startDate: '02/01/2020', endDate: '02/01/2025' },
+    { insuranceType: 'Auto', insuranceProvider: 'DEF', policyNumber: 112233, nominee: 'Jim Beam', startDate: '03/01/2020', endDate: '03/03/2025' },
+    { insuranceType: 'Home', insuranceProvider: 'GHI', policyNumber: 445566, nominee: 'Jack Daniels', startDate: '04/01/2020', endDate: '04/01/2025' },
+    { insuranceType: 'Travel', insuranceProvider: 'JKL', policyNumber: 778899, nominee: 'Johnny Walker', startDate: '05/01/2020', endDate: '05/01/2025' }
   ]);
 
   ngOnInit() {
     this.createForm();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.activeInsurenceData = this.dataSource.data.filter(asset => new Date(asset.endDate) > this.currentDate);
+    this.activeInsuranceData = this.dataSource.data.filter(asset => new Date(asset.endDate) > this.currentDate);
   }
 
   applyFilter(event: Event) {
@@ -63,9 +63,9 @@ export class InsurenceComponent {
 
   createForm() {
     this.formGroup = this.formBuilder.group({
-      insurenceType: ['', Validators.required],
-      insurenceProvider: ['', Validators.required],
-      policyNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      insuranceType: ['', Validators.required],
+      insuranceProvider: ['', Validators.required],
+      policyNumber: ['', [Validators.required]],
       nominee: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]

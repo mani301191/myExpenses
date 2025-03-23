@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { FitnessComponent } from './fitness/fitness.component';
 import { InvestmentsComponent } from './investments/investments.component';
-import { InsurenceComponent } from './insurence/insurence.component';
+import { InsuranceComponent } from './insurance/insurance.component';
 import { AppliancesComponent } from './appliances/appliances.component';
 import { ExpenseSummaryTableComponent } from './expense-summary-table/expense-summary-table.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,7 +25,7 @@ import { NotificationService } from './notification.service';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, AssetsComponent, CommonModule, HomeComponent,
-    FitnessComponent, InvestmentsComponent, InsurenceComponent, ExpenseSummaryTableComponent,
+    FitnessComponent, InvestmentsComponent, InsuranceComponent, ExpenseSummaryTableComponent,
     AppliancesComponent, HttpClientModule, MatIconModule, FormsModule, ConfigComponent,
     RemindersComponent, CareerComponent, MatTooltipModule],
 
