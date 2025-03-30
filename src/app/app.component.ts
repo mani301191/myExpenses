@@ -39,9 +39,9 @@ export class AppComponent {
   readonly dialog = inject(MatDialog);
   profileData: ProfileData;
   messageCount: number = 0;
-  notificationResponse:any[] = [];
+  notificationResponse: any[] = [];
 
-  constructor(private commonService: CommonService, private eventsService:EventsService) { }
+  constructor(private commonService: CommonService, private eventsService: EventsService) { }
   ngOnInit() {
     this.eventsService.fetchEventData().subscribe((res) => {
       this.notificationResponse = [];
@@ -54,12 +54,17 @@ export class AppComponent {
       };
 
       res.forEach((event) => {
-        const eventDate =  parseDate(event.eventDate?.toString());
+        const eventDate = parseDate(event.eventDate?.toString());
         if (eventDate.getMonth() === currentMonth) {
           this.notificationResponse.push(event.eventType + ' - ' + event.eventDate + ' - ' + event.eventDetail);
         }
       });
-      this.messageCount = this.notificationResponse.length;
+      if (this.notificationResponse.length === 0) {
+        this.notificationResponse.push('No events for this month');
+        this.messageCount = 0;
+      } else {
+        this.messageCount = this.notificationResponse.length;
+      }
     });
     this.commonService.profileData().subscribe((res) => this.profileData = res);
   }
@@ -126,8 +131,8 @@ export class AppComponent {
       document.removeEventListener('keydown', closeOnKeyPress); // Remove the keydown listener
       this.messageCount = 0;
     };
-  
-    document.addEventListener('keydown', closeOnKeyPress); 
+
+    document.addEventListener('keydown', closeOnKeyPress);
   }
 
   openDialogProfileSetting() {
