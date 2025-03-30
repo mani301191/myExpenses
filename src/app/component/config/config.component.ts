@@ -5,38 +5,52 @@ import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatIcon } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AppConfigService } from '../../service/app-config.service';
+import { ConfigData } from '../../config-data';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatTableModule,MatIcon,MatFormFieldModule,MatInputModule],
+  imports: [CommonModule, FormsModule, MatTableModule, MatIcon, MatFormFieldModule, MatInputModule],
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.css'],
   inputs: ['displayedColumns', 'dataSource']
 })
 export class ConfigComponent {
-    formGroup: FormGroup;
-  displayedColumns: string[] = ['key', 'value','action'];
-  dataSource = [
-    { key: 'API_URL', value: 'https://api.example.com' },
-    { key: 'APP_VERSION', value: '1.0.0' },
-    // Add more key-value pairs as needed
-  ];
+  formGroup: FormGroup;
+  displayedColumns: string[] = ['key', 'value'];
+  dataSource: ConfigData[] = [];
+  isNew: false ;
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
-  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
+  constructor(private appConfigService: AppConfigService) {
+  }
+  ngOnInit() {
+    this.fetchConfigData();
+  }
+
+  fetchConfigData() {
+    this.appConfigService.fetchConfigData().subscribe(
+      (res) => {
+        this.dataSource = res.map(item => ({
+          ...item,
+          isNew: false // Mark all existing rows as not new
+        }));
+      }
+    );
+  }
 
   addData() {
-    this.dataSource.unshift({ key: '', value: '' });
+    this.dataSource.unshift({ key: '', value: '' , isNew: true });
     this.table.renderRows();
   }
 
-  deleteRow(index: number) {
-    this.dataSource.splice(index, 1);
-    this.table.renderRows();
+  deleteRow(data) {
+    this.appConfigService.deleteRow(data);
   }
 
 
-  saveData(){
-   console.log(this.table.dataSource);
+  saveData() {
+    this.appConfigService.saveConfigData(this.table.dataSource);
   }
 }

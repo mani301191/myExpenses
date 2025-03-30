@@ -86,13 +86,7 @@
           <mat-form-field appearance="outline" class="customformat">
             <mat-label>EventType</mat-label>
             <mat-select placeholder="EventType" formControlName="eventType">
-              <mat-option value="Birthday">Birthday</mat-option>
-              <mat-option value="Anniversary">Anniversary</mat-option>
-              <mat-option value="Festival">Festival</mat-option>
-              <mat-option value="PaymentDue">PaymentDue</mat-option>
-              <mat-option value="Meetings">Meetings</mat-option>
-              <mat-option value="Holidays">Holidays</mat-option>
-              <mat-option value="Adhoc">Adhoc</mat-option>
+            <mat-option *ngFor="let eventType of eventTypes" [value]="eventType.id">{{ eventType.value }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

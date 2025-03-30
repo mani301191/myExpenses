@@ -19,7 +19,7 @@ import { ConfigComponent } from './component/config/config.component';
 import { RemindersComponent } from './component/reminders/reminders.component';
 import { CareerComponent } from './component/career/career.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NotificationService } from './service/notification.service';
+import { EventsService } from './service/events.service';
 
 @Component({
   selector: 'app-root',
@@ -41,12 +41,20 @@ export class AppComponent {
   messageCount: number = 0;
   notificationResponse:any[] = [];
 
-  constructor(private commonService: CommonService, private notificationSvc: NotificationService) { }
+  constructor(private commonService: CommonService, private eventsService:EventsService) { }
   ngOnInit() {
-    this.notificationSvc.fetchReminderData().subscribe((res) => {
+    this.eventsService.fetchEventData().subscribe((res) => {
+      this.notificationResponse = [];
       const currentMonth = new Date().getMonth();
+
+      const parseDate = (dateStr: string) => {
+        if (!dateStr) return null;
+        const [day, month, year] = dateStr.split('/').map(Number);
+        return new Date(year, month - 1, day);
+      };
+
       res.forEach((event) => {
-        const eventDate = new Date(event.eventDate);
+        const eventDate =  parseDate(event.eventDate?.toString());
         if (eventDate.getMonth() === currentMonth) {
           this.notificationResponse.push(event.eventType + ' - ' + event.eventDate + ' - ' + event.eventDetail);
         }
@@ -112,6 +120,14 @@ export class AppComponent {
     messageBox.appendChild(closeButton);
     overlay.appendChild(messageBox);
     document.body.appendChild(overlay);
+
+    const closeOnKeyPress = (event: KeyboardEvent) => {
+      document.body.removeChild(overlay);
+      document.removeEventListener('keydown', closeOnKeyPress); // Remove the keydown listener
+      this.messageCount = 0;
+    };
+  
+    document.addEventListener('keydown', closeOnKeyPress); 
   }
 
   openDialogProfileSetting() {

@@ -12,51 +12,65 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { EventData } from './event-data';
+import { EventsService } from '../../service/events.service';
+import { DropDownData } from '../../config-data';
 
 @Component({
   selector: 'app-reminders',
   standalone: true,
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
-          MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-          MatSelectModule, FormsModule, CommonModule, 
-          MatDatepickerModule, MatNativeDateModule,MatTooltipModule],
+    MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
+    MatSelectModule, FormsModule, CommonModule,
+    MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
   templateUrl: './reminders.component.html',
   styleUrl: './reminders.component.css'
 })
-export class RemindersComponent  implements OnInit {
+export class RemindersComponent implements OnInit {
   formGroup: FormGroup;
   displayedColumns: string[] = ['eventDate', 'eventType', 'eventDetail', 'actionsColumn'];
-  status:String;
+  status: String;
   eventData: any;
+  dataSource: MatTableDataSource<EventData>;
+  eventTypes : DropDownData[];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private eventService: EventsService) {
   }
-  dataSource = new MatTableDataSource([
-      { eventDate: '03/01/2020', eventType: 'Birthday', eventDetail: 'John' },
-      { eventDate: '06/15/2021', eventType: 'Anniversary', eventDetail: 'Jane Doe' },
-      { eventDate: '12/25/2020', eventType: 'Holiday', eventDetail: 'Christmas' },
-      { eventDate: '07/04/2021', eventType: 'Holiday', eventDetail: 'Independence Day' },
-      { eventDate: '11/26/2020', eventType: 'Meeting', eventDetail: 'Project Kickoff' },
-      { eventDate: '02/14/2025', eventType: 'Holiday', eventDetail: 'Valentine\'s Day' },
-      { eventDate: '02/10/2025', eventType: 'Conference', eventDetail: 'Tech Summit' },
-      { eventDate: '04/22/2021', eventType: 'Holiday', eventDetail: 'Earth Day' },
-      { eventDate: '05/01/2021', eventType: 'Workshop', eventDetail: 'Angular Training' },
-      { eventDate: '08/15/2021', eventType: 'Holiday', eventDetail: 'Independence Day' }
-  ]);
 
   ngOnInit() {
     this.createForm();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    const currentMonth = new Date().getMonth() + 1; 
-    this.eventData = this.dataSource.data.filter(event => {
-      const eventMonth = new Date(event.eventDate).getMonth() + 1;
-      return eventMonth === currentMonth;
+    this.fetchEventData();
+    this.eventService.fetchEventTypeDropdownData().subscribe(data => {
+      this.eventTypes = data;
     });
+  }
+
+  fetchEventData() {
+    this.eventService.fetchEventData().subscribe(
+      (res) => {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        const currentMonth = new Date().getMonth() + 1;
+        
+        const parseDate = (dateStr: string) => {
+          if (!dateStr) return null;
+          const [day, month, year] = dateStr.split('/').map(Number);
+          return new Date(year, month - 1, day);
+        };
+  
+        this.eventData = res.filter(event => {
+          const eventDate = parseDate(event.eventDate.toString());
+          if (!eventDate) return false;
+          const eventMonth = eventDate.getMonth() + 1;
+          return eventMonth === currentMonth;
+        });
+      }
+    );
   }
 
   applyFilter(event: Event) {
@@ -82,12 +96,12 @@ export class RemindersComponent  implements OnInit {
 
   onSubmit(formData: any): void {
     if (this.formGroup.valid) {
-      console.log(formData);
+      this.eventService.saveEventData(formData);
       this.clear();
     }
   }
 
   deleteRow(data: any): void {
-    console.log(data);
+    this.eventService.deleteRow(data);
   }
 }

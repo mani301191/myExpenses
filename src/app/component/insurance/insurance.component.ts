@@ -13,43 +13,58 @@ import { NgxPrintDirective } from '../../directive/ngx-print.directive';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { InsuranceData } from './insurance-data';
+import { DropDownData } from '../../config-data';
+import { InsuranceService } from '../../service/insurance.service';
 
 @Component({
   selector: 'app-insurance',
   standalone: true,
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
-        MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-        MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, 
-        MatDatepickerModule, MatNativeDateModule,MatTooltipModule],
+    MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
+    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective,
+    MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
   templateUrl: './insurance.component.html',
   styleUrl: './insurance.component.css'
 })
-export class InsuranceComponent { 
-  
+export class InsuranceComponent {
+
   formGroup: FormGroup;
-  displayedColumns: string[] = ['insuranceType', 'insuranceProvider', 'policyNumber','nominee', 'startDate','endDate', 'actionsColumn'];
- readonly currentDate = new Date();
- activeInsuranceData: any;
+  displayedColumns: string[] = ['insuranceType', 'insuranceProvider', 'policyNumber', 'nominee', 'startDate', 'endDate', 'actionsColumn'];
+  readonly currentDate = new Date();
+  activeInsuranceData: any;
+  dataSource: MatTableDataSource<InsuranceData>;
+  insuranceTypes: DropDownData[];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private insuranceService: InsuranceService) {
   }
-  dataSource = new MatTableDataSource([
-    { insuranceType: 'Life', insuranceProvider: 'XYZ', policyNumber: 123456, nominee: 'John Doe', startDate: '01/01/2020', endDate: '01/03/2025' },
-    { insuranceType: 'Health', insuranceProvider: 'ABC', policyNumber: 654321, nominee: 'Jane Doe', startDate: '02/01/2020', endDate: '02/01/2025' },
-    { insuranceType: 'Auto', insuranceProvider: 'DEF', policyNumber: 112233, nominee: 'Jim Beam', startDate: '03/01/2020', endDate: '03/03/2025' },
-    { insuranceType: 'Home', insuranceProvider: 'GHI', policyNumber: 445566, nominee: 'Jack Daniels', startDate: '04/01/2020', endDate: '04/01/2025' },
-    { insuranceType: 'Travel', insuranceProvider: 'JKL', policyNumber: 778899, nominee: 'Johnny Walker', startDate: '05/01/2020', endDate: '05/01/2025' }
-  ]);
 
   ngOnInit() {
     this.createForm();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.activeInsuranceData = this.dataSource.data.filter(asset => new Date(asset.endDate) > this.currentDate);
+    this.insuranceService.fetchInsuranceTypeDropdownData().subscribe(data => {
+    this.insuranceTypes = data;
+    });
+    this.fetchInsuranceData();
+  }
+
+  fetchInsuranceData() {
+    this.insuranceService.fetchInsuranceData().subscribe(
+      (res) => {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+       // Parse endDate and filter active insurance data
+      this.activeInsuranceData = this.dataSource.data.filter(insurance => {
+        const [day, month, year] = insurance.endDate?.toString().split('/').map(Number); // Split and parse dd/MM/yyyy
+        const parsedEndDate = new Date(year, month - 1, day); // Create a Date object
+        return parsedEndDate > this.currentDate; // Compare with current date
+      });
+      }
+    );
   }
 
   applyFilter(event: Event) {
@@ -78,12 +93,12 @@ export class InsuranceComponent {
 
   onSubmit(formData: any): void {
     if (this.formGroup.valid) {
-      console.log(formData);
+      this.insuranceService.saveInsuranceData(formData);
       this.clear();
     }
   }
 
   deleteRow(data: any): void {
-    console.log(data);
+    this.insuranceService.deleteRow(data);
   }
 }

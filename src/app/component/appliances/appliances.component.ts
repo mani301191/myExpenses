@@ -13,14 +13,16 @@ import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { NgxPrintDirective } from '../../directive/ngx-print.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AppliancesService } from '../../service/appliances.service';
+import { AppliancesData } from './appliances-data';
 
 @Component({
   selector: 'app-appliances',
   standalone: true,
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
     MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, MatDatepickerModule, 
-    MatNativeDateModule,MatTooltipModule],
+    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, MatDatepickerModule,
+    MatNativeDateModule, MatTooltipModule],
   templateUrl: './appliances.component.html',
   styleUrl: './appliances.component.css'
 })
@@ -29,27 +31,37 @@ export class AppliancesComponent {
   displayedColumns: string[] = ['applianceName', 'amc', 'amcEndDate', 'lastServicedDate', 'additionalDetails', 'actionsColumn'];
   readonly currentDate = new Date();
   activeAMCData: any;
+  dataSource: MatTableDataSource<AppliancesData>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private appliancesService: AppliancesService) {
   }
-  dataSource = new MatTableDataSource([
-    { applianceName: 'Washing Machine', amc: 'Yes', amcEndDate: '05/20/2025', lastServicedDate: '05/20/2023', additionalDetails: 'Needs filter replacement' },
-    { applianceName: 'Refrigerator', amc: 'No', amcEndDate: '12/15/2023', lastServicedDate: '06/10/2023', additionalDetails: 'Working fine' },
-    { applianceName: 'Microwave', amc: 'Yes', amcEndDate: '01/10/2025', lastServicedDate: '07/22/2023', additionalDetails: 'Check door seal' },
-    { applianceName: 'Dishwasher', amc: 'Yes', amcEndDate: '11/30/2024', lastServicedDate: '08/15/2023', additionalDetails: 'Clean filter monthly' },
-    { applianceName: 'Air Conditioner', amc: 'No', amcEndDate: '09/05/2023', lastServicedDate: '04/18/2023', additionalDetails: 'Service before summer' },
-    { applianceName: 'Heater', amc: 'Yes', amcEndDate: '02/28/2024', lastServicedDate: '10/10/2023', additionalDetails: 'Check thermostat' }
-  ]);
 
   ngOnInit() {
     this.createForm();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.activeAMCData = this.dataSource.data.filter(asset => asset.amc === 'Yes' && new Date(asset.amcEndDate) > this.currentDate);
+    this.fetchAppliancesData();
+  }
+
+  fetchAppliancesData() {
+    this.appliancesService.fetchAppliancesData().subscribe(
+      (res) => {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+       // Filter active AMC data
+      this.activeAMCData = this.dataSource.data.filter(asset => {
+        if (asset.amc === 'Yes' && asset.amcEndDate) {
+          const [day, month, year] = asset.amcEndDate?.toString().split('/').map(Number); // Parse dd/MM/yyyy
+          const parsedEndDate = new Date(year, month - 1, day); // Create a Date object
+          return parsedEndDate > this.currentDate; // Compare with current date
+        }
+        return false; // Exclude rows without valid AMC or amcEndDate
+      });
+      }
+    );
   }
 
   applyFilter(event: Event) {
@@ -77,12 +89,12 @@ export class AppliancesComponent {
 
   onSubmit(formData: any): void {
     if (this.formGroup.valid) {
-      console.log(formData);
+      this.appliancesService.saveAppliancesData(formData);
       this.clear();
     }
   }
 
   deleteRow(data: any): void {
-    console.log(data);
+    this.appliancesService.deleteRow(data);
   }
 }

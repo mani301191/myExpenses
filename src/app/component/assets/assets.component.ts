@@ -11,6 +11,9 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { NgxPrintDirective } from '../../directive/ngx-print.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AssetService } from '../../service/asset.service';
+import { AssetData } from './asset-data';
+import { DropDownData } from '../../config-data';
 
 @Component({
   selector: 'app-assets',
@@ -24,29 +27,44 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class AssetsComponent implements OnInit {
   formGroup: FormGroup;
   displayedColumns: string[] = ['assetType', 'asset', 'description', 'assetWeight', 'status','addtionalDetails', 'actionsColumn'];
-  dataSource = new MatTableDataSource([
-    { assetType: 'Movable', asset: 'Gold', description: 'chain', assetWeight: '4', status: 'In-use', addtionalDetails: 'Gift from parents' },
-    { assetType: 'Movable', asset: 'Gold', description: 'ring', assetWeight: '6', status: 'In-Locker', addtionalDetails: 'Anniversary gift' },
-    { assetType: 'Movable', asset: 'Silver', description: 'bracelet', assetWeight: '8', status: 'In-use', addtionalDetails: 'Bought from local market' },
-    { assetType: 'Movable', asset: 'Silver', description: 'ring', assetWeight: '6', status: 'In-use', addtionalDetails: 'Inherited from grandmother' },
-    { assetType: 'Non-Movable', asset: 'Property', description: '2 BHK Avadi', assetWeight: null, status: 'Loan/EMI Closed', addtionalDetails: 'Purchased in 2010' },
-    { assetType: 'Non-Movable', asset: 'Property', description: '1 BHK Mambakkam', assetWeight: null, status: 'In-Loan/EMI', addtionalDetails: 'Purchased in 2015' }
-  ]);
+  dataSource: MatTableDataSource<AssetData>;
+  assetTypes: DropDownData[];
+  assets: DropDownData[];
+  assetStatus: DropDownData[];
   aggregatedMovableAssetData: any;
   nonMovableAssetData: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,private assetService:AssetService) {
   }
 
   ngOnInit() {
     this.createForm();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.aggregatedMovableAssetData = this.getAggregatedData();
-    this.nonMovableAssetData = this.dataSource.data.filter(asset => asset.assetType === 'Non-Movable');
+    this.assetService.fetchAssetTypesDropdownData().subscribe(data => {
+      this.assetTypes = data;
+    });
+  
+    this.assetService.fetchAssetDropdownData().subscribe(data => {
+      this.assets = data;
+    });
+  
+    this.assetService.fetchAssetStatusDropdownData().subscribe(data => {
+      this.assetStatus = data;
+    });
+    this.fetchAssetData();
+  }
+
+  fetchAssetData() {
+    this.assetService.fetchAssetData().subscribe(
+      (res) => { this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.aggregatedMovableAssetData = this.getAggregatedData();
+        this.nonMovableAssetData = this.dataSource.data.filter(asset => asset.assetType === 'Non-Movable');
+      }
+    );
   }
 
   getAggregatedData() {
@@ -58,7 +76,7 @@ export class AssetsComponent implements OnInit {
           acc[key] = { assetType: curr.assetType, asset: curr.asset, count: 0, totalWeight: 0 };
         }
         acc[key].count += 1;
-        acc[key].totalWeight += curr.assetWeight ? parseFloat(curr.assetWeight) : 0;
+        acc[key].totalWeight += curr.assetWeight ? curr.assetWeight : 0;
         return acc;
       }, {});
 
@@ -91,12 +109,28 @@ export class AssetsComponent implements OnInit {
 
   onSubmit(formData: any): void {
     if (this.formGroup.valid) {
-      console.log(formData);
+      this.assetService.saveAssetData(formData);
       this.clear();
     }
   }
 
   deleteRow(data: any): void {
-    console.log(data);
+    this.assetService.deleteRow(data);
+  }
+
+  enableEdit(element: any): void {
+    // Enable editing for the selected row
+    element.isEditing = true;
+  }
+  
+  onStatusChange(element: any): void {
+   this.assetService.updateAssetStatus(element);
+    element.isEditing = false; // Exit edit mode after selection
+  }
+  
+  getStatusValue(statusId): string {
+    // Find and return the status value based on the ID
+    const status = this.assetStatus.find(s => s.id === statusId);
+    return status ? status.value : 'Unknown';
   }
 }

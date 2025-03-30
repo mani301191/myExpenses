@@ -18,7 +18,8 @@
                     <td mat-cell *matCellDef="let element">
                         <mat-form-field>
                             <mat-label>Key</mat-label>
-                            <input matInput placeholder="Key" [value]="element.key" [(ngModel)]="element.key">
+                            <input matInput placeholder="Key" [value]="element.key" [(ngModel)]="element.key"
+                            [readonly]="!element.isNew">
                         </mat-form-field>
                     </td>
                 </ng-container>
@@ -31,17 +32,6 @@
                             <mat-label>Value</mat-label>
                             <textarea matInput placeholder="Value" [(ngModel)]="element.value">{{element.value}}</textarea>
                         </mat-form-field>
-                    </td>
-                </ng-container>
-
-                <!-- Action Column -->
-                <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
-                    <td mat-cell *matCellDef="let row;" class="doNotPrint">
-                        <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
-                        matTooltipPosition="after">
-                            <i class="fa fa-trash" ></i>
-                        </button>
                     </td>
                 </ng-container>
 

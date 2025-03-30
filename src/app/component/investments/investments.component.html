@@ -73,7 +73,20 @@
 
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Status </th>
-              <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+              <td mat-cell *matCellDef="let element"> 
+                <div *ngIf="element.isEditing; else viewMode">
+                  <mat-form-field appearance="outline" class="status-dropdown">
+                    <mat-select [(ngModel)]="element.status" (selectionChange)="onStatusChange(element)">
+                      <mat-option *ngFor="let status of investStatusList" [value]="status.id">
+                        {{ status.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <ng-template #viewMode>
+                  {{ getStatusValue(element.status) }}
+                </ng-template>
+              </td>
             </ng-container>
             <ng-container matColumnDef="additionalDetails">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Additional Details</th>
@@ -82,6 +95,9 @@
             <ng-container matColumnDef="actionsColumn">
               <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
               <td mat-cell *matCellDef="let row;" class="doNotPrint">
+                <button class="buttonIcon doNotPrint" (click)="enableEdit(row)" matTooltip="Edit Status">
+                  <mat-icon>edit</mat-icon>
+                </button>
                 <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
                 matTooltipPosition="after">
                   <i class="fa fa-trash"></i>
@@ -112,13 +128,7 @@
         <mat-form-field appearance="outline" class="customformat">
           <mat-label>Investment</mat-label>
           <mat-select placeholder="Investment" formControlName="investment">
-            <mat-option value="PF">PF</mat-option>
-            <mat-option value="NPS">NPS</mat-option>
-            <mat-option value="SSA">SSA</mat-option>
-            <mat-option value="Mutualfund">Mutalfund</mat-option>
-            <mat-option value="Equity">Equity</mat-option>
-            <mat-option value="BankAccount">BankAccount</mat-option>
-            <mat-option value="FixedDeposits">FixedDeposits</mat-option>
+            <mat-option *ngFor="let investment of investmentsList" [value]="investment.id">{{ investment.value }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -147,8 +157,7 @@
         <mat-form-field appearance="outline" class="customformat">
           <mat-label>Status</mat-label>
           <mat-select placeholder="Status" formControlName="status">
-            <mat-option value="Active">Active</mat-option>
-            <mat-option value="Closed">Closed</mat-option>
+            <mat-option *ngFor="let status of investStatusList" [value]="status.id">{{ status.value }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

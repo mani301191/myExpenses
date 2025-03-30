@@ -11,40 +11,55 @@ import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgxPrintDirective } from '../../directive/ngx-print.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { InvestmentService } from '../../service/investment.service';
+import { InvestmentData } from './investment-data';
+import { DropDownData } from '../../config-data';
 
 @Component({
   selector: 'app-investments',
   standalone: true,
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
-      MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-      MatSelectModule, FormsModule, CommonModule, NgxPrintDirective,MatTooltipModule],
+    MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
+    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, MatTooltipModule],
   templateUrl: './investments.component.html',
   styleUrl: './investments.component.css'
 })
 export class InvestmentsComponent implements OnInit {
   formGroup: FormGroup;
-  displayedColumns: string[] = ['investment', 'investmentDetail', 'vendorAccountNumber','nominee', 'status','additionalDetails', 'actionsColumn'];
-  status:String;
+  displayedColumns: string[] = ['investment', 'investmentDetail', 'vendorAccountNumber', 'nominee', 'status', 'additionalDetails', 'actionsColumn'];
+  status: String;
   activeInvestmentData: any;
+  dataSource: MatTableDataSource<InvestmentData>;
+  investmentsList: DropDownData[];
+  investStatusList: DropDownData[];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private investmentService: InvestmentService) {
   }
-  dataSource = new MatTableDataSource([
-      { investment: 'Stocks', investmentDetail: 'Tech stocks', vendorAccountNumber: 123456, nominee: 'John Doe', status: 'Active', additionalDetails: 'High risk, high reward' },
-      { investment: 'Bonds', investmentDetail: 'Government bonds', vendorAccountNumber: 654321, nominee: 'Jane Doe', status: 'Active', additionalDetails: 'Low risk, steady income' },
-      { investment: 'Real Estate', investmentDetail: 'Rental property', vendorAccountNumber: 789012, nominee: 'Jim Beam', status: 'Inactive', additionalDetails: 'Long-term investment' },
-      { investment: 'Gold', investmentDetail: 'Gold bars', vendorAccountNumber: 345678, nominee: 'Jack Daniels', status: 'Active', additionalDetails: 'Hedge against inflation' }
-    ]);
 
   ngOnInit() {
+     isEditing: false
     this.createForm();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.activeInvestmentData = this.dataSource.data.filter(asset => asset.status === 'Active');
+    this.fetchInvestmentData();
+    this.investmentService.fetchInvestmentDropdownData().subscribe(data => {
+      this.investmentsList = data;
+    });
+    this.investmentService.fetchInvestmentStatusDropdownData().subscribe(data => {
+      this.investStatusList = data;
+    });
+  }
+
+  fetchInvestmentData() {
+    this.investmentService.fetchInvestmentData().subscribe(
+      (res) => {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.activeInvestmentData = this.dataSource.data.filter(asset => asset.status === 'Active');
+      });
   }
 
   applyFilter(event: Event) {
@@ -60,7 +75,7 @@ export class InvestmentsComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       'investment': [null, Validators.required],
       'investmentDetail': [null, Validators.required],
-      'vendorAccountNumber': [null, [Validators.required,Validators.pattern("^[0-9].*$")]],
+      'vendorAccountNumber': [null, [Validators.required]],
       'nominee': [null, Validators.required],
       'additionalDetails': [null],
       'status': [null, Validators.required]
@@ -73,12 +88,29 @@ export class InvestmentsComponent implements OnInit {
 
   onSubmit(formData: any): void {
     if (this.formGroup.valid) {
-      console.log(formData);
+      this.investmentService.saveInvestmentData(formData);
+      this.fetchInvestmentData();
       this.clear();
     }
   }
 
+  enableEdit(element: any): void {
+    // Set isEditing to true for the selected row
+    element.isEditing = true;
+  }
+  
+  onStatusChange(element: any): void {
+    this.investmentService.updateInvestmentStatus(element);
+    element.isEditing = false; // Exit edit mode after selection
+  }
+  
+  getStatusValue(statusId): string {
+    // Find and return the status value based on the ID
+    const status = this.investStatusList.find(s => s.id === statusId);
+    return status ? status.value : 'Unknown';
+  }
+
   deleteRow(data: any): void {
-    console.log(data);
+    this.investmentService.deleteRow(data);
   }
 }

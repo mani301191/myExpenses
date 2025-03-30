@@ -13,6 +13,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxPrintDirective } from '../../directive/ngx-print.directive';
+import { CareerData } from './career-data';
+import { CareerService } from '../../service/career.service';
 
 @Component({
   selector: 'app-career',
@@ -26,35 +28,44 @@ import { NgxPrintDirective } from '../../directive/ngx-print.directive';
 })
 export class CareerComponent implements OnInit {
   formGroup: FormGroup;
-  displayedColumns: string[] = ['recordType', 'orgName', 'designation',  'startDate', 'endDate', 'comments','actionsColumn'];
+  displayedColumns: string[] = ['recordType', 'orgName', 'designation', 'startDate', 'endDate', 'comments', 'actionsColumn'];
   employmentData: any;
-
+  dataSource: MatTableDataSource<CareerData>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private careerService: CareerService) {
   }
-  dataSource = new MatTableDataSource([
-    { recordType: 'Education', orgName: 'XYZ School', designation: 'High School', comments: 'Graduated with honors', startDate: '01/01/2010', endDate: '01/03/2014' },
-    { recordType: 'Education', orgName: 'ABC University', designation: 'Bachelor of Science', comments: 'Major in Computer Science', startDate: '09/01/2014', endDate: '05/15/2018' },
-    { recordType: 'Education', orgName: 'DEF Institute', designation: 'Master of Science', comments: 'Specialized in AI', startDate: '09/01/2018', endDate: '05/15/2020' },
-    { recordType: 'Employment', orgName: 'ABC Corp', designation: 'Software Engineer', comments: 'Developed web applications', startDate: '06/01/2020', endDate: '08/20/2021' },
-    { recordType: 'Employment', orgName: 'DEF Inc', designation: 'Senior Developer', comments: 'Led a team of developers', startDate: '09/01/2021', endDate: '12/31/2022' },
-    { recordType: 'Employment', orgName: 'GHI Ltd', designation: 'Tech Lead', comments: 'Managed multiple projects', startDate: '01/10/2023', endDate: '' }
-  ]);
+
 
   ngOnInit() {
     this.createForm();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.employmentData = this.dataSource.data
-      .filter(asset => asset.recordType === 'Employment')
-      .sort((a, b) => {
-      const dateA = a.endDate ? new Date(a.endDate).getTime() : new Date().getTime();
-      const dateB = b.endDate ? new Date(b.endDate).getTime() : new Date().getTime();
-      return dateB - dateA;
-      });
+    this.fetchAppliancesData();
+  }
+
+  fetchAppliancesData() {
+    this.careerService.fetchCareerData().subscribe(
+      (res) => {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.employmentData = this.dataSource.data
+          .filter(asset => asset.recordType === 'Employment')
+          .sort((a, b) => {
+            const parseDate = (dateStr: string) => {
+              if (!dateStr) return new Date(); // If no date, use current date
+              const [day, month, year] = dateStr.split('/').map(Number); // Parse dd/MM/yyyy
+              return new Date(year, month - 1, day); // Create a Date object
+            };
+            const dateA = parseDate(a.endDate?.toString());
+            const dateB = parseDate(b.endDate?.toString());
+  
+            return dateB.getTime() - dateA.getTime(); // Sort in descending order
+  
+          });
+      }
+    );
   }
 
   applyFilter(event: Event) {
@@ -83,18 +94,23 @@ export class CareerComponent implements OnInit {
 
   onSubmit(formData: any): void {
     if (this.formGroup.valid) {
-      console.log(formData);
+      this.careerService.saveCareerData(formData);
       this.clear();
     }
   }
 
   deleteRow(data: any): void {
-    console.log(data);
+    this.careerService.deleteRow(data);
   }
 
   calculateDuration(startDate: string, endDate: string): string {
-    const start = new Date(startDate);
-    const end = endDate ? new Date(endDate) : new Date();
+   const parseDate = (dateStr: string) => {
+      if (!dateStr) return null;
+      const [day, month, year] = dateStr.split('/').map(Number);
+      return new Date(year, month - 1, day);
+    };
+    const start = parseDate(startDate);
+    const end = endDate ? parseDate(endDate) : new Date();
     let years = end.getFullYear() - start.getFullYear();
     let months = end.getMonth() - start.getMonth();
     let days = end.getDate() - start.getDate();
@@ -111,4 +127,5 @@ export class CareerComponent implements OnInit {
 
     return `${years} years, ${months} months, ${days} days`;
   }
+  
 }
