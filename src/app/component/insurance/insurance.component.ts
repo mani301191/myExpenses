@@ -60,8 +60,8 @@ export class InsuranceComponent {
        // Parse endDate and filter active insurance data
       this.activeInsuranceData = this.dataSource.data.filter(insurance => {
         const [day, month, year] = insurance.endDate?.toString().split('/').map(Number); // Split and parse dd/MM/yyyy
-        const parsedEndDate = new Date(year, month - 1, day); // Create a Date object
-        return parsedEndDate > this.currentDate; // Compare with current date
+        const parsedEndDate = new Date(year, month - 1, day).setHours(0, 0, 0, 0); // Create a Date object
+        return parsedEndDate >= this.currentDate.setHours(0, 0, 0, 0); // Compare with current date
       });
       }
     );

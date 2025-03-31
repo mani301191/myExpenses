@@ -28,7 +28,7 @@ import { CareerService } from '../../service/career.service';
 })
 export class CareerComponent implements OnInit {
   formGroup: FormGroup;
-  displayedColumns: string[] = ['recordType', 'orgName', 'designation', 'startDate', 'endDate', 'comments', 'actionsColumn'];
+  displayedColumns: string[] = ['recordType', 'orgName','recordId', 'designation', 'startDate', 'endDate', 'comments', 'actionsColumn'];
   employmentData: any;
   dataSource: MatTableDataSource<CareerData>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -81,6 +81,7 @@ export class CareerComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       recordType: [null, Validators.required],
       orgName: [null, [Validators.required]],
+      recordId: [null, Validators.required],
       designation: [null],
       comments: [null],
       startDate: [null, Validators.required],

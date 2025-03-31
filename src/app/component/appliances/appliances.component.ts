@@ -55,8 +55,8 @@ export class AppliancesComponent {
       this.activeAMCData = this.dataSource.data.filter(asset => {
         if (asset.amc === 'Yes' && asset.amcEndDate) {
           const [day, month, year] = asset.amcEndDate?.toString().split('/').map(Number); // Parse dd/MM/yyyy
-          const parsedEndDate = new Date(year, month - 1, day); // Create a Date object
-          return parsedEndDate > this.currentDate; // Compare with current date
+          const parsedEndDate = new Date(year, month - 1, day).setHours(0, 0, 0, 0); // Create a Date object
+          return parsedEndDate >= this.currentDate.setHours(0, 0, 0, 0); // Compare with current date
         }
         return false; // Exclude rows without valid AMC or amcEndDate
       });
