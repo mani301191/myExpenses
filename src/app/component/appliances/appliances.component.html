@@ -56,7 +56,11 @@
             </ng-container>
             <ng-container matColumnDef="additionalDetails">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Additional Details</th>
-              <td mat-cell *matCellDef="let element">{{element.additionalDetails}}</td>
+              <td mat-cell *matCellDef="let element" class="comments-cell" matTooltip="{{element.additionalDetails}}" matTooltipPosition="above">
+                <div class="comments-content">
+                {{element.additionalDetails}}
+              </div>
+              </td>
             </ng-container>
             <ng-container matColumnDef="amcEndDate">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">AMC End Date</th>

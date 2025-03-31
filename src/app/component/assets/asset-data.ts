@@ -5,5 +5,5 @@ export interface AssetData {
     description: string;
     assetWeight: number;
     status: string;
-    addtionalDetails:string;
+    additionalDetails:string;
 }

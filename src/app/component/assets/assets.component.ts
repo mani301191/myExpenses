@@ -26,7 +26,7 @@ import { DropDownData } from '../../config-data';
 })
 export class AssetsComponent implements OnInit {
   formGroup: FormGroup;
-  displayedColumns: string[] = ['assetType', 'asset', 'description', 'assetWeight', 'status','addtionalDetails', 'actionsColumn'];
+  displayedColumns: string[] = ['assetType', 'asset', 'description', 'assetWeight', 'status','additionalDetails', 'actionsColumn'];
   dataSource: MatTableDataSource<AssetData>;
   assetTypes: DropDownData[];
   assets: DropDownData[];
@@ -98,7 +98,7 @@ export class AssetsComponent implements OnInit {
       'asset': [null, Validators.required],
       'description': [null, Validators.required],
       'assetWeight': [null, Validators.pattern("^[0-9].*$")],
-      'addtionalDetails': [null],
+      'additionalDetails': [null],
       'status': [null, Validators.required]
     });
   }
