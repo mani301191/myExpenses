@@ -53,4 +53,8 @@ export class ConfigComponent {
   saveData() {
     this.appConfigService.saveConfigData(this.table.dataSource);
   }
+
+  saveDefaultConfigData() {
+    this.appConfigService.saveDefaultConfigData();
+  }
 }

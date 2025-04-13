@@ -148,4 +148,22 @@ export class FitnessService {
     let month = date.getMonth() + 1;
     return day + '/' + month + '/' +  date.getFullYear();
 }
+
+updateMedicalDetail(data) {
+  this.http.patch<any>(this.baseUrl + 'medicalDetail',data).subscribe(
+    (res) => {
+      this.displayMessage(res.message);
+    },
+    () => this.displayMessage('Error Occured, Contact System Admin')
+  );
+}
+
+updateWeightDetail(data) {
+  this.http.patch<any>(this.baseUrl + 'personDetail/weight',data).subscribe(
+    (res) => {
+      this.displayMessage(res.message);
+    },
+    () => this.displayMessage('Error Occured, Contact System Admin')
+  );
+}
 }

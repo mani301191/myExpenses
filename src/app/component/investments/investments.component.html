@@ -11,17 +11,17 @@
               <div class="col-xs-4">
                 <b>Investment:</b>
               </div>
-              <div class="col-xs-8">
+              <div class="col-xs-8 wrap-content">
                 {{item.investment}}
               </div>
             </div>
             <div class="row">
               <div class="col-xs-4"><b>Detail:</b> </div>
-              <div class="col-xs-8">{{item.investmentDetail}} </div>
+              <div class="col-xs-8 wrap-content">{{item.investmentDetail}} </div>
             </div>
             <div class="row">
               <div class="col-xs-4"><b>Number:</b> </div>
-              <div class="col-xs-8">{{item.vendorAccountNumber}}</div>
+              <div class="col-xs-8 wrap-content">{{item.vendorAccountNumber}}</div>
             </div>
           </div>
         </mat-card-content>
@@ -49,7 +49,7 @@
           <input matInput (keyup)="applyFilter($event)" #input>
         </mat-form-field>
         <div class="mat-elevation-z8" id="investmentDetails">
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+          <table mat-table [dataSource]="dataSource"  matSort>
 
             <ng-container matColumnDef="investment">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Investment </th>
@@ -99,7 +99,7 @@
             <ng-container matColumnDef="actionsColumn">
               <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
               <td mat-cell *matCellDef="let row;" class="doNotPrint">
-                <button class="buttonIcon doNotPrint" (click)="enableEdit(row)" matTooltip="Edit Status">
+                <button class="buttonIcon" (click)="enableEdit(row)" matTooltip="Edit Status">
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"

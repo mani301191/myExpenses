@@ -128,5 +128,16 @@ export class CareerComponent implements OnInit {
 
     return `${years} years, ${months} months, ${days} days`;
   }
+
+  
+  enableEdit(element: any): void {
+    // Set isEditing to true for the selected row
+    element.isEditing = true;
+  }
+
+  updateRecord(element: any): void {
+    element.isEditing = false;
+    this.careerService.updateCareertDetail(element);
+  }
   
 }

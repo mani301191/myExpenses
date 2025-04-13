@@ -26,8 +26,8 @@
             <h3 class="text-center brandcolor">{{patientName}} Medical Detail</h3>
         </div>
     </div>
-    <div class="col-xs-12">
-        <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">
+    <div class="col-xs-12 mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" #mytable class="my-table ">
 
             <!-- Date Column -->
             <ng-container matColumnDef="date">
@@ -44,37 +44,59 @@
             <!-- problem Column -->
             <ng-container matColumnDef="problem">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Problem </th>
-                <td mat-cell *matCellDef="let row"> {{row.problem}}</td>
+                <td mat-cell *matCellDef="let row">
+                    <span *ngIf="!row.isEditing">{{row.problem}}</span>
+                    <input *ngIf="row.isEditing" [(ngModel)]="row.problem" class="edit-input" />
+                </td>
             </ng-container>
 
             <!-- hospital Column -->
             <ng-container matColumnDef="hospital">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Hospital </th>
-                <td mat-cell *matCellDef="let row"> {{row.hospital}}</td>
+                <td mat-cell *matCellDef="let row">
+                    <span *ngIf="!row.isEditing">{{row.hospital}}</span>
+                    <input *ngIf="row.isEditing" [(ngModel)]="row.hospital" class="edit-input" />
+                </td>
             </ng-container>
 
-            <!-- hospital Column -->
+            <!-- docterName Column -->
             <ng-container matColumnDef="docterName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Docter Name </th>
-                <td mat-cell *matCellDef="let row"> {{row.docterName}}</td>
+                <td mat-cell *matCellDef="let row">
+                    <span *ngIf="!row.isEditing">{{row.docterName}}</span>
+                    <input *ngIf="row.isEditing" [(ngModel)]="row.docterName" class="edit-input" />
+                </td>
             </ng-container>
 
             <!-- diagnosis Column -->
             <ng-container matColumnDef="diagnosis">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Diagnosis </th>
-                <td mat-cell *matCellDef="let row"> {{row.diagnosis}}</td>
+                <td mat-cell *matCellDef="let row">
+                    <span *ngIf="!row.isEditing">{{row.diagnosis}}</span>
+                    <input *ngIf="row.isEditing" [(ngModel)]="row.diagnosis" class="edit-input" />
+                </td>
             </ng-container>
 
             <!-- otherDetails Column -->
             <ng-container matColumnDef="otherDetails">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Other Details </th>
-                <td mat-cell *matCellDef="let row"> {{row.otherDetails}}</td>
+                <td mat-cell *matCellDef="let row">
+                    <span *ngIf="!row.isEditing">{{row.otherDetails}}</span>
+                    <input *ngIf="row.isEditing" [(ngModel)]="row.otherDetails" class="edit-input" />
+                </td>
             </ng-container>
 
             <!-- actionsColumn Column -->
             <ng-container matColumnDef="actionsColumn">
                 <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
                 <td mat-cell *matCellDef="let row;" class="doNotPrint">
+                    <button class="buttonIcon" (click)="enableEdit(row)" matTooltip="Edit Data" *ngIf="!row.isEditing">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button class="buttonIcon" (click)="updateRecord(row)" matTooltip="Save updated Data"
+                        *ngIf="row.isEditing">
+                        <mat-icon>save</mat-icon>
+                    </button>
                     <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
                     matTooltipPosition="after">
                         <i class="fa fa-trash"></i>

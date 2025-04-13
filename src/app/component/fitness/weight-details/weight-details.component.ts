@@ -8,6 +8,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FitnessService } from '../../../service/fitness.service';
 import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 const res =[{date:'11/01/2025',height:180,weight:95},
   {date:'08/01/2025',height:150,weight:62}]
@@ -15,7 +17,8 @@ const res =[{date:'11/01/2025',height:180,weight:95},
 @Component({
   selector: 'app-weight-details',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, MatInputModule, NgxPrintDirective,MatTooltipModule],
+  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, 
+    MatInputModule, NgxPrintDirective,MatTooltipModule,FormsModule,CommonModule],
   templateUrl: './weight-details.component.html',
   styleUrl: './weight-details.component.css'
 })
@@ -55,5 +58,15 @@ export class WeightDetailsComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  enableEdit(element: any): void {
+    // Set isEditing to true for the selected row
+    element.isEditing = true;
+  }
+
+  updateRecord(element: any): void {
+    element.isEditing = false;
+    this.fitnessService.updateWeightDetail(element);
   }
 }

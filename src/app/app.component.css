@@ -148,6 +148,13 @@
   white-space: normal; /* Allow text to wrap */
 }
 
+.mat-elevation-z8 {
+  width: 100%;
+  /* Ensure the table takes the full width of its container */
+  overflow-x: auto;
+  /* Enable horizontal scrolling if needed */
+}
+
 @media print {
 
   .doNotPrint {

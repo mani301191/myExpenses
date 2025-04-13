@@ -51,4 +51,13 @@ export class CareerService extends BaseService {
       () => this.displayMessage('Error Occured, Contact System Admin')
     );
   }
+
+  updateCareertDetail(data) {
+    this.http.patch<any>(this.baseUrl + 'career/careerDetail',data).subscribe(
+      (res) => {
+        this.displayMessage(res.message);
+      },
+      () => this.displayMessage('Error Occured, Contact System Admin')
+    );
+  }
 }

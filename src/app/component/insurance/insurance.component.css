@@ -1,0 +1,11 @@
+
+#insuranceSummary mat-card-content {
+    max-height: 500px;
+    /* Set a fixed height for the content */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: hidden;
+    /* Disable horizontal scrolling */
+    padding-right: 10px;
+    /* Add padding to avoid scrollbar overlap */
+  }

@@ -235,6 +235,16 @@ export class CommonService {
     return this.apiResponse;
   } 
 
+  updateExpenseDetail(data) {
+    this.http.patch<any>(this.baseUrl + 'expenseTracker/expenseDetail',data).subscribe(
+      (res) => {
+        this.displayMessage(res.message);
+        this.fetchExpenseData(this.selectedDate);
+      },
+      () => this.displayMessage('Error Occured, Contact System Admin')
+    );
+  }
+
   addIncomeDetail(inputData) {
     this.http.post<any>(this.baseUrl + 'incomeTracker/incomeDetail', inputData).subscribe(
       (res) => {

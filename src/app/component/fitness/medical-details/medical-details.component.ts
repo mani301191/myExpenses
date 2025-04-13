@@ -8,11 +8,14 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FitnessService } from '../../../service/fitness.service';
 import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-medical-details',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, MatInputModule, NgxPrintDirective, MatTooltipModule],
+  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule,
+     MatInputModule, NgxPrintDirective, MatTooltipModule,FormsModule,CommonModule],
   templateUrl: './medical-details.component.html',
   styleUrl: './medical-details.component.css'
 })
@@ -51,5 +54,15 @@ export class MedicalDetailsComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  enableEdit(element: any): void {
+    // Set isEditing to true for the selected row
+    element.isEditing = true;
+  }
+
+  updateRecord(element: any): void {
+    element.isEditing = false;
+    this.fitnessService.updateMedicalDetail(element);
   }
 }

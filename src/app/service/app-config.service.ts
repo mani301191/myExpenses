@@ -45,4 +45,15 @@ export class AppConfigService extends BaseService {
         () => this.displayMessage('Error Occured, Contact System Admin')
       );
     }
+
+    saveDefaultConfigData() {
+      this.http.post<ConfigData[]>(this.baseUrl+'config/default',null).subscribe(
+        () => {
+          this.displayMessage('Config Data created successfully' ); 
+          this.fetchConfigData();
+           },
+        () => {
+          this.displayMessage('Error Occured, Contact System Admin' ); 
+        });
+      }
 }

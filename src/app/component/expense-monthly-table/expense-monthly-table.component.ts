@@ -20,6 +20,7 @@ import { NgxPrintDirective } from '../../directive/ngx-print.directive';
 import { EstimateAddComponent } from '../estimate-add/estimate-add.component';
 import { ExcelServicesService } from '../../service/export-service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Dropdown } from '../estimate-add/estimate-month';
 
 @Component({
   selector: 'app-expense-monthly-table',
@@ -40,6 +41,9 @@ export class ExpenseMonthlyTableComponent {
   _snackBar = inject(MatSnackBar);
   readonly dialog = inject(MatDialog);
   expenseDataResponse:ExpenseMonthly[]=[];
+  expenseTypes: string[] = ["UnPlanned", "Planned","Investment"]; 
+  expenseCategories: Dropdown[] = []; 
+
 
   @Output() expenseData = new EventEmitter<ExpenseMonthly[]>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -51,6 +55,7 @@ export class ExpenseMonthlyTableComponent {
 
   ngOnInit() {
     this.fetchExpenseData();
+    this.commonService.plannedExpense(this.selectedDate).subscribe(r=> this.expenseCategories=r);
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -147,6 +152,15 @@ export class ExpenseMonthlyTableComponent {
       return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0])
     }
 
+    enableEdit(element: any): void {
+      // Set isEditing to true for the selected row
+      element.isEditing = true;
+    }
+
+    updateRecord(element: any): void {
+      element.isEditing = false;
+      this.commonService.updateExpenseDetail(element);
+    }
 }
 
 

@@ -59,30 +59,78 @@
     <!-- ExpenseType Column -->
     <ng-container matColumnDef="expenseType">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseType </th>
-      <td mat-cell *matCellDef="let row"> {{row.expenseType}} </td>
+      <td mat-cell *matCellDef="let row">
+        <ng-container *ngIf="row.isEditing; else displayExpenseType">
+          <mat-form-field>
+            <mat-select [(ngModel)]="row.expenseType" placeholder="Select Expense Type">
+              <mat-option *ngFor="let type of expenseTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #displayExpenseType>
+          {{row.expenseType}}
+        </ng-template>
+      </td>
     </ng-container>
-
+    
     <!-- Expense Column -->
     <ng-container matColumnDef="expenseOf">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Category </th>
-      <td mat-cell *matCellDef="let row"> {{row.expenseOf}} </td>
+      <td mat-cell *matCellDef="let row">
+        <ng-container *ngIf="row.isEditing; else displayExpenseOf">
+          <mat-form-field>
+          <mat-select [(ngModel)]="row.expenseOf" placeholder="Select Category">
+            <mat-option *ngFor="let e of expenseCategories" [value]="e .value">{{e.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        </ng-container>
+        <ng-template #displayExpenseOf>
+          {{row.expenseOf}}
+        </ng-template>
+      </td>
     </ng-container>
 
     <!-- Description Column -->
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader description"> Description </th>
-      <td mat-cell *matCellDef="let row" class="description"> {{row.description}} </td>
+      <td mat-cell *matCellDef="let row" class="description">
+        <ng-container *ngIf="row.isEditing; else displayDescription">
+        <mat-form-field>
+          <input matInput [(ngModel)]="row.description" />
+        </mat-form-field>
+        </ng-container>
+        <ng-template #displayDescription>
+          {{row.description}}
+        </ng-template>
+      </td>
     </ng-container>
 
     <!-- ExpenseAmount Column -->
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseAmount </th>
-      <td mat-cell *matCellDef="let row"> {{row.amount| currency: 'INR' }} </td>
+      <td mat-cell *matCellDef="let row">
+        <ng-container *ngIf="row.isEditing; else displayAmount">
+        <mat-form-field>
+          <input matInput [(ngModel)]="row.amount" type="number" />
+        </mat-form-field>
+        </ng-container>
+        <ng-template #displayAmount>
+          {{row.amount | currency: 'INR'}}
+        </ng-template>
+      </td>
     </ng-container>
-
+    
     <ng-container matColumnDef="actionsColumn">
       <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> Action </th>
       <td mat-cell *matCellDef="let row;" class="doNotPrint">
+        <button class="buttonIcon" (click)="enableEdit(row)" matTooltip="Edit Data" *ngIf="!row.isEditing">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button class="buttonIcon" (click)="updateRecord(row)" matTooltip="Save updated Data" *ngIf="row.isEditing">
+          <mat-icon>save</mat-icon>
+        </button>
         <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
         matTooltipPosition="after">
           <i class="fa fa-trash"></i>
