@@ -1,8 +1,20 @@
 @media print{
-#yearlyDataChart{
-    position:absolute;
-    padding-top:280px;
+    
+}
+  
+.chart-container {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure the container has sufficient height */
+    text-align: center; /* Fallback for text alignment */
 }
 
+.table-container {
+    max-height: 400px; /* Set the desired height */
+    max-width: 100%; /* Set the desired width */
+    overflow: auto; /* Enable both horizontal and vertical scrolling */
+    border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+    position: relative;  
 }
 

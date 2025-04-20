@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { MonthlyIncome } from '../component/monthly-income/monthly-income';
 import { Dropdown, ExpenseStatus, MonthlyEstimate } from '../component/estimate-add/estimate-month';
 import { ExpenseSummary } from '../component/expense-summary-table/expense-summary-table';
-import { ExpenseYearly } from '../component/expense-yearly/expense-yearly';
+import { ExpenseYearly, MonthlyExpByCatagory } from '../component/expense-yearly/expense-yearly';
 import { ProfileData } from '../component/profile-setting/profile-data';
 
 @Injectable({
@@ -30,6 +30,7 @@ export class CommonService {
    expenseStatusResponse =new BehaviorSubject<ExpenseStatus[]>([]);
    incomeData = this.incomeDataResponse.asObservable();
    apiResponse = new BehaviorSubject<any>({} );
+   monthlyExpByCatagoryResp = new BehaviorSubject<MonthlyExpByCatagory[]>([]);
   
   constructor(private http: HttpClient) { }
 
@@ -134,6 +135,18 @@ export class CommonService {
       return this.expenseYearlyResponse;
   }
 
+  fetchMonthlyExpByCatagory(selectedDate:Date){
+    let params = new HttpParams();
+      this.updateSelectedDate(selectedDate);
+       params = params.append('year', this.year);
+    
+    this.http.get<MonthlyExpByCatagory[]>(this.baseUrl + 'monthlyExpByCatagory', { params: params }).subscribe(
+      (res) => {  
+        this.monthlyExpByCatagoryResp.next(res); 
+       },
+      () => this.displayMessage('Error Occured, Contact System Admin'));
+      return this.monthlyExpByCatagoryResp;
+  }
 
   saveProfileData(profileData) {
     this.http.post<ProfileData>(this.baseUrl+'profile/profileDetail',profileData).subscribe(
