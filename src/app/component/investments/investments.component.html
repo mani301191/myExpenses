@@ -70,13 +70,12 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Nominee </th>
               <td mat-cell *matCellDef="let element"> {{element.nominee}} </td>
             </ng-container>
-
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Status </th>
-              <td mat-cell *matCellDef="let element"> 
+              <td mat-cell *matCellDef="let element">
                 <div *ngIf="element.isEditing; else viewMode">
                   <mat-form-field appearance="outline" class="status-dropdown">
-                    <mat-select [(ngModel)]="element.status" (selectionChange)="onStatusChange(element)">
+                    <mat-select [(ngModel)]="element.status" placeholder="Select Status">
                       <mat-option *ngFor="let status of investStatusList" [value]="status.id">
                         {{ status.value }}
                       </mat-option>
@@ -84,23 +83,33 @@
                   </mat-form-field>
                 </div>
                 <ng-template #viewMode>
-                  {{ getStatusValue(element.status) }}
+                  {{ element.status }}
                 </ng-template>
               </td>
             </ng-container>
             <ng-container matColumnDef="additionalDetails">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Additional Details</th>
-              <td mat-cell *matCellDef="let element"class="comments-cell" matTooltip="{{element.additionalDetails}}" matTooltipPosition="above"> 
-                <div class="comments-content">
-                   {{element.additionalDetails}}
+              <td mat-cell *matCellDef="let element" class="comments-cell">
+                <div *ngIf="element.isEditing; else viewMode">
+                  <mat-form-field appearance="outline" class="additional-details-input">
+                    <input matInput [(ngModel)]="element.additionalDetails" placeholder="Enter additional details">
+                  </mat-form-field>
+                </div>
+                <ng-template #viewMode>
+                  <div matTooltip="{{element.additionalDetails}}" matTooltipPosition="above" class="comments-content">
+                    {{element.additionalDetails}}
                   </div>
-                 </td>
+                </ng-template>
+              </td>
             </ng-container>
             <ng-container matColumnDef="actionsColumn">
               <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
               <td mat-cell *matCellDef="let row;" class="doNotPrint">
-                <button class="buttonIcon" (click)="enableEdit(row)" matTooltip="Edit Status">
+                <button class="buttonIcon" (click)="enableEdit(row)" matTooltip="Edit Data" *ngIf="!row.isEditing">
                   <mat-icon>edit</mat-icon>
+                </button>
+                <button class="buttonIcon" (click)="updateRecord(row)" matTooltip="Save updated Data" *ngIf="row.isEditing">
+                  <mat-icon>save</mat-icon>
                 </button>
                 <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
                 matTooltipPosition="after">

@@ -10,3 +10,10 @@
     padding-right: 10px;
     /* Add padding to avoid scrollbar overlap */
   }
+  @media print {
+    .comments-cell {
+        white-space: normal;
+        word-wrap: break-word;
+        max-width: 100%; /* Ensure it uses the full width during print */
+    }
+}

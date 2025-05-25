@@ -98,18 +98,11 @@ export class InvestmentsComponent implements OnInit {
     // Set isEditing to true for the selected row
     element.isEditing = true;
   }
-  
-  onStatusChange(element: any): void {
-    this.investmentService.updateInvestmentStatus(element);
-    element.isEditing = false; // Exit edit mode after selection
-  }
-  
-  getStatusValue(statusId): string {
-    // Find and return the status value based on the ID
-    const status = this.investStatusList.find(s => s.id === statusId);
-    return status ? status.value : 'Unknown';
-  }
 
+  updateRecord(element: any): void {
+    element.isEditing = false;
+    this.investmentService.updateInvestmentStatus(element);
+  }
   deleteRow(data: any): void {
     this.investmentService.deleteRow(data);
   }

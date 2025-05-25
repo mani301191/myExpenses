@@ -42,6 +42,22 @@ export class AppliancesService extends BaseService {
     return this.appliancesData;
   }
 
+  updateAppliances(data) {
+    if (data.amcEndDate != null && data.amcEndDate.toString().length > 10) {
+      data.amcEndDate = this.getFormattedDate(data.amcEndDate);
+    }
+    if (data.lastServicedDate != null && data.lastServicedDate.toString().length > 10) {
+      data.lastServicedDate = this.getFormattedDate(data.lastServicedDate);
+    }
+    this.http.patch<any>(this.baseUrl + 'appliances/appliancesDetail', data).subscribe(
+      (res) => {
+        this.displayMessage(res.message);
+        this.fetchAppliancesData();
+      },
+      () => this.displayMessage('Error Occured, Contact System Admin')
+    );
+  }
+
   deleteRow(data) {
     this.http.delete<any>(this.baseUrl + 'appliances/' + data.appliancesId).subscribe(
       (res) => {

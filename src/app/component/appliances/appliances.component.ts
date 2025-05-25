@@ -97,4 +97,14 @@ export class AppliancesComponent {
   deleteRow(data: any): void {
     this.appliancesService.deleteRow(data);
   }
+
+  enableEdit(element: any): void {
+    // Set isEditing to true for the selected row
+    element.isEditing = true;
+  }
+
+  updateRecord(element: any): void {
+    element.isEditing = false;
+    this.appliancesService.updateAppliances(element);
+  }
 }

@@ -9,3 +9,9 @@
     padding-right: 10px;
     /* Add padding to avoid scrollbar overlap */
   }
+  .policy-number {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;    /* Hide overflowed text */
+    text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+    display: block;      /* Ensure block-level behavior */
+  } 

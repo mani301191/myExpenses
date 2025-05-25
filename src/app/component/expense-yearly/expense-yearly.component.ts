@@ -114,51 +114,70 @@ export class ExpenseYearlyComponent implements OnInit {
   printYearlyData() {
     const printContent = document.getElementById('printableCatTable'); // ID of the table container
     const printSummaryContent = document.getElementById('printableSummaryTable');
-    const WindowPrt = window.open('', '', 'width=900,height=650');
-    WindowPrt.document.write(`
-    <html>
-      <head>
-        <title>Print Table</title>
-        <style>
-          table {
-            width: 100%;
-            border-collapse: collapse;
-          }
-          th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-          }
-          th {
-            background-color: #f2f2f2;
-          }
-          h3 {
-    text-align: center;
-    color: #075068f8 !important;
-    font-size: 20px !important;
-  }
-      table {
-    border: 1px solid #075068f8 !important;
-  }
+    const chartCanvas = document.getElementsByTagName("canvas")[0]; // Get the chart canvas element
 
-  .tableHeader {
-    color: #fff !important;
-    background-color: #76a8b8f8 !important;
-  }
-        </style>
-      </head>
-      <body>
-      <h3>Yearly Expense Report</h3>
-        ${printSummaryContent?.innerHTML}
-        ${printContent?.innerHTML}
-        <div> &copy; Manikandan Narasimhan(2024 - 2030)</div>
-      </body>
-    </html>
-  `);
-    WindowPrt.document.close();
-    WindowPrt.focus();
-    WindowPrt.print();
-    WindowPrt.close();
+    if (chartCanvas) {
+      const chartImage = chartCanvas.toDataURL("image/png"); // Convert the chart to a base64 image
+      const WindowPrt = window.open('', '', 'width=900,height=650');
+      const title = this.showMonthlyTable ? 'Yearly Summary by Category' : 'Yearly Summary';
+      WindowPrt.document.write(`
+        <html>
+          <head>
+            <title> ${title}</title>
+            <style>
+              table {
+                width: 100%;
+                border-collapse: collapse;
+              }
+              th, td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                text-align: left;
+              }
+              th {
+                background-color: #f2f2f2;
+              }
+              h3 {
+                text-align: center;
+                color: #075068f8 !important;
+                font-size: 20px !important;
+              }
+              table {
+                border: 1px solid #075068f8 !important;
+              }
+              .tableHeader {
+                color: #fff !important;
+                background-color: #76a8b8f8 !important;
+              }
+                .chart-container {
+              text-align: center; /* Center-align the chart */
+              margin-top: 20px; /* Optional: Add spacing above the chart */
+            }
+            .chart {
+              display: inline-block; /* Ensure the chart is treated as a block element */
+              max-width: 100%; /* Optional: Ensure the chart scales properly */
+              height: auto; /* Maintain aspect ratio */
+            }
+            </style>
+          </head>
+          <body>
+            <h3>Yearly Expense Report</h3>
+            ${printSummaryContent?.innerHTML || ''}
+            ${printContent?.innerHTML || ''}
+            <div class="chart-container">
+            <img src="${chartImage}" alt="chart" class="chart" />
+            </div>
+            <div> &copy; Manikandan Narasimhan (2024 - 2030)</div>
+          </body>
+        </html>
+      `);
+      WindowPrt.document.close();
+      WindowPrt.focus();
+      WindowPrt.print();
+      WindowPrt.close();
+    } else {
+      console.error("Chart canvas not found!");
+    }
   }
 
 }

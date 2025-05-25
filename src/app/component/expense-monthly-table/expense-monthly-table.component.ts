@@ -73,6 +73,8 @@ export class ExpenseMonthlyTableComponent {
     this.commonService.fetchIncomeData(this.selectedDate);
     this.commonService.fetchEstimateData(this.selectedDate);
     this.commonService.plannedExpenseStatus(this.selectedDate);
+    this.commonService.plannedExpense(this.selectedDate).subscribe(r=> this.expenseCategories=r);
+
   }
 
   fetchExpenseData() {
