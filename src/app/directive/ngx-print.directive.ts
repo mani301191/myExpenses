@@ -117,13 +117,13 @@ export class NgxPrintDirective {
     if (this.matTableDataSource.paginator !== undefined && this.matTableDataSource.paginator !== null && this.hidePaginator) {
       this.matTableDataSource.paginator = null;
     }
-
+  
     setTimeout(() => {
       this.hideMatPaginatorBeforePrinting();
-
+  
       // Do something after
       let printContents, popupWin, styles = '', links = '', chart, printIncome, optionalPrintSectionId;
-
+  
       if (this.useExistingCss) {
         styles = this.getElementTag('style');
         links = this.getElementTag('link');
@@ -135,7 +135,6 @@ export class NgxPrintDirective {
       }
       printIncome = document.getElementById('print-income');
       if (this.printSectionId != 'print-fitness') {
-     //   printContents = document.getElementById('print-user').innerHTML + printContents;
         chart = document.getElementsByTagName("canvas")[0];
         if (chart) {
           chart = chart.toDataURL("image/jpeg");
@@ -145,39 +144,46 @@ export class NgxPrintDirective {
           printContents = printContents + printIncome.innerHTML;
         }
       }
-      popupWin = window.open('', 'ExpenseTracker', 'top=0,left=0,height=auto,width=auto');
+  
+      // Get current date in YYYY-MM-DD format
+      const currentDate = new Date().toISOString().split('T')[0];
+  
+      // Append the date to the title
+      const fileName = `${this.printTitle ? this.printTitle : 'Document'}_${currentDate}`;
+  
+      popupWin = window.open('', fileName, 'top=0,left=0,height=auto,width=auto');
       popupWin.document.open();
       popupWin.document.write(`
-      <html>
-        <head>
-          <title>${this.printTitle ? this.printTitle : ''}</title>
-          ${this.returnStyleValues()}
-          ${this.returnStyleSheetLinkTags()}
-          ${styles}
-          ${links}
-        </head>
-        <body>
-          ${printContents}
-          <script defer>
-            function triggerPrint(event) {
-              window.removeEventListener('load', triggerPrint, false);
-              setTimeout(() => {
-                window.print();
-                setTimeout(function() { window.close(); }, 0);
-              }, ${this.printDelay});
-            }
-            window.addEventListener('load', triggerPrint, false);
-          </script>
-          <div> &copy; Manikandan Narasimhan(2024 - 2030)</div>
-        </body>
-      </html>`);
+        <html>
+          <head>
+            <title>${fileName}</title>
+            ${this.returnStyleValues()}
+            ${this.returnStyleSheetLinkTags()}
+            ${styles}
+            ${links}
+          </head>
+          <body>
+            ${printContents}
+            <script defer>
+              function triggerPrint(event) {
+                window.removeEventListener('load', triggerPrint, false);
+                setTimeout(() => {
+                  window.print();
+                  setTimeout(function() { window.close(); }, 0);
+                }, ${this.printDelay});
+              }
+              window.addEventListener('load', triggerPrint, false);
+            </script>
+            <div> &copy; Manikandan Narasimhan(2024 - 2030)</div>
+          </body>
+        </html>`);
       popupWin.document.close();
-
+  
       //Revert back the paginator after printing
       this.showMatPaginatorAfterPrinting();
-
+  
     }, 1000); //1 second timeout to hide paginator
-
+    
   }
 
   //hide Mat Paginator before Printing

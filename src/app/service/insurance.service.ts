@@ -37,6 +37,16 @@ export class InsuranceService extends BaseService {
       });
   }
 
+  updateInsurance(data) {
+    this.http.patch<any>(this.baseUrl + 'insurance/insuranceDetail',data).subscribe(
+      (res) => {
+        this.displayMessage(res.message);
+        this.fetchInsuranceData();
+      },
+      () => this.displayMessage('Error Occured, Contact System Admin')
+    );
+  }
+  
   fetchInsuranceData() {
     this.http.get<InsuranceData[]>(this.baseUrl + 'insurance/insuranceDetails').subscribe(
       (res) => {

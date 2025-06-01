@@ -30,7 +30,7 @@ import { InsuranceService } from '../../service/insurance.service';
 export class InsuranceComponent {
 
   formGroup: FormGroup;
-  displayedColumns: string[] = ['insuranceType', 'insuranceProvider', 'policyNumber', 'nominee', 'startDate', 'endDate', 'actionsColumn'];
+  displayedColumns: string[] = ['insuranceType', 'insuranceProvider', 'policyNumber', 'nominee', 'startDate', 'endDate','additionalDetails', 'actionsColumn'];
   readonly currentDate = new Date();
   activeInsuranceData: any;
   dataSource: MatTableDataSource<InsuranceData>;
@@ -83,7 +83,8 @@ export class InsuranceComponent {
       policyNumber: ['', [Validators.required]],
       nominee: ['', Validators.required],
       startDate: ['', Validators.required],
-      endDate: ['', Validators.required]
+      endDate: ['', Validators.required],
+      additionalDetails: [null]
     });
   }
 
@@ -101,4 +102,15 @@ export class InsuranceComponent {
   deleteRow(data: any): void {
     this.insuranceService.deleteRow(data);
   }
+
+  enableEdit(element: any): void {
+    // Set isEditing to true for the selected row
+    element.isEditing = true;
+  }
+
+  updateRecord(element: any): void {
+    element.isEditing = false;
+    this.insuranceService.updateInsurance(element);
+  }
+
 }

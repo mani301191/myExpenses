@@ -69,7 +69,8 @@ export class FitnessComponent {
   }
 
   printData(): void {
-    window.document.title='Fitness Summary';
+    const currentDate = new Date().toISOString().split('T')[0];
+    window.document.title='Fitness Summary-'+currentDate;
     window.print();
   }
 }

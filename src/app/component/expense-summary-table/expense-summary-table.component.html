@@ -17,7 +17,7 @@
 <div class="row">
   <div class="col-md-8">
     <div class="row">
-      <div class="col-md-6 doNotPrint">
+      <div class="col-md-4 doNotPrint">
         <mat-form-field class="w-100">
           <input matInput [matDatepicker]="dp2" placeholder="Select a Date" [(ngModel)]="selectedDate"
             (click)="openDatePicker(dp2)">
@@ -25,7 +25,7 @@
           <mat-datepicker #dp2 startView="multi-year" (yearSelected)="closeDatePicker($event, dp2)"></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="col-md-6 doNotPrint">
+      <div class="col-md-4 doNotPrint">
         <mat-form-field class="w-100">
           <mat-icon matTextPrefix>search</mat-icon>
           <input matInput (keyup)="applyFilter($event)" #input>

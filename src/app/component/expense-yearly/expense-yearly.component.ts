@@ -119,11 +119,12 @@ export class ExpenseYearlyComponent implements OnInit {
     if (chartCanvas) {
       const chartImage = chartCanvas.toDataURL("image/png"); // Convert the chart to a base64 image
       const WindowPrt = window.open('', '', 'width=900,height=650');
+      const currentDate = new Date().toISOString().split('T')[0];
       const title = this.showMonthlyTable ? 'Yearly Summary by Category' : 'Yearly Summary';
       WindowPrt.document.write(`
         <html>
           <head>
-            <title> ${title}</title>
+            <title> ${title}-${currentDate}</title>
             <style>
               table {
                 width: 100%;
