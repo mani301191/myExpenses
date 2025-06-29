@@ -21,13 +21,14 @@ import { EstimateAddComponent } from '../estimate-add/estimate-add.component';
 import { ExcelServicesService } from '../../service/export-service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Dropdown } from '../estimate-add/estimate-month';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 @Component({
   selector: 'app-expense-monthly-table',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule,
     MatSelectModule, MatDatepickerModule, MatNativeDateModule, CommonModule, MatDialogModule, 
-    FormsModule,NgxPrintDirective,MatTooltipModule],
+    FormsModule,NgxPrintDirective,MatTooltipModule,CanvasJSAngularChartsModule],
   templateUrl: './expense-monthly-table.component.html',
   styleUrl: './expense-monthly-table.component.css',
   providers: [MatDatepickerModule, MatNativeDateModule]
@@ -43,7 +44,7 @@ export class ExpenseMonthlyTableComponent {
   expenseDataResponse:ExpenseMonthly[]=[];
   expenseTypes: string[] = ["UnPlanned", "Planned","Investment"]; 
   expenseCategories: Dropdown[] = []; 
-
+  chartOptions: any;
 
   @Output() expenseData = new EventEmitter<ExpenseMonthly[]>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -85,6 +86,9 @@ export class ExpenseMonthlyTableComponent {
         this.dataSource.sort=this.sort;
       }
     );
+    this.commonService.dailySummary(this.selectedDate).subscribe((data) => {
+      this.initializeChart(data);
+    });
   }
 
   deleteRow(data) {
@@ -163,6 +167,48 @@ export class ExpenseMonthlyTableComponent {
       element.isEditing = false;
       this.commonService.updateExpenseDetail(element);
     }
+
+    initializeChart(data): void {
+   
+      const dataPoints = data?.map(expense => ({
+        label: new Date(expense.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        y: expense.expense
+      }));
+    
+   
+      // Chart configuration
+      this.chartOptions = {
+        animationEnabled: true,
+        theme: 'light2',
+        height: 500,
+        title: {
+          text: `Day-Wise Expenses for ${this.months[this.selectedDate.getMonth()]+"-"+this.selectedDate.getFullYear()}`,
+          fontSize: 14
+        },
+        axisX: {
+          title: 'Date',
+          interval: 1,
+          labelFontSize: 12,
+          titleFontSize: 12 
+        },
+        axisY: {
+          title: 'Expense (₹)',
+          includeZero: true,
+          labelFontSize: 12,
+          titleFontSize: 12 
+        },
+        data: [
+          {
+            type: 'bar',
+            dataPoints: dataPoints,
+            indexLabel: '₹{y}',
+            indexLabelFontSize: 14,
+            indexLabelFontWeight: 'bold'
+          }
+        ]
+      };
+  
+     }
 }
 
 

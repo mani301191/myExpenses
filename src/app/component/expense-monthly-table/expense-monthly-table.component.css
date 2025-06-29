@@ -1,0 +1,11 @@
+/* Chart container styling */
+.chart-container {
+    width: 100% ;
+    max-width: 1200px ;
+    margin: 0 auto ;
+    padding: 20px ;
+    box-sizing: border-box ;
+    height: 550px ;
+    border: 1px solid #075068f8 ;
+    overflow: hidden ; 
+}

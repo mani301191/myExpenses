@@ -20,6 +20,7 @@ import { RemindersComponent } from './component/reminders/reminders.component';
 import { CareerComponent } from './component/career/career.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EventsService } from './service/events.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @Component({
   selector: 'app-root',
@@ -27,14 +28,14 @@ import { EventsService } from './service/events.service';
   imports: [RouterOutlet, AssetsComponent, CommonModule, HomeComponent,
     FitnessComponent, InvestmentsComponent, InsuranceComponent, ExpenseSummaryTableComponent,
     AppliancesComponent, HttpClientModule, MatIconModule, FormsModule, ConfigComponent,
-    RemindersComponent, CareerComponent, MatTooltipModule],
+    RemindersComponent, CareerComponent, MatTooltipModule,DashboardComponent],
 
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'myExpenses';
-  tabIndex = 0;
+  tabIndex = -1;
   url: any;
   readonly dialog = inject(MatDialog);
   profileData: ProfileData;

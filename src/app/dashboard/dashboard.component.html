@@ -1,0 +1,102 @@
+<div class="dashboard">
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <div class="row brandcolor title">
+                Expense Tracking - {{expenseTrackingData?.currentMonth}}
+            </div>
+            <div class="expense-info person-info">
+                <div *ngIf="expenseTrackingData; else noData">
+                    <div class="row">
+                        <mat-icon class="income-icon">trending_up</mat-icon>
+                        Income: {{ expenseTrackingData.income | currency: 'INR' }}
+                    </div>
+                    <div class="row">
+                        <mat-icon class="estimate-icon">calculate</mat-icon>
+                        Estimate: {{ expenseTrackingData.estimate | currency: 'INR' }}
+                    </div>
+                    <div class="row">
+                        <mat-icon class="expense-icon">money_off</mat-icon>
+                        Expense: {{ expenseTrackingData.expense | currency: 'INR' }}
+                    </div>
+                </div>
+                <ng-template #noData>
+                    <div class="no-data">No data found</div>
+                </ng-template>
+            </div>
+        </div>
+        <div class="dashboard-card">
+            <div class="row title">Insurance Details</div>
+            <div class="insurance-info person-info">
+                <div *ngIf="insuranceData?.length > 0; else noData">
+                    <div *ngFor="let insurance of insuranceData" class="insurance-item">
+                        <div class="row insurance-row">
+                            <!-- Icon -->
+                            <div class="insurance-icon-container">
+                                <mat-icon class="insurance-icon"
+                                    [ngClass]="{'expiry-soon': isExpiringThisMonth(insurance.expiryDate), 'expiry-safe': !isExpiringThisMonth(insurance.expiryDate)}">
+                                    verified_user
+                                </mat-icon>
+                            </div>
+                            <!-- Type -->
+                            <div class="insurance-type-container">
+                                <span class="brandcolor">
+                                    {{ insurance.type }}
+                                </span>
+                            </div>
+                            <!-- Expiry Date -->
+                            <div class="insurance-date-container">
+                                <span>
+                                    Expiring on: {{ insurance.expiryDate }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #noData>
+                    <div class="no-data">No data found</div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-card fitness-goals">
+        <div *ngIf="fitnessData?.length > 0; else noData">
+            <div class="navigation-container">
+                <!-- Left Arrow -->
+                <button class="nav-button left" (click)="scrollLeft()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+    
+                <!-- Scrollable Container -->
+                <div class="fitness-info" style="display: flex; gap: 16px; flex-wrap: nowrap; overflow-x: auto;" #scrollContainer>
+                    <div *ngFor="let person of fitnessData" class="person-card">
+                        <div class="row person-name" style="display: flex; align-items: center; gap: 8px;">
+                            <mat-icon class="person-icon">person</mat-icon>
+                            <span>{{ person.name }}</span>
+                        </div>
+                        <div class="row" style="display: flex; align-items: center; gap: 8px;">
+                            <mat-icon class="min-weight-icon">arrow_downward</mat-icon>
+                            <span class="min-weight">{{ person.minWeight }} kg ({{ person.minWeightDate }})</span>
+                        </div>
+                        <div class="row" style="display: flex; align-items: center; gap: 8px;">
+                            <mat-icon class="max-weight-icon">arrow_upward</mat-icon>
+                            <span class="max-weight">{{ person.maxWeight }} kg ({{ person.maxWeightDate }})</span>
+                        </div>
+                        <div class="row" style="display: flex; align-items: center; gap: 8px;">
+                            <mat-icon class="current-weight-icon">fitness_center</mat-icon>
+                            <span class="current-weight">{{ person.currentWeight }} kg ({{ person.currentWeightDate }})</span>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Right Arrow -->
+                <button class="nav-button right" (click)="scrollRight()">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+            <ng-template #noData>
+                <div class="no-data">No data found</div>
+            </ng-template>
+        </div>
+    </div>
+
+</div>

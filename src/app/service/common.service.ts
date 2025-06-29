@@ -8,6 +8,7 @@ import { Dropdown, ExpenseStatus, MonthlyEstimate } from '../component/estimate-
 import { ExpenseSummary } from '../component/expense-summary-table/expense-summary-table';
 import { ExpenseYearly, MonthlyExpByCatagory } from '../component/expense-yearly/expense-yearly';
 import { ProfileData } from '../component/profile-setting/profile-data';
+import { DayWiseExpenses } from '../dashboard/dashboard';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class CommonService {
    incomeData = this.incomeDataResponse.asObservable();
    apiResponse = new BehaviorSubject<any>({} );
    monthlyExpByCatagoryResp = new BehaviorSubject<MonthlyExpByCatagory[]>([]);
+   dailySummaryResponse =new BehaviorSubject<DayWiseExpenses[]>([]);
   
   constructor(private http: HttpClient) { }
 
@@ -274,6 +276,21 @@ export class CommonService {
     let day = ('0' + date.getDate()).slice(-2);
     let month = date.getMonth() + 1;
     return day + '/' + month + '/' +  date.getFullYear();
+}
+
+dailySummary(selectedDate:Date) {
+  this.updateSelectedDate(selectedDate);
+  let params = new HttpParams();
+  params = params.append('month', this.currentMonth);
+  params = params.append('year', this.year);
+  this.http.get<DayWiseExpenses[]>(this.baseUrl + 'dailySummary', { params: params }).subscribe(
+    (res) => {
+      this.dailySummaryResponse.next(res);
+    },
+    () => {
+      this.displayMessage('Error Occured, Contact System Admin');
+    });
+  return this.dailySummaryResponse;
 }
 
 }

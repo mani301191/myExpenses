@@ -23,12 +23,15 @@
           </div>
           <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
+              <li><a (click)="onNavClick(-1)" matTooltip="Home" matTooltipPosition="below">
+                <mat-icon>home</mat-icon>
+              </a></li>
               <li><a (click)="onNavClick(0)">Expense</a></li>
               <li><a (click)="onNavClick(1)">Fitness</a></li>
-              <li><a (click)="onNavClick(2)">Assets</a></li>
-              <li><a (click)="onNavClick(3)">Investments</a></li>
+              <li><a (click)="onNavClick(2)">Asset</a></li>
+              <li><a (click)="onNavClick(3)">Investment</a></li>
               <li><a (click)="onNavClick(4)">Insurance</a></li>
-              <li><a (click)="onNavClick(5)">Appliances</a></li>
+              <li><a (click)="onNavClick(5)">Appliance</a></li>
               <li><a (click)="onNavClick(6)">Career</a></li>
               <li>
                 <a (click)="onReminderClick()" matTooltip="alerts" matTooltipPosition="after">
@@ -63,6 +66,7 @@
       </div>
   </nav>
   <div class="container-fluid text-center">
+    <app-dashboard *ngIf="tabIndex === -1"></app-dashboard>
     <app-home *ngIf="tabIndex === 0"></app-home>
     <app-fitness *ngIf="tabIndex === 1"></app-fitness>
     <app-assets *ngIf="tabIndex === 2"></app-assets>

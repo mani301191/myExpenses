@@ -1,0 +1,226 @@
+/* Dashboard container */
+.dashboard {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Dashboard grid layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    gap: 20px;
+    padding: 10px;
+}
+
+/* Dashboard card styling */
+.dashboard-card {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.1em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Expense info styling */
+.expense-info p {
+    margin: 0;
+}
+
+/* Icon colors */
+.income-icon {
+    color: green;
+}
+
+.estimate-icon {
+    color: orange;
+}
+
+.expense-icon {
+    color: red;
+}
+
+/* Fitness goals section */
+.fitness-goals {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+    font-size: 1em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fitness-info {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    gap: 16px;
+}
+
+/* Person info styling */
+.person-info {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+.person-card {
+    display: inline-block;
+    width: 300px;
+    margin: 0 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
+}
+
+.person-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Row styling */
+.row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+/* Weight icons */
+.min-weight-icon {
+    color: red;
+}
+
+.max-weight-icon {
+    color: green;
+}
+
+.current-weight-icon {
+    color: #000;
+}
+
+/* Weight text styling */
+.min-weight {
+    color: red;
+    font-weight: bold;
+}
+
+.max-weight {
+    color: green;
+    font-weight: bold;
+}
+
+.current-weight {
+    color: #000;
+    font-style: italic;
+}
+
+/* Expiry status styling */
+.expiry-soon {
+    color: red;
+    font-weight: bold;
+}
+
+.expiry-safe {
+    color: green;
+    font-weight: bold;
+}
+
+/* No data styling */
+.no-data {
+    text-align: center;
+    color: gray;
+    font-style: italic;
+    margin: 16px 0;
+}
+
+/* Chart container styling */
+.chart-container {
+    overflow: visible;
+    padding: 16px;
+    border: 1px solid #075068f8;
+}
+
+/* Brand color styling */
+.brandcolor {
+    font-weight: normal;
+    color: #075068f8;
+}
+
+.title {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    color: #075068f8;
+    font-weight: bold;
+}
+
+/* Insurance row styling */
+.insurance-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Icon container */
+.insurance-icon-container {
+    flex: 0 0 40px; /* Fixed width for the icon */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Type container */
+.insurance-type-container {
+    flex: 2; /* Takes more space in the row */
+    font-size: 0.9em; /* Reduces font size */
+    color: #333; /* Ensures readability */
+}
+
+/* Expiry date container */
+.insurance-date-container {
+    flex: 1; /* Takes less space */
+    text-align: right; /* Aligns text to the right */
+    color: #666;
+}
+
+/* Navigation container styling */
+.navigation-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+/* Left and right navigation buttons */
+.nav-button {
+    background-color: #075068f8;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background-color: #dee3e5f8;
+}
