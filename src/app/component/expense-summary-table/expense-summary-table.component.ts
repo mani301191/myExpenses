@@ -94,29 +94,26 @@ export class ExpenseSummaryTableComponent {
       
       data: [
         {
-          type: 'column',
+          type: 'bar',
           name: "Estimate",
           legendText: "Estimate",
           showInLegend: true,
-          dataPoints: data.slice(0, 6).map((x) => {
-            return  {label:x.month, y:+x.estimated }   
+          dataPoints: data.map((x) => {
+            return { label: x.month, y: +x.estimated }  
              }),
-             indexLabelFormatter: function (e) {
-              return '₹'+e.dataPoint.y ;
-              }
+          indexLabel: "₹{y}",
+          indexLabelFontWeight: "bold"
         },
         {
-          type: "column",	
+          type: "bar",	
           name: "Expense",
           legendText: "Expense",
           showInLegend: true,
-          dataPoints:data.slice(0, 6).map((x) => {
-            return  {label:x.month, y:x.expense }   
-             }
-            ),
-            indexLabelFormatter: function (e) {
-              return '₹'+e.dataPoint.y ;
-              }
+          dataPoints: data.map((x) => {
+            return { label: x.month, y: x.expense };
+          }),
+          indexLabel: "₹{y}",
+          indexLabelFontWeight: "bold"
           }
       ],
     };

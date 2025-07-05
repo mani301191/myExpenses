@@ -12,15 +12,17 @@ export class FitnessDetailComponent {
   chartOptions : any;
 
   @Input() trend: any;
+  @Input() chartHeight: number = 200; 
+  @Input() chartWidth: number = 300;
 
-  ngOnInit(): void {
-    this.chartData(this.trend);
+  ngOnChanges(): void {
+    this.chartData(this.trend,this.chartHeight, this.chartWidth);
    }
 
-  chartData(trend: any) : void {
+  chartData(trend: any, height: number, width: number) : void {
     this.chartOptions = {
-      height:200,
-      width:300,
+      height:height,
+      width:width,
       toolTip: {
         shared: true
       },

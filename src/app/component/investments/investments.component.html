@@ -11,17 +11,20 @@
               <div class="col-xs-4">
                 <b>Investment:</b>
               </div>
-              <div class="col-xs-8 wrap-content">
+              <div class="col-xs-8 wrap-content investment-display"  matTooltip="{{item.investment}}"
+              matTooltipPosition="above">
                 {{item.investment}}
               </div>
             </div>
             <div class="row">
               <div class="col-xs-4"><b>Detail:</b> </div>
-              <div class="col-xs-8 wrap-content">{{item.investmentDetail}} </div>
+              <div class="col-xs-8 wrap-content investment-display"  matTooltip="{{item.investmentDetail}}"
+              matTooltipPosition="above">{{item.investmentDetail}} </div>
             </div>
             <div class="row">
               <div class="col-xs-4"><b>Number:</b> </div>
-              <div class="col-xs-8 wrap-content">{{item.vendorAccountNumber}}</div>
+              <div class="col-xs-8 wrap-content investment-display"  matTooltip="{{item.vendorAccountNumber}}"
+              matTooltipPosition="above">{{item.vendorAccountNumber}}</div>
             </div>
           </div>
         </mat-card-content>

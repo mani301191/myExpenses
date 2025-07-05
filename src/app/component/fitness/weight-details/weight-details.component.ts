@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,15 +10,14 @@ import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FitnessDetailComponent } from '../fitness-detail/fitness-detail.component';
 
-const res =[{date:'11/01/2025',height:180,weight:95},
-  {date:'08/01/2025',height:150,weight:62}]
 
 @Component({
   selector: 'app-weight-details',
   standalone: true,
   imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, 
-    MatInputModule, NgxPrintDirective,MatTooltipModule,FormsModule,CommonModule],
+    MatInputModule, NgxPrintDirective,MatTooltipModule,FormsModule,CommonModule,FitnessDetailComponent],
   templateUrl: './weight-details.component.html',
   styleUrl: './weight-details.component.css'
 })
@@ -29,16 +28,19 @@ export class WeightDetailsComponent {
   dataSource: MatTableDataSource<any>;
   personName: string;
   personPic: string;
+  data: any[] = []; 
  
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private fitnessService: FitnessService,private cdref: ChangeDetectorRef ) { }
   
   ngOnInit(): void {
+    this.data = [];
     this.fitnessService.fetchPersonWeight(this.personName).subscribe((res)=>{
-       this.dataSource = new MatTableDataSource(res);
-       this.dataSource.paginator = this.paginator;
-       this.cdref.detectChanges();
+      this.data = res;
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.paginator = this.paginator;
+      this.cdref.detectChanges();
   });
 
   }

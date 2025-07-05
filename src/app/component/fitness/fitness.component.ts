@@ -49,7 +49,10 @@ export class FitnessComponent {
   }
 
   openWeightDetails(data): void {
-    let dialogRef = this.dialog.open(WeightDetailsComponent);
+    let dialogRef = this.dialog.open(WeightDetailsComponent,{
+      height: '180vh', // Set dialog height
+
+    });
     let instance = dialogRef.componentInstance;
     instance.personName = data.personName;
     instance.personPic = data.personPic;

@@ -1,0 +1,36 @@
+@media print {
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+  
+    .row {
+      display: block; /* Ensure rows stack vertically */
+      width: 100%; /* Ensure full width for print */
+    }
+  
+    .col-md-4,
+    .col-md-8,
+    .col-md-10,
+    .col-md-2 {
+      width: 100% !important; /* Force columns to take full width */
+      float: none !important; /* Remove floating for print */
+    }
+  
+    .mat-elevation-z8 {
+      overflow: visible !important; /* Ensure no scrollbars are displayed */
+    }
+  
+    table {
+      width: 100% !important; /* Ensure table takes full width */
+      border-collapse: collapse; /* Ensure table borders are clean */
+    }
+  
+    th,
+    td {
+      font-size: 12px; /* Adjust font size for print readability */
+      padding: 4px; /* Reduce padding for compact layout */
+    }
+  
+  }

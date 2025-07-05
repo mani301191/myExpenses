@@ -13,6 +13,24 @@
     display: none !important;
 }
 
+
+/* Ensure the chart takes up appropriate space */
+app-fitness-detail {
+    width: auto;
+    height: auto; /* Adjust height dynamically */
+}
+
+.scrollable-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Enable vertical scrolling */
+   
+}
+.data {
+    text-align: center; /* Align text to the left */
+    margin-left: 0; /* Remove any default margin */
+    padding-left: 20px; /* Add padding for spacing */
+}
 @media print {
     .print {
         display: block !important;

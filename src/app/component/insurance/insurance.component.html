@@ -17,7 +17,8 @@
             </div>
             <div class="row">
               <div class="col-xs-4"><b>Provider:</b> </div>
-              <div class="col-xs-8">{{item.insuranceProvider}} </div>
+              <div class="col-xs-8 insurance-provider" matTooltip="{{item.insuranceProvider}}"
+              matTooltipPosition="above">{{item.insuranceProvider}} </div>
             </div>
             <div class="row">
               <div class="col-xs-4"><b>Number:</b> </div>
@@ -186,5 +187,6 @@
         <button color="primary" type="submit" class="button">Submit</button>
         <a color="primary" (click)="clear()">Clear</a>
       </div>
+      <br>
     </form>
   </div>

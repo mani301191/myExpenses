@@ -22,3 +22,10 @@
   padding-right: 10px;
   /* Add padding to avoid scrollbar overlap */
 }
+
+.investment-display {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
