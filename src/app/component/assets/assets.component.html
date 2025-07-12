@@ -1,185 +1,110 @@
-<div class="row content">
-  <div class="col-sm-2 sidenav"  id="assetDetailsSummary">
-    <div class="row">
-      <mat-card class="title_center" appearance="outlined">
-        <mat-card-header class="header ">
-          <mat-card-title>Movable Assets Summary</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div *ngFor="let item of aggregatedMovableAssetData" class="cardContent">
-            {{item.asset}} - {{item.totalWeight}} gms
-          </div>
-        </mat-card-content>
-      </mat-card>
+<div class="asset-section">
+  <div class="row">
+    <div class="col-xs-11">
+      <h3 class="brandcolor">Movable Assets</h3>
     </div>
-    <div class="row">
-      <mat-card class="title_center" appearance="outlined">
-        <mat-card-header class="header ">
-          <mat-card-title>Non-Movable Assets Summary</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div *ngFor="let item of nonMovableAssetData" class="cardContent">
-            {{item.description}} - {{item.status}}
-          </div>
-        </mat-card-content>
-      </mat-card>
+    <div class="col-xs-1">
+      <button class="printIcon doNotPrint" (click)="printAssets()" matTooltip="Print"
+        matTooltipPosition="after"><mat-icon>print</mat-icon></button>
     </div>
   </div>
-  <div class="col-sm-7">
-    <div class="row">
-      <div class="col-xs-10">
-        <h3 class="brandcolor">AssetDetails</h3>
-      </div>
-      <div class="col-xs-2 doNotPrint">
-
-        <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
-          [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="AssetDetails" type="button"
-          printSectionId="assetDetails" optionalPrintSectionId="assetDetailsSummary" ngxPrint matTooltip="Print"
-          matTooltipPosition="before"><mat-icon>print</mat-icon></button>
-      </div>
+  <hr class="lineBreak">
+  <ng-container *ngFor="let group of movableAssetGroups">
+    <h4 class="brandcolor">{{ group.type.value }}</h4>
+    <div class="asset-list">
+      <mat-card *ngFor="let asset of group.assets" class="asset-card brandcolor">
+        <div class="asset-actions">
+          <div class="row">
+            <div class="col-xs-2">
+              <button class="doNotPrint" mat-icon-button color="primary" (click)="editAsset(asset)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+            <div class="col-xs-8 asset-title">
+              {{asset.name}}
+            </div>
+            <div class="col-xs-2">
+              <button class="doNotPrint" mat-icon-button color="warn" (click)="deleteAsset(asset)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="asset-img-container">
+          <img [src]="asset.image || defaultImage" class="asset-img" alt="{{asset.name}}">
+        </div>
+        <div class="asset-details">
+          <div class="asset-status">Status:<b> {{asset.status}}</b></div>
+          <div class="asset-comments">{{asset.comments}}</div>
+        </div>
+      </mat-card>
+      <mat-card class="asset-card add-card doNotPrint" (click)="openAddAsset('Movable', group.type.value)">
+        <mat-icon>add</mat-icon>
+        <span>Add {{ group.type.value }}</span>
+      </mat-card>
     </div>
-    <hr class="lineBreak doNotPrint">
-    <div class="row">
-      <div class="col-xs-12">
-        <mat-form-field class="doNotPrint">
-          <mat-icon matTextPrefix>search</mat-icon>
-          <input matInput (keyup)="applyFilter($event)" #input>
-        </mat-form-field>
-        <div class="mat-elevation-z8" id="assetDetails">
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <hr class="asset-type-separator doPrint">
+  </ng-container>
 
-            <!-- Asset Type Column -->
-            <ng-container matColumnDef="assetType">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Asset Type </th>
-              <td mat-cell *matCellDef="let element"> {{element.assetType}} </td>
-            </ng-container>
-
-            <!-- Asset Column -->
-            <ng-container matColumnDef="asset">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Asset </th>
-              <td mat-cell *matCellDef="let element"> {{element.asset}} </td>
-            </ng-container>
-
-            <!-- Description Column -->
-            <ng-container matColumnDef="description">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Asset Description </th>
-              <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-            </ng-container>
-
-            <!-- Weight Column -->
-            <ng-container matColumnDef="assetWeight">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Asset Weight (gms) </th>
-              <td mat-cell *matCellDef="let element"> {{element.assetWeight}} </td>
-            </ng-container>
-
-            <!-- Status Column -->
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Status </th>
-              <td mat-cell *matCellDef="let element"> 
-                <div *ngIf="element.isEditing; else viewMode">
-                  <mat-form-field appearance="outline" class="status-dropdown">
-                    <mat-select [(ngModel)]="element.status" (selectionChange)="onStatusChange(element)">
-                      <mat-option *ngFor="let status of assetStatus" [value]="status.id">
-                        {{ status.value }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <ng-template #viewMode>
-                  {{ getStatusValue(element.status) }}
-                </ng-template>  
-              </td>
-            </ng-container>
-            <!-- Aditional Details Column -->
-            <ng-container matColumnDef="additionalDetails">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Additional Details</th>
-              <td mat-cell *matCellDef="let element" class="comments-cell" matTooltip="{{element.additionalDetails}}" matTooltipPosition="above"> 
-                <div class="comments-content">
-                {{element.additionalDetails}}
-              </div>
-               </td>
-            </ng-container>
-
-            <ng-container matColumnDef="actionsColumn">
-              <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
-              <td mat-cell *matCellDef="let row;" class="doNotPrint">
-                <button class="buttonIcon doNotPrint" (click)="enableEdit(row)" matTooltip="Edit Status">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
-                matTooltipPosition="after">
-                  <i class="fa fa-trash"></i>
-                </button>
-              </td>
-            </ng-container>
-            <!-- Header and Row Declarations -->
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <!-- Row shown when there is no matching data. -->
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-            </tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" aria-label="Select page " id="mat-paginator"
-            showFirstLastButtons></mat-paginator>
+  <h3 class="brandcolor">Non-Movable Assets</h3>
+  <div class="asset-list">
+    <mat-card *ngFor="let asset of nonMovableAssets" class="asset-card brandcolor">
+      <img [src]="asset.image" class="asset-img" alt="{{asset.name}}">
+      <div class="asset-details">
+        <div class="asset-title">{{asset.name}}</div>
+        <div class="asset-status">Status: {{asset.status}}</div>
+        <div class="asset-comments">{{asset.comments}}</div>
+        <div class="asset-actions">
+          <button class="doNotPrint" mat-icon-button color="primary" (click)="editAsset(asset)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="doNotPrint" mat-icon-button color="warn" (click)="deleteAsset(asset)">
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
       </div>
-    </div>
-
+    </mat-card>
+    <mat-card class="asset-card add-card doNotPrint" (click)="openAddAsset('Non-Movable')">
+      <mat-icon>add</mat-icon>
+      <span>Add Asset</span>
+    </mat-card>
   </div>
-  <div class="col-sm-3 sidenav doNotPrint">
-    <div class="row">
-      <h3 class="header">Add Asset</h3>
-    </div>
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Asset Type</mat-label>
-          <mat-select placeholder="Asset Type" formControlName="assetType">
-            <mat-option *ngFor="let assetType of assetTypes" [value]="assetType.id">{{ assetType.value }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+</div>
+
+<!-- Add/Edit Asset Dialog (simple example, can be replaced with Angular Material Dialog) -->
+<div *ngIf="showDialog" class="dialog-backdrop">
+  <div class="dialog">
+    <h3>{{editMode ? 'Edit' : 'Add'}} Asset</h3>
+    <form [formGroup]="assetForm" (ngSubmit)="saveAsset()">
+      <mat-form-field>
+        <mat-label>Asset Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select placeholder="Status" formControlName="status">
+          <mat-option *ngFor="let status of assetStatus" [value]="status.id">{{ status.value }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Comments</mat-label>
+        <input matInput formControlName="comments">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select placeholder="Asset Type" formControlName="type">
+          <mat-option *ngFor="let assetType of assetTypes" [value]="assetType.id">{{ assetType.value }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <label>Image:</label>
+        <input type="file" (change)="onImageSelected($event)">
+        <img *ngIf="imagePreview" [src]="imagePreview" class="dialog-img-preview" />
       </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Asset</mat-label>
-          <mat-select placeholder="Asset" formControlName="asset">
-            <mat-option *ngFor="let asset of assets" [value]="asset.id">{{ asset.value }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Asset Description</mat-label>
-          <input matInput placeholder="Asset Description" formControlName="description">
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Asset Weight (gms)</mat-label>
-          <input matInput placeholder="Asset Weight" formControlName="assetWeight">
-          <mat-error *ngIf="formGroup.get('assetWeight').hasError('pattern')">
-            Please Enter only Numbers!
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Status</mat-label>
-          <mat-select placeholder="Status" formControlName="status">
-            <mat-option *ngFor="let status of assetStatus" [value]="status.id">{{ status.value }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Additional Details</mat-label>
-          <input matInput placeholder="Additional Details" formControlName="additionalDetails">
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <button color="primary" type="submit" class="button">Submit</button>
-        <a color="primary" (click)="clear()">Clear</a>
+      <div class="dialog-actions">
+        <button mat-raised-button color="primary" type="submit">{{editMode ? 'Update' : 'Add'}}</button>
+        <button mat-button type="button" (click)="closeDialog()">Cancel</button>
       </div>
     </form>
   </div>
+</div>

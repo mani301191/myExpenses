@@ -1,9 +1,8 @@
-export interface AssetData {
-    assetId: string;
-    assetType: string;
-    asset: string;
-    description: string;
-    assetWeight: number;
+export interface Asset {
+    id: string;
+    name: string;
     status: string;
-    additionalDetails:string;
-}
+    comments: string;
+    image: string;
+    type?: string;
+  }

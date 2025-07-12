@@ -1,16 +1,177 @@
-.status-dropdown {
-    width: 65%;
-    margin-top: 10px;
-  }
+.asset-section {
+  padding: 24px;
+}
+.asset-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.asset-card {
+  width: 280px;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #075068f8;
+}
+.asset-img-container {
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+}
+.asset-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.asset-details {
+  height: 30%;
+  padding: 1px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  box-sizing: border-box;
+}
+.asset-title {
+  color: #075068f8;
+  font-weight: bold;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 10px;               
+}
+.asset-status {
+  font-size: 16px;
+  color: #075068f8;
+  margin-bottom: 2px;
+}
+.asset-comments {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 2px;
+}
+.asset-actions {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.add-card {
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #075068f8;
+  background: #f5f5f5;
+  border: 2px dashed #075068f8;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+}
+.add-card mat-icon {
+  font-size: 36px;
+}
+.dialog-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.dialog {
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  min-width: 320px;
+}
+.dialog-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.dialog-img-preview {
+  max-width: 100px;
+  max-height: 100px;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 8px auto 0 auto;
+  object-fit: contain;
+}
 
-
-  #assetDetailsSummary mat-card-content {
-    max-height: 500px;
-    /* Set a fixed height for the content */
-    overflow-y: auto;
-    /* Enable vertical scrolling */
-    overflow-x: hidden;
-    /* Disable horizontal scrolling */
-    padding-right: 10px;
-    /* Add padding to avoid scrollbar overlap */
+/* Print styles */
+@media print {
+  body {
+    background: #fff !important;
   }
+  .doNotPrint {
+    display: none !important;
+  }
+  .doPrint {
+    display: block !important;
+  }
+  .asset-section {
+    padding: 0 !important;
+  }
+  .asset-list {
+    gap: 8px !important;
+    margin-bottom: 16px !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+  }
+  .asset-card {
+    page-break-inside: avoid;
+    border: 2px solid #075068f8 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    margin-bottom: 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 220px !important;
+    min-height: 140px !important;
+  }
+  .asset-img-container {
+    height: 70% !important;
+    background: #f9f9f9 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .asset-img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }
+  .asset-details {
+    height: 30% !important;
+    padding: 4px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+  .asset-type-separator {
+    border: none;
+    border-top: 2px solid #075068f8;
+    margin: 16px 0;
+    width: 100%;
+    display: block;
+    page-break-after: avoid;
+  }
+}

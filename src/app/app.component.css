@@ -7,7 +7,9 @@
 .row.content {
   height: 450px
 }
-
+.logo{
+  margin-top: 10px;
+}
 /* Set gray background color and 100% height */
 .sidenav {
   padding-top: 20px;

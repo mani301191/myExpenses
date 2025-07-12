@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AssetData } from '../component/assets/asset-data';
+import { Asset } from '../component/assets/asset-data';
 import { BaseService } from './base.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
@@ -10,7 +10,7 @@ import { DropDownData } from '../config-data';
 })
 export class AssetService extends BaseService {
 
-  assetDataResponse = new BehaviorSubject<AssetData[]>([]);
+  assetDataResponse = new BehaviorSubject<Asset[]>([]);
   assetData = this.assetDataResponse.asObservable();
   assetTypesResponse = new BehaviorSubject<DropDownData[]>([]);
   assetTypes = this.assetTypesResponse.asObservable();
@@ -24,7 +24,7 @@ export class AssetService extends BaseService {
   }
   
    saveAssetData(assetData) {
-      this.http.post<AssetData>(this.baseUrl+'asset/assetDetail',assetData).subscribe(
+      this.http.post<Asset>(this.baseUrl+'asset/assetDetail',assetData).subscribe(
         () => {
           this.displayMessage('Asset Data created successfully' ); 
           this.fetchAssetData();
@@ -35,7 +35,7 @@ export class AssetService extends BaseService {
       }
 
   fetchAssetData() {
-    this.http.get<AssetData[]>(this.baseUrl + 'asset/assetDetails').subscribe(
+    this.http.get<Asset[]>(this.baseUrl + 'asset/assetDetails').subscribe(
       (res) => {  
         this.assetDataResponse.next(res); 
        },
@@ -44,7 +44,7 @@ export class AssetService extends BaseService {
   }
 
   deleteRow(data) {
-    this.http.delete<any>(this.baseUrl + 'asset/' + data.assetId).subscribe(
+    this.http.delete<any>(this.baseUrl + 'asset/' + data.id).subscribe(
       (res) => {
         this.displayMessage(res.message);
         this.fetchAssetData();
