@@ -48,8 +48,10 @@
 
   <h3 class="brandcolor">Non-Movable Assets</h3>
   <div class="asset-list">
-    <mat-card *ngFor="let asset of nonMovableAssets" class="asset-card brandcolor">
-      <img [src]="asset.image" class="asset-img" alt="{{asset.name}}">
+    <mat-card *ngFor="let asset of nonMovableAssets" class="asset-card-nonMovable brandcolor">
+      <div class="asset-img-container">
+        <img [src]="asset.image || defaultImage" class="asset-img" alt="{{asset.name}}">
+      </div>
       <div class="asset-details">
         <div class="asset-title">{{asset.name}}</div>
         <div class="asset-status">Status: {{asset.status}}</div>

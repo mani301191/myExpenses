@@ -136,6 +136,11 @@ export class AssetsComponent {
   }
 
   printAssets() {
+    const originalTitle = document.title;
+    document.title = 'MyAssets'+new Date().toISOString().split('T')[0];
     window.print();
+    setTimeout(() => {
+      document.title = originalTitle; 
+    }, 1000);
   }
 }
