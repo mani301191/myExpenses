@@ -1,34 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { AssetsComponent } from './component/assets/assets.component';
-import { CommonModule } from '@angular/common';
-import { HomeComponent } from './component/home/home.component';
-import { FitnessComponent } from './component/fitness/fitness.component';
-import { InvestmentsComponent } from './component/investments/investments.component';
-import { InsuranceComponent } from './component/insurance/insurance.component';
-import { AppliancesComponent } from './component/appliances/appliances.component';
-import { ExpenseSummaryTableComponent } from './component/expense-summary-table/expense-summary-table.component';
-import { HttpClientModule } from '@angular/common/http';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { ProfileSettingComponent } from './component/profile-setting/profile-setting.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from './service/common.service';
 import { ProfileData } from './component/profile-setting/profile-data';
-import { ConfigComponent } from './component/config/config.component';
-import { RemindersComponent } from './component/reminders/reminders.component';
-import { CareerComponent } from './component/career/career.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EventsService } from './service/events.service';
-import { DashboardComponent } from './dashboard/dashboard.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AssetsComponent, CommonModule, HomeComponent,
-    FitnessComponent, InvestmentsComponent, InsuranceComponent, ExpenseSummaryTableComponent,
-    AppliancesComponent, HttpClientModule, MatIconModule, FormsModule, ConfigComponent,
-    RemindersComponent, CareerComponent, MatTooltipModule,DashboardComponent],
+  imports: [RouterOutlet, MatIconModule, FormsModule,
+     MatTooltipModule,RouterModule],
 
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -56,7 +41,10 @@ export class AppComponent {
 
       res.forEach((event) => {
         const eventDate = parseDate(event.eventDate?.toString());
-        if (eventDate.getMonth() === currentMonth) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // reset to midnight
+        eventDate.setHours(0, 0, 0, 0);
+        if (eventDate.getMonth() === currentMonth && eventDate >= today) {
           this.notificationResponse.push(event.eventType + ' - ' + event.eventDate + ' - ' + event.eventDetail);
         }
       });

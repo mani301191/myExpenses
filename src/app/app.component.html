@@ -9,73 +9,63 @@
 
 <body >
   <nav class="navbar navbar-inverse" id="print-user">
-      <div class="col-xs-9">
-        <div class="container-fluid doNotPrint">
-          <div class="navbar-header">
-            <img src="img/ExpenseLogo.png" class="img-rounded logo" alt="Expensetracker" width="75" height="75">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
+    <div class="col-xs-9">
+      <div class="container-fluid doNotPrint">
+        <div class="navbar-header">
+          <img src="img/ExpenseLogo.png" class="img-rounded logo" alt="Expensetracker" width="75" height="75">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li><a routerLink="/dashboard" matTooltip="Home" matTooltipPosition="below"><mat-icon>home</mat-icon></a>
+            </li>
+            <li><a routerLink="/expense">Expense</a></li>
+            <li><a routerLink="/fitness">Fitness</a></li>
+            <li><a routerLink="/asset">Asset</a></li>
+            <li><a routerLink="/investment">Investment</a></li>
+            <li><a routerLink="/insurance">Insurance</a></li>
+            <li><a routerLink="/appliance">Appliance</a></li>
+            <li><a routerLink="/career">Career</a></li>
+            <li>
+              <a (click)="onReminderClick()" matTooltip="alerts" matTooltipPosition="after">
+                <mat-icon>{{ messageCount > 0 ? 'notifications_active' : 'notifications' }}</mat-icon>
+                <span class="badge">{{ messageCount }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-3"  >
+      <div class="row profileDisplay">
+        <div class="col-xs-3 profileAlign">
+          <img [src]="profileData ? profileData.profilePic  : 'img/img_avatar.png'" class="img-rounded"
+            alt="Expensetracker" width="75" height="75">
+        </div>
+        <div class="col-xs-9 profileName profileAlign">
+          <div class="row profileIcon ">
+            {{profileData ? profileData.profileName : 'user' }}
           </div>
-          <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-              <li><a (click)="onNavClick(-1)" matTooltip="Home" matTooltipPosition="below">
-                <mat-icon>home</mat-icon>
-              </a></li>
-              <li><a (click)="onNavClick(0)">Expense</a></li>
-              <li><a (click)="onNavClick(1)">Fitness</a></li>
-              <li><a (click)="onNavClick(2)">Asset</a></li>
-              <li><a (click)="onNavClick(3)">Investment</a></li>
-              <li><a (click)="onNavClick(4)">Insurance</a></li>
-              <li><a (click)="onNavClick(5)">Appliance</a></li>
-              <li><a (click)="onNavClick(6)">Career</a></li>
-              <li>
-                <a (click)="onReminderClick()" matTooltip="alerts" matTooltipPosition="after">
-                  <mat-icon>{{ messageCount > 0 ? 'notifications_active' : 'notifications' }}</mat-icon>
-                  <span class="badge">{{ messageCount }}</span>
-                </a>
-              </li>
-            </ul>
+          <div class="row">
+            <button class="profileIcon doNotPrint" [routerLink]="'/reminders'" matTooltip="Add Events"
+              matTooltipPosition="below"><mat-icon>notification_add</mat-icon></button>
+            <button class="profileIcon doNotPrint" (click)="openDialogProfileSetting()" matTooltip="ProfileSettings"
+              matTooltipPosition="below"><mat-icon>settings</mat-icon></button>
+            <button class="profileIcon doNotPrint" [routerLink]="'/config'" matTooltip="App Configs"
+              matTooltipPosition="below"><mat-icon>build</mat-icon></button>
           </div>
         </div>
       </div>
-      <div class="col-xs-3"  >
-        <div class="row profileDisplay">
-          <div class="col-xs-3 profileAlign">
-            <img [src]="profileData ? profileData.profilePic  : 'img/img_avatar.png'" class="img-rounded"
-              alt="Expensetracker" width="75" height="75">
-          </div>
-          <div class="col-xs-9 profileName profileAlign">
-            <div class="row profileIcon ">
-              {{profileData ? profileData.profileName : 'user' }}
-            </div>
-            <div class="row">
-              <button class="profileIcon doNotPrint" (click)="onNavClick(7)" matTooltip="Add Events"
-                matTooltipPosition="below"><mat-icon>notification_add</mat-icon></button>
-              <button class="profileIcon doNotPrint" (click)="openDialogProfileSetting()" matTooltip="ProfileSettings"
-                matTooltipPosition="below"><mat-icon>settings</mat-icon></button>
-              <button class="profileIcon doNotPrint" (click)="onNavClick(8)" matTooltip="App Configs"
-                matTooltipPosition="below"><mat-icon>build</mat-icon></button>
-            </div>
-          </div>
-        </div> 
-      </div>
+    </div>
   </nav>
   <div class="container-fluid text-center">
-    <app-dashboard *ngIf="tabIndex === -1"></app-dashboard>
-    <app-home *ngIf="tabIndex === 0"></app-home>
-    <app-fitness *ngIf="tabIndex === 1"></app-fitness>
-    <app-assets *ngIf="tabIndex === 2"></app-assets>
-    <app-investments *ngIf="tabIndex === 3"></app-investments>
-    <app-insurance *ngIf="tabIndex === 4"></app-insurance>
-    <app-appliances *ngIf="tabIndex === 5"></app-appliances>
-    <app-career *ngIf="tabIndex === 6"></app-career>
-    <app-reminders *ngIf="tabIndex === 7"></app-reminders>
-    <app-config *ngIf="tabIndex === 8"></app-config>
+    <router-outlet></router-outlet>
   </div>
 
   <footer class="container-fluid text-center doNotPrint">

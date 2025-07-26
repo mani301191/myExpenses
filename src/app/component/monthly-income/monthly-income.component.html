@@ -20,7 +20,14 @@
             </mat-card-header>
             <mat-card-content>
                 <div *ngFor="let data of expenseData" class="data">
-                  {{data.expenseOf}} {{data.description}} - {{data.amount | currency: 'INR' }}
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <span >{{data.expenseOf}} {{data.description}}</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <span >{{data.amount | currency: 'INR' }}</span>
+                        </div>
+                        </div>
                   </div>
             </mat-card-content>
         </mat-card>
