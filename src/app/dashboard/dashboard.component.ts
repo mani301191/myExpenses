@@ -42,7 +42,9 @@ export class DashboardComponent implements OnInit {
 
   isExpiringThisMonth(expiryDate: string): boolean {
     const currentDate = new Date();
-    const expiry = new Date(expiryDate);
+    // Parse dd/MM/yyyy format
+    const [day, month, year] = expiryDate.split('/').map(Number);
+    const expiry = new Date(year, month - 1, day); 
     return (
       expiry.getFullYear() === currentDate.getFullYear() &&
       expiry.getMonth() === currentDate.getMonth()

@@ -28,18 +28,16 @@ import { DropDownData } from '../../config-data';
 })
 export class RemindersComponent implements OnInit {
   formGroup: FormGroup;
-  displayedColumns: string[] = ['eventDate', 'eventType', 'eventDetail', 'actionsColumn'];
-  status: String;
+  displayedColumns: string[] = ['eventDate', 'eventType', 'eventDetail', 'recurrence', 'actionsColumn'];
   eventData: any;
   dataSource: MatTableDataSource<EventData>;
-  eventTypes : DropDownData[];
+  eventTypes: DropDownData[];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder, private eventService: EventsService) {
-  }
+  constructor(private formBuilder: FormBuilder, private eventService: EventsService) {}
 
   ngOnInit() {
     this.createForm();
@@ -50,43 +48,39 @@ export class RemindersComponent implements OnInit {
   }
 
   fetchEventData() {
-    this.eventService.fetchEventData().subscribe(
-      (res) => {
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        const currentMonth = new Date().getMonth() + 1;
-        
-        const parseDate = (dateStr: string) => {
-          if (!dateStr) return null;
-          const [day, month, year] = dateStr.split('/').map(Number);
-          return new Date(year, month - 1, day);
-        };
-  
-        this.eventData = res.filter(event => {
-          const eventDate = parseDate(event.eventDate.toString());
-          if (!eventDate) return false;
-          const eventMonth = eventDate.getMonth() + 1;
-          return eventMonth === currentMonth;
-        });
-      }
-    );
+    this.eventService.fetchEventData().subscribe((res) => {
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+      const currentMonth = new Date().getMonth() + 1;
+      const parseDate = (dateStr: string) => {
+        if (!dateStr) return null;
+        const [day, month, year] = dateStr.split('/').map(Number);
+        return new Date(year, month - 1, day);
+      };
+
+      this.eventData = res.filter(event => {
+        const eventDate = parseDate(event.eventDate.toString());
+        if (!eventDate) return false;
+        const eventMonth = eventDate.getMonth() + 1;
+        return eventMonth === currentMonth;
+      });
+    });
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
   }
 
   createForm() {
     this.formGroup = this.formBuilder.group({
       'eventDate': [null, Validators.required],
       'eventType': [null, Validators.required],
-      'eventDetail': [null, Validators.required]
+      'eventDetail': [null, Validators.required],
+      'recurrence': ['none'] // none, daily, weekly, monthly, yearly
     });
   }
 
@@ -103,5 +97,29 @@ export class RemindersComponent implements OnInit {
 
   deleteRow(data: any): void {
     this.eventService.deleteRow(data);
+  }
+
+  getIcon(eventType: string): string {
+    switch (eventType.toLowerCase()) {
+      case 'birthday': return 'cake';
+      case 'meetings': return 'event';
+      case 'holiday': return 'beach_access';
+      case 'paymentdue': return 'payment'; 
+      case 'festival': return 'celebration';
+      case 'travel': return 'flight_takeoff';
+      default: return 'notifications';
+    }
+  }
+  
+  getIconColor(eventType: string): string {
+    switch (eventType.toLowerCase()) {
+      case 'birthday': return 'birthday';
+      case 'meetings': return 'meeting';
+      case 'holiday': return 'holiday';
+      case 'paymentdue': return 'paymentdue';
+      case 'festival': return 'celebration';
+      case 'travel': return 'travel';
+      default: return 'default';
+    }
   }
 }

@@ -8,6 +8,7 @@ import { CommonService } from './service/common.service';
 import { ProfileData } from './component/profile-setting/profile-data';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EventsService } from './service/events.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,14 @@ export class AppComponent {
   messageCount: number = 0;
   notificationResponse: any[] = [];
 
-  constructor(private commonService: CommonService, private eventsService: EventsService) { }
+  constructor(private commonService: CommonService, private eventsService: EventsService,
+    private router: Router) { }
+
+
+  onExpenseOptionChange(view: string) {
+    this.router.navigate(['/expense'], { queryParams: { view } });
+  }
+
   ngOnInit() {
     this.eventsService.fetchEventData().subscribe((res) => {
       this.notificationResponse = [];

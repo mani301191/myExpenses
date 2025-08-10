@@ -1,27 +1,21 @@
 <div class="row content" >
-  <div class="col-sm-2 sidenav doNotPrint">
-    <ul class="nav ">
-      <li><a (click)="onNavClick(0)">Summary</a></li>
-      <li><a (click)="onNavClick(1)">Monthly</a></li>
-      <li><a (click)="onNavClick(2)">Yearly</a></li>
-    </ul>
+  <!-- Summary View -->
+  <div id="print-summary" *ngIf="selectedView === 'summary'" class="col-sm-12">
+    <app-expense-summary-table></app-expense-summary-table>
   </div>
-  <div  id="print-summary" *ngIf="selectedNav === 0">
-    <div class="col-sm-10">
-  <app-expense-summary-table></app-expense-summary-table>
-  </div>
-  </div>
-  <div *ngIf="selectedNav === 1">
-    <div  id="print-section" class="col-sm-7">
+
+  <!-- Monthly View -->
+  <div *ngIf="selectedView === 'monthly'">
+    <div id="print-section" class="col-sm-8">
       <app-expense-monthly-table></app-expense-monthly-table>
     </div>
-    <div class="col-sm-3 right">
-      <app-monthly-income id = "print-income" ></app-monthly-income>
+    <div class="col-sm-4 right">
+      <app-monthly-income id="print-income"></app-monthly-income>
     </div>
   </div>
-  <div id="print-yearly" *ngIf="selectedNav === 2">
-    <div class="col-sm-10">
-      <app-expense-yearly></app-expense-yearly>
-    </div>
+
+  <!-- Yearly View -->
+  <div id="print-yearly" *ngIf="selectedView === 'yearly'" class="col-sm-12">
+    <app-expense-yearly></app-expense-yearly>
   </div>
 </div>

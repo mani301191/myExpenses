@@ -1,34 +1,40 @@
 <div class="print-boarder">
-    <div class="row" >
-        <mat-card class="title_center"  appearance="outlined">
+    <div class="row">
+        <mat-card class="title_center" appearance="outlined">
             <mat-card-header class="header ">
-                    <mat-card-title>Income </mat-card-title>
+                <mat-card-title>Income </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <div *ngFor="let data of incomeData"  class="data">
-                   {{data.source}} - {{data.amount | currency: 'INR' }}
-                    <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"  matTooltip="Delete Record"
-                    matTooltipPosition="after"> <i class="fa fa-trash"></i> </button>
-                  </div>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                      <tr *ngFor="let data of incomeData">
+                        <td>{{ data.source }}</td>
+                        <td>{{ data.amount | currency: 'INR' }}</td>
+                        <td class="doNotPrint">
+                          <button class="buttonIcon" (click)="deleteRow(data)" matTooltip="Delete Record" matTooltipPosition="after">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>                  
             </mat-card-content>
         </mat-card>
     </div>
     <div class="row">
-        <mat-card  class="title_center" appearance="outlined">
+        <mat-card class="title_center" appearance="outlined">
             <mat-card-header class="header ">
                 <mat-card-title>Top 5 Expense </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <div *ngFor="let data of expenseData" class="data">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <span >{{data.expenseOf}} {{data.description}}</span>
-                        </div>
-                        <div class="col-xs-2">
-                            <span >{{data.amount | currency: 'INR' }}</span>
-                        </div>
-                        </div>
-                  </div>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr *ngFor="let data of expenseData">
+                            <td>{{ data.expenseOf }} {{ data.description }}</td>
+                            <td>{{ data.amount | currency: 'INR' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </mat-card-content>
         </mat-card>
     </div>
@@ -38,61 +44,78 @@
                 <mat-card-title>Status</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-               <div class="row">
-                        <div class="row subHeader" >
-                            <div class="col-xs-6">Income</div>
-                            <div class="col-xs-6">Expense</div>
-                        </div>
-                        <div class="row" >
-                            <div class="col-xs-6">{{totalIncome| currency: 'INR' }}</div>
-                            <div class="col-xs-6">{{ totalExpense| currency: 'INR'  }} </div>
-                        </div>
-                    <div class="row subHeader" >
+                <div class="row">
+                    <div class="row subHeader">
+                        <div class="col-xs-6">Income</div>
+                        <div class="col-xs-6">Expense</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">{{totalIncome| currency: 'INR' }}</div>
+                        <div class="col-xs-6">{{ totalExpense| currency: 'INR' }} </div>
+                    </div>
+                    <div class="row subHeader">
                         <div class="col-xs-6">Estimated</div>
                         <div class="col-xs-6">Savings</div>
                     </div>
-                    <div class="row" >
+                    <div class="row">
                         <div class="col-xs-6">{{estimate| currency: 'INR' }}</div>
                         <div class="col-xs-6"> {{savings| currency: 'INR'}} </div>
                     </div>
                 </div>
-                    <div class="row" >
-                        <div class="col-xs-12">
-                            <div class="row subHeader">Expense Amount by Category</div>
-                                <div class="row">Planned - {{plannedExpense | currency: 'INR' }} </div>
-                                <div class="row">UnPlanned - {{unPlannedExpense | currency: 'INR' }}</div>
-                                <div class="row">Investments - {{investmentExpense| currency: 'INR' }}</div>
-                        </div>  
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row subHeader">Expense Amount by Category</div>
+                        <div class="row">Planned - {{plannedExpense | currency: 'INR' }} </div>
+                        <div class="row">UnPlanned - {{unPlannedExpense | currency: 'INR' }}</div>
+                        <div class="row">Investments - {{investmentExpense| currency: 'INR' }}</div>
                     </div>
-                    <p class="subHeader">Over All Expense Percentage - {{progress | number: '1.0-2'}}%</p>
-                    <mat-progress-bar mode="determinate" [value]="progress" [color]="updateColor(progress)"></mat-progress-bar>
-                </mat-card-content>
+                </div>
+                <p class="subHeader">Over All Expense Percentage - {{progress | number: '1.0-2'}}%</p>
+                <mat-progress-bar mode="determinate" [value]="progress"
+                    [color]="updateColor(progress)"></mat-progress-bar>
+            </mat-card-content>
         </mat-card>
     </div>
     <div class="row">
-        <mat-expansion-panel hideToggle>
-            <mat-expansion-panel-header >
-              <mat-panel-title  class="header"> Estimate VS Expense </mat-panel-title>
-              <mat-panel-description> <b> Description-Estimated-CurrentExpense</b>  </mat-panel-description>
-            </mat-expansion-panel-header>
-                             
-                <div *ngFor="let data of expenseStatus" class="data">
-                   {{data.description}} - {{data.estimatedAmount | currency: 'INR' }}-
-                   {{data.expenseAmount | currency: 'INR' }} 
-                   <span *ngIf="data.expenseAmount < data.estimatedAmount">
-                    <mat-icon class="satisfied"  matTooltip="Target Achived"
-                    matTooltipPosition="after">thumb_up</mat-icon>
-                  </span>
-                  <span *ngIf="data.expenseAmount > data.estimatedAmount">
-                    <mat-icon class="disatisfied" matTooltip="Target Missed"
-                    matTooltipPosition="after">thumb_down</mat-icon>
-                  </span> 
-                  <span *ngIf="data.expenseAmount === data.estimatedAmount">
-                    <mat-icon class="onTarget"  matTooltip="On Target"
-                    matTooltipPosition="after">thumbs_up_down</mat-icon>
-                  </span>
+        <mat-card class="title_center" appearance="outlined">
+            <mat-card-header class="header ">
+                <mat-card-title>Estimated VS Expense </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div style="overflow-x: auto;">
+                    <table class="table table-bordered table-striped" style="min-width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Estimated Amount</th>
+                                <th>Expense Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of expenseStatus">
+                                <td>{{ data.description }}</td>
+                                <td>{{ data.estimatedAmount | currency: 'INR' }}</td>
+                                <td>{{ data.expenseAmount | currency: 'INR' }}</td>
+                                <td>
+                                    <ng-container *ngIf="data.expenseAmount < data.estimatedAmount">
+                                        <mat-icon class="satisfied" matTooltip="Target Achived"
+                                            matTooltipPosition="after">thumb_up</mat-icon>
+                                    </ng-container>
+                                    <ng-container *ngIf="data.expenseAmount > data.estimatedAmount">
+                                        <mat-icon class="disatisfied" matTooltip="Target Missed"
+                                            matTooltipPosition="after">thumb_down</mat-icon>
+                                    </ng-container>
+                                    <ng-container *ngIf="data.expenseAmount === data.estimatedAmount">
+                                        <mat-icon class="onTarget" matTooltip="On Target"
+                                            matTooltipPosition="after">thumbs_up_down</mat-icon>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-          </mat-expansion-panel>
-
+            </mat-card-content>
+        </mat-card>
     </div>
 </div>

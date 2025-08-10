@@ -19,6 +19,25 @@
   border-radius: 4px;
 }
 
+.navbar-nav .dropdown-menu {
+  min-width: 100px; 
+  padding: 4px 0; 
+}
+
+.navbar-nav .dropdown-menu > li > a {
+  padding: 6px 12px;
+}
+
+.navbar-nav > .dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+/* Change text & background color when hovering over dropdown items */
+.navbar-nav .dropdown-menu > li > a:hover,
+.navbar-nav .dropdown-menu > li > a:focus {
+  background-color: #075068f8 !important;
+  color: #fff !important; 
+}
 .tableHeader {
   background-color: #075068f8 !important;
   color: white !important;
