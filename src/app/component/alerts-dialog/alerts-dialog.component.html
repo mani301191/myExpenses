@@ -1,0 +1,17 @@
+<mat-toolbar class="titleHeader">
+    <span class="center">Alerts</span>
+    <button mat-icon-button class="close-btn"
+      (click)="close()"
+      matTooltip="Close the form"
+      matTooltipPosition="before">
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-dialog-content>
+    <div *ngFor="let notification of data.notifications" class="alert-row">
+      <mat-icon class="alert-icon" [ngClass]="getIconColor(notification.eventType)" class="event-icon">{{ getIcon(notification.eventType) }}</mat-icon>
+      <span class="notification-item">
+        {{ notification.eventType }} - {{ notification.eventDate }} - {{ notification.eventDetail }}
+      </span>
+    </div>
+  </mat-dialog-content>

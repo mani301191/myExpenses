@@ -6,12 +6,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ExpenseSummary } from './expense-summary-table';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonService } from '../../service/common.service';
+import { CommonService } from '../../../service/common.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgxPrintDirective } from '../../directive/ngx-print.directive';
+import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { MatTooltipModule } from '@angular/material/tooltip';
 

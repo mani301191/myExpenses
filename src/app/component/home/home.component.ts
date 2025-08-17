@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ExpenseSummaryTableComponent } from '../expense-summary-table/expense-summary-table.component';
-import { ExpenseMonthlyTableComponent } from '../expense-monthly-table/expense-monthly-table.component';
+import { ExpenseSummaryTableComponent } from '../expense/expense-summary-table/expense-summary-table.component';
+import { ExpenseMonthlyTableComponent } from '../expense/expense-monthly-table/expense-monthly-table.component';
 import { MonthlyIncomeComponent } from '../monthly-income/monthly-income.component';
-import { ExpenseYearlyComponent } from '../expense-yearly/expense-yearly.component';
+import { ExpenseYearlyComponent } from '../expense/expense-yearly/expense-yearly.component';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

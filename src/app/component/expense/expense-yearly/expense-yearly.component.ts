@@ -5,11 +5,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { CommonService } from '../../service/common.service';
+import { CommonService } from '../../../service/common.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
-import { NgxPrintDirective } from '../../directive/ngx-print.directive';
+import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -29,7 +29,8 @@ export class ExpenseYearlyComponent implements OnInit {
   chartOptions: any;
   selectedDate: Date = new Date();
   monthlyDataSource: MatTableDataSource<MonthlyExpByCatagory>;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('summarySort') summarySort: MatSort;
+  @ViewChild('monthlySort') monthlySort: MatSort;
   // Define the months
   months: string[] = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -45,23 +46,28 @@ export class ExpenseYearlyComponent implements OnInit {
 
   ngOnInit() {
     this.loadYearlyData(null);
-    this.commonService.fetchMonthlyExpByCatagory(this.selectedDate).subscribe((res) => {
-      res.forEach(row => {
-        row.total = this.months.reduce((sum, month) => sum + (row[month] || 0), 0);
-      });
-      this.monthlyDataSource = new MatTableDataSource(res);
-      this.monthlyDataSource.sort = this.sort;
-    });
   }
 
   toggleTable() {
     this.showMonthlyTable = !this.showMonthlyTable;
+    if (this.showMonthlyTable) {
+      this.commonService.fetchMonthlyExpByCatagory(this.selectedDate).subscribe((res) => {
+        res.forEach(row => {
+          row.total = this.months.reduce((sum, month) => sum + (row[month] || 0), 0);
+        });
+        this.monthlyDataSource = new MatTableDataSource(res);
+        this.monthlyDataSource.sort = this.monthlySort;
+      });
+    } else {
+      this.loadYearlyData(null);
+    }
   }
 
   loadYearlyData(selectedDate: Date) {
     this.commonService.fetchyearlyData(selectedDate).subscribe(
       (res) => {
         this.dataSource = new MatTableDataSource(res);
+        this.dataSource.sort = this.summarySort;
         this.chartData();
       }
     );
@@ -76,15 +82,6 @@ export class ExpenseYearlyComponent implements OnInit {
     this.selectedDate = eventData;
     dp.close();
     this.loadYearlyData(this.selectedDate);
-    this.commonService.fetchMonthlyExpByCatagory(this.selectedDate).subscribe(
-      (res) => {
-        res.forEach(row => {
-          row.total = this.months.reduce((sum, month) => sum + (row[month] || 0), 0);
-        });
-        this.monthlyDataSource = new MatTableDataSource(res);
-        this.monthlyDataSource.sort = this.sort;
-      }
-    );
   }
 
   chartData(): void {

@@ -29,7 +29,7 @@
       <div class="col-xs-12">
         <div *ngIf="!showMonthlyTable">
           <!--view table-->
-          <table mat-table [dataSource]="dataSource" matSort>
+          <table mat-table [dataSource]="dataSource" matSort matSort #summarySort="matSort">
 
             <!-- ExpenseYear Column -->
             <ng-container matColumnDef="year">
@@ -91,7 +91,7 @@
     <div *ngIf="showMonthlyTable">
       <h3 class="text-center brandcolor">Monthly Expense by Category - {{selectedDate.getFullYear()}}</h3>
       <div class="table-container">
-        <table mat-table [dataSource]="monthlyDataSource" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="monthlyDataSource" matSort class="mat-elevation-z8"  matSort #monthlySort="matSort">
 
           <!-- Category Column -->
           <ng-container matColumnDef="category">

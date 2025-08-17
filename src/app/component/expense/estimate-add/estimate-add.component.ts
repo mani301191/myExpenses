@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CommonService } from '../../service/common.service';
+import { CommonService } from '../../../service/common.service';
 
 
 @Component({
