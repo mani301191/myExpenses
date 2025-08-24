@@ -45,6 +45,7 @@ export class ExpenseMonthlyTableComponent {
   expenseTypes: string[] = ["UnPlanned", "Planned","Investment"]; 
   expenseCategories: Dropdown[] = []; 
   chartOptions: any;
+  selectedFile: File | null = null;
 
   @Output() expenseData = new EventEmitter<ExpenseMonthly[]>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -209,6 +210,16 @@ export class ExpenseMonthlyTableComponent {
       };
   
      }
+
+     onFileSelected(event: any) {
+      this.selectedFile = event.target.files[0];
+    }
+    
+    uploadStatement() {
+      this.commonService.uploadStatement(this.selectedFile).subscribe((data) => {
+        this.fetchExpenseData()
+      });
+    }
 }
 
 

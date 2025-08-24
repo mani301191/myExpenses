@@ -18,6 +18,15 @@
 </div>
 </div>
 <hr class="lineBreak">
+<div class="row upload-container doNotPrint">
+  <span  class="brandcolor">Bulk Upload : </span>
+  <input type="file" (change)="onFileSelected($event)"/>
+  <button (click)="uploadStatement()" >Upload</button>
+  <a href="/assets/templates/expense/statement-template.xlsx" download class="template-download">
+    <i class="fa fa-file-excel-o" aria-hidden="true" style="margin-right: 6px;"></i>
+    <span>Statement Template.xlsx</span>
+  </a>
+</div>
 <div class="row doNotPrint">
   <div class="col-xs-4">
     <mat-form-field>

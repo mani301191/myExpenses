@@ -9,3 +9,23 @@
     border: 1px solid #075068f8 ;
     overflow: hidden ; 
 }
+
+.upload-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 24px 0;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+}
+
+.template-download {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #117a37;
+    white-space: nowrap;
+}

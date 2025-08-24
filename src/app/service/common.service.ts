@@ -33,6 +33,7 @@ export class CommonService {
    apiResponse = new BehaviorSubject<any>({} );
    monthlyExpByCatagoryResp = new BehaviorSubject<MonthlyExpByCatagory[]>([]);
    dailySummaryResponse =new BehaviorSubject<DayWiseExpenses[]>([]);
+   uploadResponse =new BehaviorSubject<String[]>([]);
   
   constructor(private http: HttpClient) { }
 
@@ -292,5 +293,27 @@ dailySummary(selectedDate:Date) {
     });
   return this.dailySummaryResponse;
 }
+
+uploadStatement(file: File) {
+  const formData = new FormData();
+  formData.append('file', file);
+  if (!file) {
+    this.displayMessage('Please select a file to upload');
+    return null;
+  }
+  this.http.post(this.baseUrl + 'expenseTracker/uploadStatement', formData, { responseType: 'text' })
+    .subscribe(
+      (res) => {
+        this.displayMessage(res);
+        this.fetchIncomeData(this.selectedDate);
+        this.plannedExpenseStatus(this.selectedDate);
+        return this.uploadResponse.next([res]);
+      },
+      () => {
+        this.displayMessage('Error Occured, Contact System Admin');
+      }
+    );
+    return this.uploadResponse;
+  }
 
 }
