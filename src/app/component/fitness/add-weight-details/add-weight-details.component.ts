@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, Inject, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -27,7 +27,8 @@ export class AddWeightDetailsComponent {
   person: any;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder, private fitnessService: FitnessService) { }
+  constructor(private formBuilder: FormBuilder, private fitnessService: FitnessService, @Inject(MAT_DIALOG_DATA) public data: any
+  ) { }
 
   ngOnInit() {
     this.createForm();
@@ -35,11 +36,15 @@ export class AddWeightDetailsComponent {
   }
 
   createForm() {
+    const personName = this.data?.personName || null;
+    const height = this.data?.height || null;
+    const date = this.data?.date || null;
+  
     this.formGroup = this.formBuilder.group({
-      'date': [null, Validators.required],
-      'personName': [null, Validators.required],
-      'height': [null,[Validators.required,Validators.pattern("^[0-9].*$")]],
-      'weight': [null,[Validators.required,Validators.pattern("^[0-9].*$")]]
+      date: [date, Validators.required],
+      personName: [{ value: personName, disabled: !!personName }, Validators.required],
+      height: [height, [Validators.required, Validators.pattern("^[0-9].*$")]],
+      weight: [null, [Validators.required, Validators.pattern("^[0-9].*$")]]
     });
   }
 

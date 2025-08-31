@@ -29,3 +29,24 @@
     color: #117a37;
     white-space: nowrap;
 }
+
+/* Let content/widths influence layout */
+table.mat-table {
+    table-layout: auto !important;
+    width: 100%;
+  }
+  
+  th.mat-column-expenseType, td.mat-column-expenseType { min-width: 180px; }
+  th.mat-column-expenseOf,   td.mat-column-expenseOf   { min-width: 220px; }
+  /* Make selects stretch to the cell width */
+  td.mat-column-expenseType .mat-form-field,
+  td.mat-column-expenseOf .mat-form-field,
+  td.mat-column-expenseType mat-select,
+  td.mat-column-expenseOf mat-select {
+    width: 100%;
+  }
+  
+.mat-mdc-option.mdc-list-item:hover {
+    background-color: #075068f8 !important;
+    color: #fff !important; 
+  }

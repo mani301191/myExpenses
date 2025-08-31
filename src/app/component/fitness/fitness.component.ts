@@ -11,12 +11,13 @@ import { AddMedicalDetailsComponent } from './add-medical-details/add-medical-de
 import { AddWeightDetailsComponent } from './add-weight-details/add-weight-details.component';
 import { FitnessService } from '../../service/fitness.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-fitness',
   standalone: true,
   imports: [MatCardModule, MatIconModule, FitnessDetailComponent, CommonModule,
-    MatDialogModule,MatTooltipModule],
+    MatDialogModule,MatTooltipModule, MatButtonModule],
   templateUrl: './fitness.component.html',
   styleUrl: './fitness.component.css'
 })
@@ -24,6 +25,8 @@ export class FitnessComponent {
 
   fitnessData = null;
   readonly dialog = inject(MatDialog);
+  expandedChart: string | null = null;
+
 
   constructor(private fitnessService: FitnessService) { }
 
@@ -59,12 +62,25 @@ export class FitnessComponent {
     dialogRef.afterClosed().subscribe(() => this.loadPersonData());
   }
 
-  addMedicalDetails(): void {
-    this.dialog.open(AddMedicalDetailsComponent);
+  addMedicalDetails(data): void {
+    this.dialog.open(AddMedicalDetailsComponent, {
+      data: {
+        patientName: data.personName,
+        date: new Date()
+      }
+    });
   }
 
-  addWeightDetails(): void {
-    this.dialog.open(AddWeightDetailsComponent).afterClosed().subscribe(() => this.loadPersonData());
+  addWeightDetails(data): void {
+    const dialogRef = this.dialog.open(AddWeightDetailsComponent, {
+      data: {
+        personName: data.personName,
+        height: data.currentHeight,
+        date: new Date()
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(() => this.loadPersonData());
   }
 
   deleteRow(data): void {
@@ -75,5 +91,9 @@ export class FitnessComponent {
     const currentDate = new Date().toISOString().split('T')[0];
     window.document.title='Fitness Summary-'+currentDate;
     window.print();
+  }
+
+  toggleChartExpand(personId: string) {
+    this.expandedChart = this.expandedChart === personId ? null : personId;
   }
 }

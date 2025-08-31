@@ -28,7 +28,7 @@
             <div class="col-xs-4">
                 <mat-form-field appearance="outline" class="customformat">
                     <mat-label>PatientName</mat-label>
-                    <mat-select placeholder="PatientName" formControlName="patientName">
+                    <mat-select placeholder="PatientName" formControlName="patientName" [disabled]="formGroup.get('patientName').value">
                         <mat-option *ngFor="let e of patient" [value]="e .value">{{e.value }}</mat-option>
                     </mat-select>
                 </mat-form-field>

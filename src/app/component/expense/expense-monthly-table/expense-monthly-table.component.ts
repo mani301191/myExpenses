@@ -168,6 +168,10 @@ export class ExpenseMonthlyTableComponent {
       element.isEditing = false;
       this.commonService.updateExpenseDetail(element);
     }
+    updateField(row: any, field: string, newValue: any) {
+      row[field] = newValue;
+      this.commonService.updateExpenseDetail(row);
+    }
 
     initializeChart(data): void {
    

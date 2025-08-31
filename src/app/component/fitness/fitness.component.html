@@ -1,71 +1,76 @@
-<div class="row">
-  <div class="col-xs-7">
-    <h3 class="brandcolor"> <mat-icon>fitness_center</mat-icon> Fitnes Tracker
-    </h3>
+<div class="row brandcolor header-bar">
+  <div class="col-xs-10 header-container">
+    <mat-icon class="header-icon">self_improvement</mat-icon>
+    <h3 class="header-title">Fitness Tracker</h3>
   </div>
-  <div class="col-xs-5">
-    <div class=" brandcolor person doNotPrint">
-      <div class="col-xs-3">
-        <button class="button" (click)="addPerson()">Add Person</button>
-      </div>
-      <div class="col-xs-3">
-        <button class="button" (click)="addMedicalDetails()">Add Medical</button>
-      </div>
-      <div class="col-xs-3">
-        <button class="button" (click)="addWeightDetails()">Add Weight</button>
-      </div>
-      <div class="col-xs-1">
-        <button class="printIcon doNotPrint" (click)="printData()" matTooltip="Print"
-        matTooltipPosition="after"><mat-icon>print</mat-icon></button>
-      </div>
-    </div>
+  <div class="col-xs-2 person doNotPrint">
+    <button mat-icon-button (click)="addPerson()" matTooltip="Add Person">
+      <mat-icon>person_add</mat-icon>
+    </button>
+    <button mat-icon-button (click)="printData()" matTooltip="Print" matTooltipPosition="after">
+      <mat-icon>print</mat-icon>
+    </button>
   </div>
 </div>
 <hr class="lineBreak">
-<div class="wrap">
-  <mat-card class="card" *ngFor="let data of fitnessData">
-    <mat-card-header>
-      <div class="col-xs-1">
-        <div mat-card-avatar>
-          <img [src]="data.personPic ? data.personPic  : 'img/img_avatar.png'" alt="personPic" width="65" height="65">
+<div class="cards-container">
+    <mat-card class="fitness-card" *ngFor="let data of fitnessData">
+      <!-- Avatar & Info -->
+      <div class="top-section">
+        <img [src]="data.personPic || 'img/img_avatar.png'" class="avatar" />
+        <div class="info">
+          <h3 class="name">{{ data.personName }}</h3>
+          <div class="stats">
+            <div><strong>Height:</strong> {{ data.currentHeight }} cm</div>
+            <div><strong>Weight:</strong> {{ data.currentWeight }} kg</div>
+          </div>
+        </div>
+        <div class="col-xs-1">
+          <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"  matTooltip="Delete Record"
+          matTooltipPosition="after"> <mat-icon>delete</mat-icon> </button>
         </div>
       </div>
-      <div class="col-xs-10">
-        <mat-card-title>{{data.personName}}</mat-card-title>
+  
+      <!-- Action Buttons Row -->
+      <div class="action-row doNotPrint">
+        <!-- Weight -->
+        <div class="action-group">
+          <div class="action-title">
+            <mat-icon color="primary">fitness_center</mat-icon> Weight
+          </div>
+          <div class="action-buttons">
+            <button mat-icon-button (click)="addWeightDetails(data)">
+              <mat-icon color="primary">add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="openWeightDetails(data)">
+              <mat-icon color="primary">visibility</mat-icon>
+            </button>
+          </div>
+        </div>
+  
+        <!-- Medical -->
+        <div class="action-group">
+          <div class="action-title">
+            <mat-icon color="primary">medical_services</mat-icon> Medical
+          </div>
+          <div class="action-buttons">
+            <button mat-icon-button (click)="addMedicalDetails(data)">
+              <mat-icon color="primary">add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="openMedicalDetails(data)">
+              <mat-icon color="primary">visibility</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="col-xs-1">
-        <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"  matTooltip="Delete Record"
-        matTooltipPosition="after"> <mat-icon>delete</mat-icon> </button>
-      </div>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="fitness-detail">
+  
+      <!-- Chart -->
+      <div
+        class="chart-container"
+        [class.expanded]="expandedChart === data.personId"
+        (click)="toggleChartExpand(data.personId)"
+      ><h5 class="chart-title brandcolor doNotPrint">Click here to view Weight Trend</h5>
         <app-fitness-detail [trend]="data.trend"></app-fitness-detail>
       </div>
-      <div class="row">
-        <div class="col-xs-6">
-          Current Height :
-        </div>
-        <div class="col-xs-4">
-          {{data.currentHeight}} cm
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-6">
-          Current Weight :
-        </div>
-        <div class="col-xs-4">
-          {{data.currentWeight}} kg
-        </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <div class="col-xs-6 doNotPrint">
-        <button class="button" (click)="openMedicalDetails(data)">Medical Details</button>
-      </div>
-      <div class="col-xs-6 doNotPrint">
-        <button class="button" (click)="openWeightDetails(data)"> Weight Details</button>
-      </div>
-    </mat-card-actions>
-  </mat-card>
+    </mat-card>   
 </div>

@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, Inject, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AddPersonFitnessComponent } from '../add-person-fitness/add-person-fitness.component';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -29,7 +29,7 @@ export class AddMedicalDetailsComponent {
   patient: any;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder, private fitnessService: FitnessService) { }
+  constructor(private formBuilder: FormBuilder, private fitnessService: FitnessService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     this.createForm();
@@ -37,15 +37,18 @@ export class AddMedicalDetailsComponent {
   }
 
   createForm() {
-    this.formGroup = this.formBuilder.group({
-      'date': [null, Validators.required],
-      'patientName': [null, Validators.required],
-      'problem': [null, Validators.required],
-      'hospital': [null, Validators.required],
-      'docterName': [null, Validators.required],
-      'diagnosis': [null, Validators.required],
-      'otherDetails': [null, Validators.required]
-    });
+    const patientName = this.data?.patientName || null;
+    const date = this.data?.date || null;
+
+  this.formGroup = this.formBuilder.group({
+    date: [date, Validators.required],
+    patientName: [{ value: patientName, disabled: !!patientName }, Validators.required],
+    problem: [null, Validators.required],
+    hospital: [null, Validators.required],
+    docterName: [null, Validators.required],
+    diagnosis: [null, Validators.required],
+    otherDetails: [null, Validators.required]
+  });
   }
 
   close(): void {
