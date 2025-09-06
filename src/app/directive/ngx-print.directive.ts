@@ -122,7 +122,7 @@ export class NgxPrintDirective {
       this.hideMatPaginatorBeforePrinting();
   
       // Do something after
-      let printContents, popupWin, styles = '', links = '', chart, printIncome, optionalPrintSectionId;
+      let printContents, popupWin, styles = '', links = '', chart, printIncome, optionalPrintSectionId, expenseChart;
   
       if (this.useExistingCss) {
         styles = this.getElementTag('style');
@@ -139,6 +139,14 @@ export class NgxPrintDirective {
         if (chart) {
           chart = chart.toDataURL("image/jpeg");
           printContents = printContents + '<br><img src="' + chart + '" alt="chart"  />'
+        }
+        expenseChart = document.getElementById('expenseOfChart');
+        if(expenseChart){
+          chart = expenseChart.getElementsByTagName("canvas")[0];
+          if (chart) {
+            chart = chart.toDataURL("image/jpeg");
+            printContents = printContents + '<br><img src="' + chart + '" alt="chart" />'
+          }
         }
         if (printIncome) {
           printContents = printContents + printIncome.innerHTML;

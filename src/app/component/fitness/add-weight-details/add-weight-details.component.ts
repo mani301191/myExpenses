@@ -42,7 +42,7 @@ export class AddWeightDetailsComponent {
   
     this.formGroup = this.formBuilder.group({
       date: [date, Validators.required],
-      personName: [{ value: personName, disabled: !!personName }, Validators.required],
+      personName: [ personName, Validators.required],
       height: [height, [Validators.required, Validators.pattern("^[0-9].*$")]],
       weight: [null, [Validators.required, Validators.pattern("^[0-9].*$")]]
     });

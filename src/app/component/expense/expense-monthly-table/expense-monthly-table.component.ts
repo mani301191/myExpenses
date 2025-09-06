@@ -45,6 +45,7 @@ export class ExpenseMonthlyTableComponent {
   expenseTypes: string[] = ["UnPlanned", "Planned","Investment"]; 
   expenseCategories: Dropdown[] = []; 
   chartOptions: any;
+  expenseOfChartOptions:any;
   selectedFile: File | null = null;
 
   @Output() expenseData = new EventEmitter<ExpenseMonthly[]>();
@@ -213,6 +214,58 @@ export class ExpenseMonthlyTableComponent {
         ]
       };
   
+      // 1. Aggregate by expenseOf
+      const aggregatedData: Record<string, number> = this.dataSource.data.reduce(
+        (acc: Record<string, number>, curr) => {
+          if (!acc[curr.expenseOf]) {
+            acc[curr.expenseOf] = 0;
+          }
+          acc[curr.expenseOf] += curr.amount;
+          return acc;
+        },
+        {}
+      );
+
+      // 2. Calculate total
+      const totalAmount: number = Object.values(aggregatedData).reduce(
+        (sum: number, val: number) => sum + val,
+        0
+      );
+
+      // 3. Prepare dataPoints with both amount and percentage
+      const aggregatedDataPoints = Object.entries(aggregatedData).map(([label, amount]) => {
+        const percentage = ((amount / totalAmount) * 100);
+        const formattedAmount = amount.toFixed(2);
+        const formattedPercentage = percentage.toFixed(2);
+        return {
+          label,
+          y: amount,
+          percentage: percentage.toFixed(2), // For display only
+          indexLabel: `${label}: ₹${formattedAmount} (${formattedPercentage}%)`,
+          toolTipContent: `<b>${label}</b>: ₹${formattedAmount} (${formattedPercentage}%)`
+        };
+      });
+
+      // 4. Chart config
+      this.expenseOfChartOptions = {
+        title: {
+          text: `Expenses by category: ${this.months[this.selectedDate.getMonth()]}-${this.selectedDate.getFullYear()}`,
+          fontSize: 14
+        },
+        toolTip: {
+          shared: true,
+          content: "{toolTipContent}" // custom tooltip
+        },
+        data: [
+          {
+            type: 'pie',
+            startAngle: 240,
+            indexLabel: "{indexLabel}", // custom label
+            dataPoints: aggregatedDataPoints
+          }
+        ]
+      };
+
      }
 
      onFileSelected(event: any) {
