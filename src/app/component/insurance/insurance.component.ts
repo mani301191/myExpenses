@@ -54,7 +54,7 @@ export class InsuranceComponent {
   fetchInsuranceData() {
     this.insuranceService.fetchInsuranceData().subscribe(
       (res) => {
-        this.dataSource = new MatTableDataSource(res);
+        this.dataSource = new MatTableDataSource(this.sortAndMarkInsurance(res));
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
        // Parse endDate and filter active insurance data
@@ -111,6 +111,25 @@ export class InsuranceComponent {
   updateRecord(element: any): void {
     element.isEditing = false;
     this.insuranceService.updateInsurance(element);
+  }
+
+  private sortAndMarkInsurance(data: any[]) {
+    const todayStart = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate());
+    const current: any[] = [];
+    const past: any[] = [];
+    data.forEach(item => {
+      let endDateObj = null;
+      try {
+        endDateObj = item.endDate ? new Date(item.endDate) : null;
+      } catch {
+        endDateObj = null;
+      }
+      const isPast = endDateObj ? (endDateObj < todayStart) : false;
+      item.isPast = isPast;
+      if (isPast) past.push(item); else current.push(item);
+    });
+    // keep original order within groups (or sort as required)
+    return [...current, ...past];
   }
 
 }
