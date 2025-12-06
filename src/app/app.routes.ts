@@ -10,6 +10,7 @@ import { RemindersComponent } from './component/reminders/reminders.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './component/home/home.component';
+import { FixedDepositComponent } from './component/investments/fixed-deposit/fixed-deposit.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: 'career', component: CareerComponent },
     { path: 'reminders', component: RemindersComponent },
     { path: 'config', component: ConfigComponent },
+    { path: 'investment/fixed-deposit', component: FixedDepositComponent },
     // Add a wildcard route for 404
     { path: '**', redirectTo: 'dashboard' }
 ];

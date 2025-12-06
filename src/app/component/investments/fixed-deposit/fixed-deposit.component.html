@@ -1,0 +1,107 @@
+<div class="container">
+
+    <!-- ======================== FORM SECTION ======================== -->
+    <mat-expansion-panel [expanded]="false" #panel="matExpansionPanel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            <h2 class="header" *ngIf="!panel.expanded">Fixed Deposit</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <h2 class="header">{{ editingId ? 'Update' : 'Create' }} Fixed Deposit</h2>
+      <mat-card class="form-card">
+        <form [formGroup]="fdForm" (ngSubmit)="saveFD()">
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Bank Name</mat-label>
+              <input matInput formControlName="bankName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Account Number</mat-label>
+              <input matInput formControlName="accountNumber">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Opened Date</mat-label>
+              <input matInput type="date" formControlName="openedDate">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Maturity Date</mat-label>
+              <input matInput type="date" formControlName="maturityDate">
+              <mat-error *ngIf="fdForm.get('maturityDate')?.hasError('dateRangeInvalid')">
+                Maturity Date cannot be earlier than Opened Date.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Rate of Interest (%)</mat-label>
+              <input matInput type="number" formControlName="interestRate">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Deposit Amount</mat-label>
+              <input matInput type="number" formControlName="depositAmount">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Nominee Name</mat-label>
+              <input matInput formControlName="nomineeName">
+            </mat-form-field>
+          </div>
+
+          <button mat-raised-button color="primary">
+            {{ editingId ? 'Update' : 'Create' }}
+          </button>
+
+          <button *ngIf="editingId"
+                  mat-button
+                  color="warn"
+                  type="button"
+                  (click)="cancelEdit()">
+            Cancel
+          </button>
+        </form>
+      </mat-card>
+    </mat-expansion-panel>
+  
+    <!-- ======================== VIEW CARDS ======================== -->
+    <h2 class="header">Number Of Fixed Deposits - {{fixedDeposits.length}} </h2>
+  
+    <div class="cards">
+      <mat-card class="fd-card" tabindex="0" *ngFor="let fd of fixedDeposits">
+       <mat-card-header >
+        <mat-card-title>{{ fd.bankName }}</mat-card-title>
+        <mat-card-subtitle>FD Account: {{ fd.accountNumber }}</mat-card-subtitle>
+       </mat-card-header>
+        <mat-card-content>
+          <p><strong>Opened:</strong> {{ fd.openedDate }}</p>
+          <p><strong>Maturity:</strong> {{ fd.maturityDate }}</p>
+          <p><strong>Interest Rate:</strong> {{ fd.interestRate }}%</p>
+          <p><strong>Deposit Amount:</strong> ₹{{ fd.depositAmount | number }}</p>
+          <p><strong>Expected Maturity Amount:</strong> ₹{{ fd.expectedMaturityAmount | number }}</p>
+          <p><strong>Nominee:</strong> {{ fd.nomineeName }}</p>
+  
+          <hr>
+          <p><strong>Current Value:</strong>
+            ₹{{ calculateCurrentValue(fd) | number }}
+          </p>
+        </mat-card-content>
+  
+        <mat-card-actions>
+            <button mat-button color="accent" (click)="editFD(fd)">Edit</button>
+            <button mat-button color="warn" (click)="deleteFD(fd.id)">Delete</button>
+        </mat-card-actions>
+  
+      </mat-card>
+    </div>
+  
+    <!-- ======================== TOTALS FOOTER ======================== -->
+    <mat-card class="totals-card">
+      <h3 class="header">Total Summary</h3>
+      <p><strong>Total Deposit Amount:</strong> ₹{{ totalDeposit | number }}</p>
+      <p><strong>Total Current Value:</strong> ₹{{ totalCurrentValue | number }}</p>
+    </mat-card>
+  
+  </div>
+  

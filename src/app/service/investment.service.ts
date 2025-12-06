@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { InvestmentData } from '../component/investments/investment-data';
 import { BehaviorSubject } from 'rxjs';
 import { DropDownData } from '../config-data';
+import { FixedDeposit } from '../component/investments/fixed-deposit/fixed-deposit';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,9 @@ export class InvestmentService extends BaseService {
    investment = this.investmentResponse.asObservable();
    investmentStatusResponse = new BehaviorSubject<DropDownData[]>([]);
    investmentStatus = this.investmentStatusResponse.asObservable();
+
+   fixedDepositResponse = new BehaviorSubject<FixedDeposit[]>([]);
+   fixedDeposit = this.fixedDepositResponse.asObservable();
 
   constructor(private http: HttpClient) {
     super();
@@ -78,4 +82,44 @@ export class InvestmentService extends BaseService {
      () => this.displayMessage('Error Occured, Contact System Admin'));
      return this.investmentStatus;
  }
+
+ saveFixedDeposit(fixedDeposit) {
+  this.http.post<FixedDeposit>(this.baseUrl+'investment/fixedDeposit',fixedDeposit).subscribe(
+    () => {
+      this.displayMessage('fixedDeposit Data created successfully' ); 
+      this.fetchFixedDeposits();
+       },
+    () => {
+      this.displayMessage('Error Occured, Contact System Admin' ); 
+    });
+  }
+
+fetchFixedDeposits() {
+this.http.get<FixedDeposit[]>(this.baseUrl + 'investment/fixedDeposits').subscribe(
+  (res) => {  
+    this.fixedDepositResponse.next(res); 
+   },
+  () => this.displayMessage('Error Occured, Contact System Admin'));
+  return this.investmentData;
+}
+
+deleteFixedDeposit(data) {
+this.http.delete<any>(this.baseUrl + 'investment/fixedDeposit/' + data.id).subscribe(
+  (res) => {
+    this.displayMessage(res.message);
+    this.fetchFixedDeposits();
+  },
+  () => this.displayMessage('Error Occured, Contact System Admin')
+);
+}
+
+updateFixedDeposit(data) {
+this.http.patch<any>(this.baseUrl + 'investment/fixedDeposit',data).subscribe(
+  (res) => {
+    this.displayMessage(res.message);
+    this.fetchFixedDeposits();
+  },
+  () => this.displayMessage('Error Occured, Contact System Admin')
+);
+}
 }

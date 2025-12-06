@@ -43,7 +43,14 @@
             </li>
             <li><a routerLink="/fitness">Fitness</a></li>
             <li><a routerLink="/asset">Asset</a></li>
-            <li><a routerLink="/investment">Investment</a></li>
+            <li class="dropdown">
+              <a routerLink="/investment" class="dropdown-toggle" data-toggle="dropdown">
+              Investment <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+              <li><a routerLink="/investment/fixed-deposit">Fixed Deposit</a></li>
+              </ul>
+            </li>
             <li><a routerLink="/insurance">Insurance</a></li>
             <li><a routerLink="/appliance">Appliance</a></li>
             <li><a routerLink="/career">Career</a></li>
