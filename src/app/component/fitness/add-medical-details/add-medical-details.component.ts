@@ -42,7 +42,7 @@ export class AddMedicalDetailsComponent {
 
   this.formGroup = this.formBuilder.group({
     date: [date, Validators.required],
-    patientName: [{ value: patientName, disabled: !!patientName }, Validators.required],
+    patientName: [patientName, Validators.required],
     problem: [null, Validators.required],
     hospital: [null, Validators.required],
     docterName: [null, Validators.required],

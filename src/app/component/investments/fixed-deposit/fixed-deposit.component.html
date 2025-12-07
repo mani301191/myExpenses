@@ -78,13 +78,13 @@
           <p><strong>Opened:</strong> {{ fd.openedDate }}</p>
           <p><strong>Maturity:</strong> {{ fd.maturityDate }}</p>
           <p><strong>Interest Rate:</strong> {{ fd.interestRate }}%</p>
-          <p><strong>Deposit Amount:</strong> ₹{{ fd.depositAmount | number }}</p>
-          <p><strong>Expected Maturity Amount:</strong> ₹{{ fd.expectedMaturityAmount | number }}</p>
+          <p><strong>Deposit Amount:</strong> {{ fd.depositAmount | inrFormat }}</p>
+          <p><strong>Expected Maturity Amount:</strong> {{ fd.expectedMaturityAmount  | inrFormat }}</p>
           <p><strong>Nominee:</strong> {{ fd.nomineeName }}</p>
   
           <hr>
           <p><strong>Current Value:</strong>
-            ₹{{ calculateCurrentValue(fd) | number }}
+            {{ calculateCurrentValue(fd)  | inrFormat }}
           </p>
         </mat-card-content>
   
@@ -99,8 +99,8 @@
     <!-- ======================== TOTALS FOOTER ======================== -->
     <mat-card class="totals-card">
       <h3 class="header">Total Summary</h3>
-      <p><strong>Total Deposit Amount:</strong> ₹{{ totalDeposit | number }}</p>
-      <p><strong>Total Current Value:</strong> ₹{{ totalCurrentValue | number }}</p>
+      <p><strong>Total Deposit Amount:</strong> {{ totalDeposit | inrFormat }}</p>
+      <p><strong>Total Current Value:</strong> {{ totalCurrentValue | inrFormat }}</p>
     </mat-card>
   
   </div>

@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -25,13 +26,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
     MatIconModule,MatDatepickerModule,MatNativeDateModule,CommonModule,FormsModule,NgxPrintDirective,
-    CanvasJSAngularChartsModule,MatTooltipModule],
+    CanvasJSAngularChartsModule,MatTooltipModule,InrFormatPipe],
 })
 export class ExpenseSummaryTableComponent {
   displayedColumns: string[] = ['year', 'month', 'income', 'expense','estimated','savings','actionsColumn'];
   dataSource: MatTableDataSource<ExpenseSummary>;
   selectedDate: Date = new Date();
   chartOptions : any;
+  private inrPipe = new InrFormatPipe();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -99,10 +101,10 @@ export class ExpenseSummaryTableComponent {
           legendText: "Estimate",
           showInLegend: true,
           dataPoints: data.map((x) => {
-            return { label: x.month, y: +x.estimated }  
+            return { label: x.month, y: x.estimated }  
              }),
-          indexLabel: "₹{y}",
-          indexLabelFontWeight: "bold"
+             indexLabelFormatter: (e: any) =>
+              this.inrPipe.transform(e.dataPoint.y)
         },
         {
           type: "bar",	
@@ -112,8 +114,8 @@ export class ExpenseSummaryTableComponent {
           dataPoints: data.map((x) => {
             return { label: x.month, y: x.expense };
           }),
-          indexLabel: "₹{y}",
-          indexLabelFontWeight: "bold"
+         indexLabelFormatter: (e: any) =>
+              this.inrPipe.transform(e.dataPoint.y)
           }
       ],
     };

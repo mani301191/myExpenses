@@ -116,7 +116,7 @@
         </mat-form-field>
         </ng-container>
         <ng-template #displayAmount>
-          {{row.amount | currency: 'INR'}}
+          {{row.amount | inrFormat}}
         </ng-template>
       </td>
     </ng-container>

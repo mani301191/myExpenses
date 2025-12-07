@@ -8,15 +8,15 @@
                 <div *ngIf="expenseTrackingData; else noData">
                     <div class="row">
                         <mat-icon class="income-icon">trending_up</mat-icon>
-                        Income: {{ expenseTrackingData.income | currency: 'INR' }}
+                        Income: {{ expenseTrackingData.income | inrFormat }}
                     </div>
                     <div class="row">
                         <mat-icon class="estimate-icon">calculate</mat-icon>
-                        Estimate: {{ expenseTrackingData.estimate | currency: 'INR' }}
+                        Estimate: {{ expenseTrackingData.estimate | inrFormat }}
                     </div>
                     <div class="row">
                         <mat-icon class="expense-icon">money_off</mat-icon>
-                        Expense: {{ expenseTrackingData.expense | currency: 'INR' }}
+                        Expense: {{ expenseTrackingData.expense | inrFormat }}
                     </div>
                 </div>
                 <ng-template #noData>

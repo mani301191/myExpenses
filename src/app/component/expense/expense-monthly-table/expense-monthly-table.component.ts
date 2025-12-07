@@ -22,13 +22,14 @@ import { ExcelServicesService } from '../../../service/export-service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Dropdown } from '../estimate-add/estimate-month';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
 
 @Component({
   selector: 'app-expense-monthly-table',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule,
     MatSelectModule, MatDatepickerModule, MatNativeDateModule, CommonModule, MatDialogModule, 
-    FormsModule,NgxPrintDirective,MatTooltipModule,CanvasJSAngularChartsModule],
+    FormsModule,NgxPrintDirective,MatTooltipModule,CanvasJSAngularChartsModule,InrFormatPipe],
   templateUrl: './expense-monthly-table.component.html',
   styleUrl: './expense-monthly-table.component.css',
   providers: [MatDatepickerModule, MatNativeDateModule]

@@ -3,12 +3,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { SummaryService } from '../service/summary.service';
+import { InrFormatPipe } from '../pipes/indian-currency.pipe';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatIconModule,CommonModule,CanvasJSAngularChartsModule],
+  imports: [MatIconModule,CommonModule,CanvasJSAngularChartsModule, InrFormatPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

@@ -13,13 +13,14 @@ import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
 
 @Component({
   selector: 'app-expense-yearly',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatTableModule,
     CommonModule, CanvasJSAngularChartsModule, MatDatepickerModule, MatNativeDateModule, FormsModule,
-    NgxPrintDirective, MatIconModule, MatTooltipModule, MatSortModule],
+    NgxPrintDirective, MatIconModule, MatTooltipModule, MatSortModule, InrFormatPipe],
   templateUrl: './expense-yearly.component.html',
   styleUrl: './expense-yearly.component.css'
 })

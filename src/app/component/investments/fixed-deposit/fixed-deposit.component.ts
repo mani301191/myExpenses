@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { InvestmentService } from '../../../service/investment.service';
+import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
 
 @Component({
   selector: 'app-fixed-deposit',
@@ -18,7 +19,8 @@ import { InvestmentService } from '../../../service/investment.service';
     MatInputModule,
     ReactiveFormsModule,
     CommonModule,
-    MatExpansionModule],
+    MatExpansionModule,
+    InrFormatPipe],
   templateUrl: './fixed-deposit.component.html',
   styleUrl: './fixed-deposit.component.css'
 })
@@ -79,7 +81,7 @@ export class FixedDepositComponent implements OnInit {
     // Sort cards by maturity date (DESC)
     sortFDs() {
       this.fixedDeposits.sort((a, b) =>
-        new Date(b.maturityDate).getTime() - new Date(a.maturityDate).getTime()
+        new Date(a.maturityDate).getTime() - new Date(b.maturityDate).getTime()
       );
     }
   
