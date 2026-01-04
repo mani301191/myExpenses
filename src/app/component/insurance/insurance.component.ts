@@ -120,7 +120,10 @@ export class InsuranceComponent {
     data.forEach(item => {
       let endDateObj = null;
       try {
-        endDateObj = item.endDate ? new Date(item.endDate) : null;
+        const [day, month, year] = item.endDate?.toString().split('/').map(Number); // Split and parse dd/MM/yyyy
+        const parsedEndDate = new Date(year, month - 1, day).setHours(0, 0, 0, 0); 
+
+        endDateObj = item.endDate ? parsedEndDate : null;
       } catch {
         endDateObj = null;
       }
