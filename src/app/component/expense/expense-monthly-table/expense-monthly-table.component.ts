@@ -23,6 +23,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Dropdown } from '../estimate-add/estimate-month';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-expense-monthly-table',
@@ -39,7 +40,7 @@ export class ExpenseMonthlyTableComponent {
   displayedColumns: string[] = ['expenseDate', 'expenseType', 'expenseOf', 'description', 'amount', 'actionsColumn'];
   dataSource: MatTableDataSource<ExpenseMonthly>;
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  selectedDate: Date = new Date();
+  selectedDate: Date;
   _snackBar = inject(MatSnackBar);
   readonly dialog = inject(MatDialog);
   expenseDataResponse:ExpenseMonthly[]=[];
@@ -54,7 +55,7 @@ export class ExpenseMonthlyTableComponent {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private commonService: CommonService,private cdr: ChangeDetectorRef,
-   private excelService:ExcelServicesService,){
+   private excelService:ExcelServicesService,private route: ActivatedRoute){
   }
 
   ngOnInit() {
@@ -82,6 +83,15 @@ export class ExpenseMonthlyTableComponent {
   }
 
   fetchExpenseData() {
+   const month= this.route.snapshot.paramMap.get('month');
+   const year= this.route.snapshot.paramMap.get('year');
+   if( month && year && !this.selectedDate) {
+   const monthIndex = this.months.indexOf(month);
+   this.selectedDate = new Date(parseInt(year), monthIndex,1);
+} else if( !this.selectedDate) {
+  this.selectedDate = new Date();
+}
+
     this.commonService.fetchExpenseData(this.selectedDate).subscribe(
       (res) => { this.dataSource = new MatTableDataSource(res);
         this.expenseDataResponse=res;

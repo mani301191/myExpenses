@@ -24,6 +24,11 @@
           {{ showMonthlyTable ? 'Yearly Summary' : 'Category Summary' }}
         </button>
       </div>
+      <div class="col-xs-2 doNotPrint">
+        <button mat-raised-button color="primary" (click)="loadYearlyData(null)" class="button">
+          {{ 'View All' }}
+        </button>
+      </div>
     </div>
     <div class=" row" id ="printableSummaryTable">
       <div class="col-xs-12">
@@ -34,7 +39,9 @@
             <!-- ExpenseYear Column -->
             <ng-container matColumnDef="year">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseYear </th>
-              <td mat-cell *matCellDef="let row"> {{row.year}} </td>
+              <td mat-cell *matCellDef="let row"> <a class="year-link" (click)="openYearComponent(row.year)">
+                {{ row.year }}
+              </a> </td>
             </ng-container>
 
             <!-- ExpenseAmount Column -->

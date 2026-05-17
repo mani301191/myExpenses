@@ -11,6 +11,7 @@ import { MatIcon } from '@angular/material/icon';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InrFormatPipe } from '../../pipes/indian-currency.pipe';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-monthly-income',
@@ -20,7 +21,7 @@ import { InrFormatPipe } from '../../pipes/indian-currency.pipe';
   styleUrl: './monthly-income.component.css'
 })
 export class MonthlyIncomeComponent {
-  selectedDate: Date =new Date();
+  selectedDate: Date;
   incomeData: MonthlyIncome[];
   expenseData: ExpenseMonthly[];
   expenseStatus :ExpenseStatus[];
@@ -32,10 +33,21 @@ export class MonthlyIncomeComponent {
   estimate:number=0;
   savings: number=0;
   progress: number = 0;
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-  constructor( private commonService: CommonService) { }
+
+  constructor( private commonService: CommonService,private route: ActivatedRoute) { }
 
   ngOnInit() {
+    const month= this.route.snapshot.paramMap.get('month');
+    const year= this.route.snapshot.paramMap.get('year');
+    if( month && year) {
+    const monthIndex = this.months.indexOf(month);
+    this.selectedDate = new Date(parseInt(year), monthIndex,1);
+ } else {
+   this.selectedDate = new Date();
+ }
+ 
     this.estimateData();
     this.initIncomeData();
     this.topExpenseData();

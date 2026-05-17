@@ -4,6 +4,7 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { Router } from '@angular/router';
 import { ExpenseSummary } from './expense-summary-table';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonService } from '../../../service/common.service';
@@ -38,7 +39,7 @@ export class ExpenseSummaryTableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private commonService: CommonService,private cdr: ChangeDetectorRef) {
+  constructor(private commonService: CommonService,private cdr: ChangeDetectorRef,private router: Router) {
    
   }
   fetchSummaryData() {
@@ -80,6 +81,15 @@ export class ExpenseSummaryTableComponent {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  openYearComponent(year: number) {
+    this.router.navigate(['/year', year]);
+  }
+
+  openMonthComponent(month: string, year : number) {
+    this.router.navigate(['/month', month, year]);
+  }
+
   chartData(data : ExpenseSummary[]) : void {
     this.chartOptions = {
       toolTip: {

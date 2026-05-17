@@ -2,15 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ExpenseSummaryTableComponent } from '../expense/expense-summary-table/expense-summary-table.component';
 import { ExpenseMonthlyTableComponent } from '../expense/expense-monthly-table/expense-monthly-table.component';
-import { MonthlyIncomeComponent } from '../monthly-income/monthly-income.component';
 import { ExpenseYearlyComponent } from '../expense/expense-yearly/expense-yearly.component';
 import { ActivatedRoute } from '@angular/router';
+import { ExpenseMonthlyComponent } from '../expense/expense-monthly/expense-monthly.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule,ExpenseSummaryTableComponent,ExpenseMonthlyTableComponent,
-    MonthlyIncomeComponent,ExpenseYearlyComponent],
+    ExpenseYearlyComponent,ExpenseMonthlyComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

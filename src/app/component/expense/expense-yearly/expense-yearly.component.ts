@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-expense-yearly',
@@ -41,12 +42,21 @@ export class ExpenseYearlyComponent implements OnInit {
 
   // Define the displayed columns
   displayedMonthlyColumns: string[] = ['category', ...this.months, 'total'];
-
-  constructor(private commonService: CommonService) {
+  constructor(private commonService: CommonService,private route: ActivatedRoute) {
+    
   }
 
   ngOnInit() {
-    this.loadYearlyData(null);
+    this.loadBasedOnYear(this.route.snapshot.paramMap.get('year'));
+  }
+
+  loadBasedOnYear(year) {
+    if (year) {
+      this.selectedDate = new Date(parseInt(year), 0, 1); // Set to January of the selected year
+      this.loadYearlyData(this.selectedDate);
+    } else {
+      this.loadYearlyData(null);
+    }
   }
 
   toggleTable() {
@@ -64,9 +74,14 @@ export class ExpenseYearlyComponent implements OnInit {
     }
   }
 
+  openYearComponent(year) {
+    this.loadBasedOnYear(year);
+  }
+
   loadYearlyData(selectedDate: Date) {
     this.commonService.fetchyearlyData(selectedDate).subscribe(
       (res) => {
+        this.selectedDate = selectedDate == null ? new Date() : selectedDate;
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.sort = this.summarySort;
         this.chartData();
