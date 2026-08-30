@@ -1,0 +1,46 @@
+name: build-and-test
+
+# Runs when a PR is opened/updated, and when code is pushed (including merges)
+on:
+  pull_request:
+    branches:
+      - '**'
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    name: Build, Test & Coverage
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the Angular application
+        run: npx ng build --output-path dist/myExpenses
+
+      - name: Run unit tests (ChromeHeadless) and generate coverage
+        run: npx ng test --watch=false --karma-config karma.conf.js --code-coverage
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          if-no-files-found: ignore
