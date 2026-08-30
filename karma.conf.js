@@ -29,7 +29,7 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress'],
     browsers: ['ChromeHeadless'],
     customLaunchers: {
       ChromeHeadlessCI: {
