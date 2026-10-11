@@ -18,13 +18,13 @@ mat-card-header {
   flex-direction: column;   /* stack title and subtitle vertically */
   align-items: center;      /* center horizontally */
   justify-content: center;  /* center vertically if needed */
-  background-color: #075068f8; /* example header background (blue) */
+  background-color: var(--app-primary); /* example header background (blue) */
   color: white;             /* white text for title & subtitle */
   padding: 16px;
   text-align: center;       /* center text inside */
 }
 mat-card-content {
-  border: 1px solid #075068f8;   /* blue outline */
+  border: 1px solid var(--app-primary);   /* blue outline */
   border-radius: 8px;          /* rounded corners */
   padding: 16px;               /* spacing inside content */
   background-color: #ffffff;   /* optional background */
@@ -65,7 +65,7 @@ mat-card-subtitle {
   transform-origin: center top;
   will-change: transform;
   cursor: pointer;
-  box-shadow: 0 4px 6px #075068f8, 0 1px 3px #075068f8;
+  box-shadow: 0 4px 6px var(--app-primary), 0 1px 3px var(--app-primary);
 }
 
 .fd-card:hover,
@@ -79,7 +79,7 @@ mat-card-subtitle {
 .totals-card {
   padding: 20px;
   background: #f5f5f5;
-  border-left: 4px solid #075068f8;
+  border-left: 4px solid var(--app-primary);
 }
 
 .mt {

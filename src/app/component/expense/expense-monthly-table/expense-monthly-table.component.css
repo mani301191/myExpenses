@@ -6,7 +6,7 @@
     padding: 20px ;
     box-sizing: border-box ;
     height: 550px ;
-    border: 1px solid #075068f8 ;
+    border: 1px solid var(--app-primary) ;
     overflow: hidden ; 
 }
 
@@ -47,6 +47,6 @@ table.mat-table {
   }
   
 .mat-mdc-option.mdc-list-item:hover {
-    background-color: #075068f8 !important;
+    background-color: var(--app-primary) !important;
     color: #fff !important; 
   }

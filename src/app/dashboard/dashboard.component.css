@@ -153,20 +153,20 @@
 .chart-container {
     overflow: visible;
     padding: 16px;
-    border: 1px solid #075068f8;
+    border: 1px solid var(--app-primary);
 }
 
 /* Brand color styling */
 .brandcolor {
     font-weight: normal;
-    color: #075068f8;
+    color: var(--app-primary);
 }
 
 .title {
     display: flex;
     justify-content: center; 
     align-items: center; 
-    color: #075068f8;
+    color: var(--app-primary);
     font-weight: bold;
 }
 
@@ -209,7 +209,7 @@
 }
 /* Left and right navigation buttons */
 .nav-button {
-    background-color: #075068f8;
+    background-color: var(--app-primary);
     color: white;
     border: none;
     border-radius: 50%;

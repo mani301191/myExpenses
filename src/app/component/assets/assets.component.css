@@ -16,10 +16,10 @@
   padding: 0;
   position: relative;
   overflow: hidden;
-  border: 2px solid #075068f8;
+  border: 2px solid var(--app-primary);
 }
 .asset-card-nonMovable{
-  border: 2px solid #075068f8;
+  border: 2px solid var(--app-primary);
 }
 .asset-card-nonMovable .asset-img-container {
   height: 55%;
@@ -64,7 +64,7 @@
   box-sizing: border-box;
 }
 .asset-title {
-  color: #075068f8;
+  color: var(--app-primary);
   font-weight: bold;
   text-align: center;
   font-size: 18px;
@@ -72,7 +72,7 @@
 }
 .asset-status {
   font-size: 16px;
-  color: #075068f8;
+  color: var(--app-primary);
   margin-bottom: 2px;
 }
 .asset-comments {
@@ -89,9 +89,9 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: #075068f8;
+  color: var(--app-primary);
   background: #f5f5f5;
-  border: 2px dashed #075068f8;
+  border: 2px dashed var(--app-primary);
   min-height: 120px;
   display: flex;
   flex-direction: column;
@@ -152,7 +152,7 @@
   }
   .asset-card {
     page-break-inside: avoid;
-    border: 2px solid #075068f8 !important;
+    border: 2px solid var(--app-primary) !important;
     background: #fff !important;
     box-shadow: none !important;
     margin-bottom: 8px !important;
@@ -192,7 +192,7 @@
   }
   .asset-type-separator {
     border: none;
-    border-top: 2px solid #075068f8;
+    border-top: 2px solid var(--app-primary);
     margin: 16px 0;
     width: 100%;
     display: block;

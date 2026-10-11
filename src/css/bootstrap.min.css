@@ -4980,7 +4980,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
 .nav>li>a:focus,
 .nav>li>a:hover {
     text-decoration: none;
-    background-color: #075068f8;
+    background-color: var(--app-primary);
     color: #f1f1f1;
 }
 
@@ -5711,7 +5711,7 @@ fieldset[disabled] .navbar-default .btn-link:hover {
 }
 
 .navbar-inverse {
-    background-color: #075068f8;
+    background-color: var(--app-primary);
     border-color: #080808
 }
 

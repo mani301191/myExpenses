@@ -81,6 +81,22 @@
               matTooltipPosition="below"><mat-icon>settings</mat-icon></button>
             <button class="profileIcon doNotPrint" [routerLink]="'/config'" matTooltip="App Configs"
               matTooltipPosition="below"><mat-icon>build</mat-icon></button>
+            <button class="profileIcon doNotPrint" [matMenuTriggerFor]="themeMenu" matTooltip="Theme Colours"
+              matTooltipPosition="below"><mat-icon>palette</mat-icon></button>
+            <mat-menu #themeMenu="matMenu" xPosition="before">
+              <div class="theme-menu">
+                @for (p of themeService.palettes; track p.key) {
+                  <button type="button" class="theme-swatch" [class.selected]="themeService.currentKey() === p.key"
+                    (click)="setTheme(p.key)">
+                    <span class="theme-dot" [style.background-color]="p.solid"></span>
+                    <span class="theme-label">{{ p.label }}</span>
+                    @if (themeService.currentKey() === p.key) {
+                      <mat-icon class="theme-check">check</mat-icon>
+                    }
+                  </button>
+                }
+              </div>
+            </mat-menu>
           </div>
         </div>
       </div>

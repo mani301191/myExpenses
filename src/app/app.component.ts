@@ -1,6 +1,7 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
 import { ProfileSettingComponent } from './component/profile-setting/profile-setting.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,10 +12,11 @@ import { EventsService } from './service/events.service';
 import { Router } from '@angular/router';
 import { AlertsDialogComponent } from './component/alerts-dialog/alerts-dialog.component';
 import { EventData } from './component/reminders/event-data';
+import { ThemeService } from './service/theme.service';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, MatIconModule, FormsModule,
+    imports: [RouterOutlet, MatIconModule, MatMenuModule, FormsModule,
         MatTooltipModule, RouterModule],
     templateUrl: './app.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
@@ -25,6 +27,7 @@ export class AppComponent {
   tabIndex = -1;
   url: any;
   readonly dialog = inject(MatDialog);
+  readonly themeService = inject(ThemeService);
   profileData: ProfileData;
   messageCount: number = 0;
   notificationResponse: EventData[] = [];
@@ -81,6 +84,10 @@ export class AppComponent {
     });
   }
   
+  setTheme(key: string): void {
+    this.themeService.setTheme(key);
+  }
+
   openDialogProfileSetting() {
     this.dialog.open(ProfileSettingComponent).afterClosed().subscribe(() =>
       this.commonService.profileData().subscribe((res) => this.profileData = res));

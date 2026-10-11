@@ -4,5 +4,10 @@
 @import url("css/font.css");
 @import url("css/material-icons.css");
 @import url("app/app.component.css");
+:root {
+  --app-primary: #075068f8;
+  --app-primary-solid: #075068;
+  --app-primary-light: #76a8b8f8;
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

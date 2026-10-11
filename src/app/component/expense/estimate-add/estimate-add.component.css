@@ -1,6 +1,6 @@
 .titleHeader {
     text-align: center  !important;
-    color: #075068f8 !important;
+    color: var(--app-primary) !important;
     background-color: white !important;
   }
   .fixedHeightContainer {
