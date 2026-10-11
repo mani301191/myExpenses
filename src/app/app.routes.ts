@@ -1,4 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { AppliancesComponent } from './component/appliances/appliances.component';
 import { AssetsComponent } from './component/assets/assets.component';
 import { CareerComponent } from './component/career/career.component';
@@ -8,7 +8,6 @@ import { InsuranceComponent } from './component/insurance/insurance.component';
 import { InvestmentsComponent } from './component/investments/investments.component';
 import { RemindersComponent } from './component/reminders/reminders.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NgModule } from '@angular/core';
 import { HomeComponent } from './component/home/home.component';
 import { FixedDepositComponent } from './component/investments/fixed-deposit/fixed-deposit.component';
 import { ExpenseYearlyComponent } from './component/expense/expense-yearly/expense-yearly.component';
@@ -32,8 +31,3 @@ export const routes: Routes = [
     // Add a wildcard route for 404
     { path: '**', redirectTo: 'dashboard' }
 ];
-@NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
-})
-export class AppRoutingModule { }

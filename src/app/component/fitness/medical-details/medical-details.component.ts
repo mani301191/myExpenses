@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,15 +9,14 @@ import { FitnessService } from '../../../service/fitness.service';
 import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
-  selector: 'app-medical-details',
-  standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule,
-     MatInputModule, NgxPrintDirective, MatTooltipModule,FormsModule,CommonModule],
-  templateUrl: './medical-details.component.html',
-  styleUrl: './medical-details.component.css'
+    selector: 'app-medical-details',
+    imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, MatInputModule, NgxPrintDirective, MatTooltipModule, FormsModule],
+    templateUrl: './medical-details.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './medical-details.component.css'
 })
 export class MedicalDetailsComponent {
 

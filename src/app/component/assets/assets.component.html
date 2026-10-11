@@ -6,107 +6,119 @@
     <div class="col-xs-1">
       <button class="printIcon doNotPrint" (click)="printAssets()" matTooltip="Print"
         matTooltipPosition="after"><mat-icon>print</mat-icon></button>
+      </div>
     </div>
-  </div>
-  <hr class="lineBreak">
-  <ng-container *ngFor="let group of movableAssetGroups">
-    <h4 class="brandcolor">{{ group.type.value }}</h4>
+    <hr class="lineBreak">
+    @for (group of movableAssetGroups; track group.type.id) {
+      <h4 class="brandcolor">{{ group.type.value }}</h4>
+      <div class="asset-list">
+        @for (asset of group.assets; track asset.id) {
+          <mat-card class="asset-card brandcolor">
+            <div class="asset-actions">
+              <div class="row">
+                <div class="col-xs-2">
+                  <button class="doNotPrint" mat-icon-button color="primary" (click)="editAsset(asset)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </div>
+                <div class="col-xs-8 asset-title">
+                  {{asset.name}}
+                </div>
+                <div class="col-xs-2">
+                  <button class="doNotPrint" mat-icon-button color="warn" (click)="deleteAsset(asset)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="asset-img-container">
+              <img [src]="asset.image || defaultImage" class="asset-img" alt="{{asset.name}}">
+            </div>
+            <div class="asset-details">
+              <div class="asset-status">Status:<b> {{asset.status}}</b></div>
+              <div class="asset-comments">{{asset.comments}}</div>
+            </div>
+          </mat-card>
+        }
+        <mat-card class="asset-card add-card doNotPrint" (click)="openAddAsset('Movable', group.type.value)">
+          <mat-icon>add</mat-icon>
+          <span>Add {{ group.type.value }}</span>
+        </mat-card>
+      </div>
+      <hr class="asset-type-separator doPrint">
+    }
+
+    <h3 class="brandcolor">Non-Movable Assets</h3>
     <div class="asset-list">
-      <mat-card *ngFor="let asset of group.assets" class="asset-card brandcolor">
-        <div class="asset-actions">
-          <div class="row">
-            <div class="col-xs-2">
+      @for (asset of nonMovableAssets; track asset.id) {
+        <mat-card class="asset-card-nonMovable brandcolor">
+          <div class="asset-img-container">
+            <img [src]="asset.image || defaultImage" class="asset-img" alt="{{asset.name}}">
+          </div>
+          <div class="asset-details">
+            <div class="asset-title">{{asset.name}}</div>
+            <div class="asset-status">Status: {{asset.status}}</div>
+            <div class="asset-comments">{{asset.comments}}</div>
+            <div class="asset-actions">
               <button class="doNotPrint" mat-icon-button color="primary" (click)="editAsset(asset)">
                 <mat-icon>edit</mat-icon>
               </button>
-            </div>
-            <div class="col-xs-8 asset-title">
-              {{asset.name}}
-            </div>
-            <div class="col-xs-2">
               <button class="doNotPrint" mat-icon-button color="warn" (click)="deleteAsset(asset)">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
           </div>
-        </div>
-        <div class="asset-img-container">
-          <img [src]="asset.image || defaultImage" class="asset-img" alt="{{asset.name}}">
-        </div>
-        <div class="asset-details">
-          <div class="asset-status">Status:<b> {{asset.status}}</b></div>
-          <div class="asset-comments">{{asset.comments}}</div>
-        </div>
-      </mat-card>
-      <mat-card class="asset-card add-card doNotPrint" (click)="openAddAsset('Movable', group.type.value)">
+        </mat-card>
+      }
+      <mat-card class="asset-card add-card doNotPrint" (click)="openAddAsset('Non-Movable')">
         <mat-icon>add</mat-icon>
-        <span>Add {{ group.type.value }}</span>
+        <span>Add Asset</span>
       </mat-card>
     </div>
-    <hr class="asset-type-separator doPrint">
-  </ng-container>
-
-  <h3 class="brandcolor">Non-Movable Assets</h3>
-  <div class="asset-list">
-    <mat-card *ngFor="let asset of nonMovableAssets" class="asset-card-nonMovable brandcolor">
-      <div class="asset-img-container">
-        <img [src]="asset.image || defaultImage" class="asset-img" alt="{{asset.name}}">
-      </div>
-      <div class="asset-details">
-        <div class="asset-title">{{asset.name}}</div>
-        <div class="asset-status">Status: {{asset.status}}</div>
-        <div class="asset-comments">{{asset.comments}}</div>
-        <div class="asset-actions">
-          <button class="doNotPrint" mat-icon-button color="primary" (click)="editAsset(asset)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button class="doNotPrint" mat-icon-button color="warn" (click)="deleteAsset(asset)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-    </mat-card>
-    <mat-card class="asset-card add-card doNotPrint" (click)="openAddAsset('Non-Movable')">
-      <mat-icon>add</mat-icon>
-      <span>Add Asset</span>
-    </mat-card>
   </div>
-</div>
 
-<!-- Add/Edit Asset Dialog (simple example, can be replaced with Angular Material Dialog) -->
-<div *ngIf="showDialog" class="dialog-backdrop">
-  <div class="dialog">
-    <h3>{{editMode ? 'Edit' : 'Add'}} Asset</h3>
-    <form [formGroup]="assetForm" (ngSubmit)="saveAsset()">
-      <mat-form-field>
-        <mat-label>Asset Name</mat-label>
-        <input matInput formControlName="name">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Status</mat-label>
-        <mat-select placeholder="Status" formControlName="status">
-          <mat-option *ngFor="let status of assetStatus" [value]="status.id">{{ status.value }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Comments</mat-label>
-        <input matInput formControlName="comments">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Type</mat-label>
-        <mat-select placeholder="Asset Type" formControlName="type">
-          <mat-option *ngFor="let assetType of assetTypes" [value]="assetType.id">{{ assetType.value }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div>
-        <label>Image:</label>
-        <input type="file" (change)="onImageSelected($event)">
-        <img *ngIf="imagePreview" [src]="imagePreview" class="dialog-img-preview" />
+  <!-- Add/Edit Asset Dialog (simple example, can be replaced with Angular Material Dialog) -->
+  @if (showDialog) {
+    <div class="dialog-backdrop">
+      <div class="dialog">
+        <h3>{{editMode ? 'Edit' : 'Add'}} Asset</h3>
+        <form [formGroup]="assetForm" (ngSubmit)="saveAsset()">
+          <mat-form-field>
+            <mat-label>Asset Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select placeholder="Status" formControlName="status">
+              @for (status of assetStatus; track status.id) {
+                <mat-option [value]="status.id">{{ status.value }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Comments</mat-label>
+            <input matInput formControlName="comments">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Type</mat-label>
+            <mat-select placeholder="Asset Type" formControlName="type">
+              @for (assetType of assetTypes; track assetType.id) {
+                <mat-option [value]="assetType.id">{{ assetType.value }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <label>Image:</label>
+            <input type="file" (change)="onImageSelected($event)">
+            @if (imagePreview) {
+              <img [src]="imagePreview" class="dialog-img-preview" />
+            }
+          </div>
+          <div class="dialog-actions">
+            <button mat-raised-button color="primary" type="submit">{{editMode ? 'Update' : 'Add'}}</button>
+            <button mat-button type="button" (click)="closeDialog()">Cancel</button>
+          </div>
+        </form>
       </div>
-      <div class="dialog-actions">
-        <button mat-raised-button color="primary" type="submit">{{editMode ? 'Update' : 'Add'}}</button>
-        <button mat-button type="button" (click)="closeDialog()">Cancel</button>
-      </div>
-    </form>
-  </div>
-</div>
+    </div>
+  }

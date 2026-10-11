@@ -1,10 +1,10 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CommonModule } from '@angular/common';
+
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,13 +15,11 @@ import { Dropdown } from '../estimate-add/estimate-month';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-expense-add',
-  standalone: true,
-  imports: [MatDatepickerModule,MatNativeDateModule,MatFormFieldModule, MatInputModule,ReactiveFormsModule,
-    CommonModule,MatSelectModule,MatIconModule,MatToolbarModule,FormsModule,MatTooltipModule
-],
-  templateUrl: './expense-add.component.html',
-  styleUrl: './expense-add.component.css'
+    selector: 'app-expense-add',
+    imports: [MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatIconModule, MatToolbarModule, FormsModule, MatTooltipModule],
+    templateUrl: './expense-add.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './expense-add.component.css'
 })
 export class ExpenseAddComponent {
   formGroup: FormGroup;

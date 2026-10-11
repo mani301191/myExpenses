@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+
+import { Component, inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -14,12 +14,11 @@ import { CommonService } from '../../../service/common.service';
 
 
 @Component({
-  selector: 'app-estimate-add',
-  standalone: true,
-  imports: [MatDatepickerModule,MatNativeDateModule,MatFormFieldModule, MatInputModule,ReactiveFormsModule,
-    MatFormFieldModule,CommonModule,MatIconModule,MatToolbarModule,MatTableModule,FormsModule],
-  templateUrl: './estimate-add.component.html',
-  styleUrl: './estimate-add.component.css'
+    selector: 'app-estimate-add',
+    imports: [MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatToolbarModule, MatTableModule, FormsModule],
+    templateUrl: './estimate-add.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './estimate-add.component.css'
 })
 export class EstimateAddComponent {
 

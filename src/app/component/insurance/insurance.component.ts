@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormGroupDirective, FormBuilder, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,14 +18,11 @@ import { DropDownData } from '../../config-data';
 import { InsuranceService } from '../../service/insurance.service';
 
 @Component({
-  selector: 'app-insurance',
-  standalone: true,
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
-    MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective,
-    MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
-  templateUrl: './insurance.component.html',
-  styleUrl: './insurance.component.css'
+    selector: 'app-insurance',
+    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule, MatSelectModule, FormsModule, NgxPrintDirective, MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
+    templateUrl: './insurance.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './insurance.component.css'
 })
 export class InsuranceComponent {
 

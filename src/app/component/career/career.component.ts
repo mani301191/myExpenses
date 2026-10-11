@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -17,14 +17,11 @@ import { CareerData } from './career-data';
 import { CareerService } from '../../service/career.service';
 
 @Component({
-  selector: 'app-career',
-  standalone: true,
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
-    MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective,
-    MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
-  templateUrl: './career.component.html',
-  styleUrl: './career.component.css'
+    selector: 'app-career',
+    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule, MatSelectModule, FormsModule, NgxPrintDirective, MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
+    templateUrl: './career.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './career.component.css'
 })
 export class CareerComponent implements OnInit {
   formGroup: FormGroup;

@@ -1,6 +1,6 @@
 
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -8,11 +8,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { EventData } from '../reminders/event-data';
 
 @Component({
-  selector: 'app-alerts-dialog',
-  standalone: true,
-  imports: [MatDialogModule,CommonModule,MatIconModule,MatToolbarModule,MatTooltipModule],
-  templateUrl: './alerts-dialog.component.html',
-  styleUrl: './alerts-dialog.component.css'
+    selector: 'app-alerts-dialog',
+    imports: [MatDialogModule, CommonModule, MatIconModule, MatToolbarModule, MatTooltipModule],
+    templateUrl: './alerts-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './alerts-dialog.component.css'
 })
 export class AlertsDialogComponent {
 

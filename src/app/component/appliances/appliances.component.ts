@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormGroupDirective, FormBuilder, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -17,14 +17,11 @@ import { AppliancesService } from '../../service/appliances.service';
 import { AppliancesData } from './appliances-data';
 
 @Component({
-  selector: 'app-appliances',
-  standalone: true,
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
-    MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, MatDatepickerModule,
-    MatNativeDateModule, MatTooltipModule],
-  templateUrl: './appliances.component.html',
-  styleUrl: './appliances.component.css'
+    selector: 'app-appliances',
+    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule, MatSelectModule, FormsModule, NgxPrintDirective, MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
+    templateUrl: './appliances.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './appliances.component.css'
 })
 export class AppliancesComponent {
   formGroup: FormGroup;

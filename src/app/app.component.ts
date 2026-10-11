@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
@@ -13,13 +13,12 @@ import { AlertsDialogComponent } from './component/alerts-dialog/alerts-dialog.c
 import { EventData } from './component/reminders/event-data';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, MatIconModule, FormsModule,
-     MatTooltipModule,RouterModule],
-
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [RouterOutlet, MatIconModule, FormsModule,
+        MatTooltipModule, RouterModule],
+    templateUrl: './app.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'myExpenses';

@@ -1,16 +1,22 @@
 <div class="row content" >
   <!-- Summary View -->
-  <div id="print-summary" *ngIf="selectedView === 'summary'" class="col-sm-12">
-    <app-expense-summary-table></app-expense-summary-table>
-  </div>
+  @if (selectedView === 'summary') {
+    <div id="print-summary" class="col-sm-12">
+      <app-expense-summary-table></app-expense-summary-table>
+    </div>
+  }
 
   <!-- Monthly View -->
-  <div *ngIf="selectedView === 'monthly'">
-   <app-expense-monthly></app-expense-monthly>
-  </div>
+  @if (selectedView === 'monthly') {
+    <div>
+      <app-expense-monthly></app-expense-monthly>
+    </div>
+  }
 
   <!-- Yearly View -->
-  <div id="print-yearly" *ngIf="selectedView === 'yearly'" class="col-sm-12">
-    <app-expense-yearly></app-expense-yearly>
-  </div>
+  @if (selectedView === 'yearly') {
+    <div id="print-yearly" class="col-sm-12">
+      <app-expense-yearly></app-expense-yearly>
+    </div>
+  }
 </div>

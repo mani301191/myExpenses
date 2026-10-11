@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+
+import { Component, inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormGroupDirective } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -13,12 +13,11 @@ import { CommonService } from '../../service/common.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-income-add',
-  standalone: true,
-  imports: [MatDatepickerModule,MatNativeDateModule,MatFormFieldModule, MatInputModule,ReactiveFormsModule,
-    MatFormFieldModule,CommonModule,MatIconModule,MatToolbarModule,MatTooltipModule],
-  templateUrl: './income-add.component.html',
-  styleUrl: './income-add.component.css'
+    selector: 'app-income-add',
+    imports: [MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatToolbarModule, MatTooltipModule],
+    templateUrl: './income-add.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './income-add.component.css'
 })
 export class IncomeAddComponent {
 

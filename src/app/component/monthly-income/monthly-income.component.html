@@ -1,121 +1,127 @@
 <div class="print-boarder">
-    <div class="row">
-        <mat-card class="title_center" appearance="outlined">
-            <mat-card-header class="header ">
-                <mat-card-title>Income </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <table class="table table-bordered table-striped">
-                    <tbody>
-                      <tr *ngFor="let data of incomeData">
-                        <td>{{ data.source }}</td>
-                        <td>{{ data.amount | inrFormat }}</td>
-                        <td class="doNotPrint">
-                          <button class="buttonIcon" (click)="deleteRow(data)" matTooltip="Delete Record" matTooltipPosition="after">
-                            <i class="fa fa-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>                  
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <div class="row">
-        <mat-card class="title_center" appearance="outlined">
-            <mat-card-header class="header ">
-                <mat-card-title>Top 5 Expense </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <table class="table table-bordered table-striped">
-                    <tbody>
-                        <tr *ngFor="let data of expenseData">
-                            <td>{{ data.expenseOf }} {{ data.description }}</td>
-                            <td>{{ data.amount | inrFormat }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <div class="row">
-        <mat-card class="title_center" appearance="outlined">
-            <mat-card-header class="header ">
-                <mat-card-title>Status</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <div class="row">
-                    <div class="row subHeader">
-                        <div class="col-xs-6">Income</div>
-                        <div class="col-xs-6">Expense</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6">{{totalIncome| inrFormat }}</div>
-                        <div class="col-xs-6">{{ totalExpense| inrFormat }} </div>
-                    </div>
-                    <div class="row subHeader">
-                        <div class="col-xs-6">Estimated</div>
-                        <div class="col-xs-6">Savings</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6">{{estimate| inrFormat }}</div>
-                        <div class="col-xs-6"> {{savings| inrFormat}} </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="row subHeader">Expense Amount by Category</div>
-                        <div class="row">Planned - {{plannedExpense | inrFormat }} </div>
-                        <div class="row">UnPlanned - {{unPlannedExpense | inrFormat }}</div>
-                        <div class="row">Investments - {{investmentExpense| inrFormat }}</div>
-                    </div>
-                </div>
-                <p class="subHeader">Over All Expense Percentage - {{progress | number: '1.0-2'}}%</p>
-                <mat-progress-bar mode="determinate" [value]="progress"
-                    [color]="updateColor(progress)"></mat-progress-bar>
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <div class="row">
-        <mat-card class="title_center" appearance="outlined">
-            <mat-card-header class="header ">
-                <mat-card-title>Estimated VS Expense </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <div style="overflow-x: auto;">
-                    <table class="table table-bordered table-striped" style="min-width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Description</th>
-                                <th>Estimated Amount</th>
-                                <th>Expense Amount</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of expenseStatus">
-                                <td>{{ data.description }}</td>
-                                <td>{{ data.estimatedAmount | inrFormat }}</td>
-                                <td>{{ data.expenseAmount | inrFormat }}</td>
-                                <td>
-                                    <ng-container *ngIf="data.expenseAmount < data.estimatedAmount">
-                                        <mat-icon class="satisfied" matTooltip="Target Achived"
-                                            matTooltipPosition="after">thumb_up</mat-icon>
-                                    </ng-container>
-                                    <ng-container *ngIf="data.expenseAmount > data.estimatedAmount">
-                                        <mat-icon class="disatisfied" matTooltip="Target Missed"
-                                            matTooltipPosition="after">thumb_down</mat-icon>
-                                    </ng-container>
-                                    <ng-container *ngIf="data.expenseAmount === data.estimatedAmount">
-                                        <mat-icon class="onTarget" matTooltip="On Target"
-                                            matTooltipPosition="after">thumbs_up_down</mat-icon>
-                                    </ng-container>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
+  <div class="row">
+    <mat-card class="title_center" appearance="outlined">
+      <mat-card-header class="header ">
+        <mat-card-title>Income </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table class="table table-bordered table-striped">
+          <tbody>
+            @for (data of incomeData; track data) {
+              <tr>
+                <td>{{ data.source }}</td>
+                <td>{{ data.amount | inrFormat }}</td>
+                <td class="doNotPrint">
+                  <button class="buttonIcon" (click)="deleteRow(data)" matTooltip="Delete Record" matTooltipPosition="after">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="row">
+    <mat-card class="title_center" appearance="outlined">
+      <mat-card-header class="header ">
+        <mat-card-title>Top 5 Expense </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table class="table table-bordered table-striped">
+          <tbody>
+            @for (data of expenseData; track data) {
+              <tr>
+                <td>{{ data.expenseOf }} {{ data.description }}</td>
+                <td>{{ data.amount | inrFormat }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="row">
+    <mat-card class="title_center" appearance="outlined">
+      <mat-card-header class="header ">
+        <mat-card-title>Status</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="row subHeader">
+            <div class="col-xs-6">Income</div>
+            <div class="col-xs-6">Expense</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6">{{totalIncome| inrFormat }}</div>
+            <div class="col-xs-6">{{ totalExpense| inrFormat }} </div>
+          </div>
+          <div class="row subHeader">
+            <div class="col-xs-6">Estimated</div>
+            <div class="col-xs-6">Savings</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6">{{estimate| inrFormat }}</div>
+            <div class="col-xs-6"> {{savings| inrFormat}} </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="row subHeader">Expense Amount by Category</div>
+            <div class="row">Planned - {{plannedExpense | inrFormat }} </div>
+            <div class="row">UnPlanned - {{unPlannedExpense | inrFormat }}</div>
+            <div class="row">Investments - {{investmentExpense| inrFormat }}</div>
+          </div>
+        </div>
+        <p class="subHeader">Over All Expense Percentage - {{progress | number: '1.0-2'}}%</p>
+        <mat-progress-bar mode="determinate" [value]="progress"
+        [color]="updateColor(progress)"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="row">
+    <mat-card class="title_center" appearance="outlined">
+      <mat-card-header class="header ">
+        <mat-card-title>Estimated VS Expense </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div style="overflow-x: auto;">
+          <table class="table table-bordered table-striped" style="min-width: 100%;">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Estimated Amount</th>
+                <th>Expense Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (data of expenseStatus; track data) {
+                <tr>
+                  <td>{{ data.description }}</td>
+                  <td>{{ data.estimatedAmount | inrFormat }}</td>
+                  <td>{{ data.expenseAmount | inrFormat }}</td>
+                  <td>
+                    @if (data.expenseAmount < data.estimatedAmount) {
+                      <mat-icon class="satisfied" matTooltip="Target Achived"
+                      matTooltipPosition="after">thumb_up</mat-icon>
+                    }
+                    @if (data.expenseAmount > data.estimatedAmount) {
+                      <mat-icon class="disatisfied" matTooltip="Target Missed"
+                      matTooltipPosition="after">thumb_down</mat-icon>
+                    }
+                    @if (data.expenseAmount === data.estimatedAmount) {
+                      <mat-icon class="onTarget" matTooltip="On Target"
+                      matTooltipPosition="after">thumbs_up_down</mat-icon>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

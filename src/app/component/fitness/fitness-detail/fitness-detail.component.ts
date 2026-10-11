@@ -1,12 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 @Component({
-  selector: 'app-fitness-detail',
-  standalone: true,
-  imports: [CanvasJSAngularChartsModule],
-  templateUrl: './fitness-detail.component.html',
-  styleUrl: './fitness-detail.component.css'
+    selector: 'app-fitness-detail',
+    imports: [CanvasJSAngularChartsModule],
+    templateUrl: './fitness-detail.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './fitness-detail.component.css'
 })
 export class FitnessDetailComponent {
   chartOptions : any;

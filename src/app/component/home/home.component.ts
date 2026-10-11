@@ -1,18 +1,16 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ExpenseSummaryTableComponent } from '../expense/expense-summary-table/expense-summary-table.component';
-import { ExpenseMonthlyTableComponent } from '../expense/expense-monthly-table/expense-monthly-table.component';
 import { ExpenseYearlyComponent } from '../expense/expense-yearly/expense-yearly.component';
 import { ActivatedRoute } from '@angular/router';
 import { ExpenseMonthlyComponent } from '../expense/expense-monthly/expense-monthly.component';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule,ExpenseSummaryTableComponent,ExpenseMonthlyTableComponent,
-    ExpenseYearlyComponent,ExpenseMonthlyComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    imports: [ExpenseSummaryTableComponent, ExpenseYearlyComponent, ExpenseMonthlyComponent],
+    templateUrl: './home.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './home.component.css'
 })
 export class HomeComponent {
   selectedView: 'summary' | 'monthly' | 'yearly' = 'summary';

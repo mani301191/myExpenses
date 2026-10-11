@@ -64,7 +64,7 @@ export class AssetService extends BaseService {
   }
 
   fetchAssetTypesDropdownData() {
-     this.http.get<any>(this.baseUrl + '/config/dropDown?key=AssetTypes' ).subscribe(
+     this.http.get<any>(this.baseUrl + 'config/dropDown?key=AssetTypes' ).subscribe(
       (res) => {  
           this.assetTypesResponse.next(res);
        },
@@ -73,7 +73,7 @@ export class AssetService extends BaseService {
   }
 
   fetchAssetDropdownData() {
-    this.http.get<any>(this.baseUrl + '/config/dropDown?key=Assets' ).subscribe(
+    this.http.get<any>(this.baseUrl + 'config/dropDown?key=Assets' ).subscribe(
      (res) => {  
          this.assetsResponse.next(res);
       },
@@ -82,7 +82,7 @@ export class AssetService extends BaseService {
  }
 
  fetchAssetStatusDropdownData() {
-  this.http.get<any>(this.baseUrl + '/config/dropDown?key=AssetStatus').subscribe(
+  this.http.get<any>(this.baseUrl + 'config/dropDown?key=AssetStatus').subscribe(
    (res) => {  
        this.assetStatusResponse.next(res);
     },

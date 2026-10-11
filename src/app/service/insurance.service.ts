@@ -67,7 +67,7 @@ export class InsuranceService extends BaseService {
   }
 
   fetchInsuranceTypeDropdownData() {
-    this.http.get<any>(this.baseUrl + '/config/dropDown?key=InsurenceType').subscribe(
+    this.http.get<any>(this.baseUrl + 'config/dropDown?key=InsurenceType').subscribe(
       (res) => {
         this.insuranceTypesResponse.next(res);
       },

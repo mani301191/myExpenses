@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, inject, ViewChild } from '@angular/core';
+
+import { Component, Inject, inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -13,13 +13,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-add-weight-details',
-  standalone: true,
-  imports: [MatFormFieldModule, MatToolbarModule, ReactiveFormsModule,
-    MatInputModule, CommonModule, MatSelectModule, MatDatepickerModule, 
-    MatNativeDateModule,MatTooltipModule,MatIcon],
-  templateUrl: './add-weight-details.component.html',
-  styleUrl: './add-weight-details.component.css'
+    selector: 'app-add-weight-details',
+    imports: [MatFormFieldModule, MatToolbarModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatTooltipModule, MatIcon],
+    templateUrl: './add-weight-details.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './add-weight-details.component.css'
 })
 export class AddWeightDetailsComponent {
   formGroup: FormGroup;

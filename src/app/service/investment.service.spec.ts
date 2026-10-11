@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -16,7 +16,7 @@ describe('InvestmentService', () => {
     snackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         { provide: MatSnackBar, useValue: snackBar }
       ]
@@ -109,7 +109,7 @@ describe('InvestmentService', () => {
     service.fetchInvestmentDropdownData().subscribe(r => result = r);
 
     const req = httpMock.expectOne(r =>
-      r.url.includes('/config/dropDown') &&
+      r.url.includes('config/dropDown') &&
       r.url.includes('key=Investment') &&
       r.method === 'GET'
     );
@@ -126,7 +126,7 @@ describe('InvestmentService', () => {
     service.fetchInvestmentStatusDropdownData().subscribe(r => result = r);
 
     const req = httpMock.expectOne(r =>
-      r.url.includes('/config/dropDown') &&
+      r.url.includes('config/dropDown') &&
       r.url.includes('key=InvestmentStatus') &&
       r.method === 'GET'
     );

@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,12 +10,11 @@ import { FitnessService } from '../../../service/fitness.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-add-person-fitness',
-  standalone: true,
-  imports: [MatIconModule, MatFormFieldModule, MatToolbarModule,ReactiveFormsModule,
-    MatInputModule,CommonModule,MatTooltipModule],
-  templateUrl: './add-person-fitness.component.html',
-  styleUrl: './add-person-fitness.component.css'
+    selector: 'app-add-person-fitness',
+    imports: [MatIconModule, MatFormFieldModule, MatToolbarModule, ReactiveFormsModule, MatInputModule, MatTooltipModule],
+    templateUrl: './add-person-fitness.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './add-person-fitness.component.css'
 })
 export class AddPersonFitnessComponent {
   url: any;
