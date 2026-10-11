@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -16,7 +16,7 @@ describe('AssetServiceService', () => {
     snackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         { provide: MatSnackBar, useValue: snackBar }
       ]
@@ -109,7 +109,7 @@ describe('AssetServiceService', () => {
     service.fetchAssetTypesDropdownData().subscribe(r => result = r);
 
     const req = httpMock.expectOne(r =>
-      r.url.includes('/config/dropDown') &&
+      r.url.includes('config/dropDown') &&
       r.url.includes('key=AssetTypes') &&
       r.method === 'GET'
     );
@@ -126,7 +126,7 @@ describe('AssetServiceService', () => {
     service.fetchAssetDropdownData().subscribe(r => result = r);
 
     const req = httpMock.expectOne(r =>
-      r.url.includes('/config/dropDown') &&
+      r.url.includes('config/dropDown') &&
       r.url.includes('key=Assets') &&
       r.method === 'GET'
     );
@@ -143,7 +143,7 @@ describe('AssetServiceService', () => {
     service.fetchAssetStatusDropdownData().subscribe(r => result = r);
 
     const req = httpMock.expectOne(r =>
-      r.url.includes('/config/dropDown') &&
+      r.url.includes('config/dropDown') &&
       r.url.includes('key=AssetStatus') &&
       r.method === 'GET'
     );

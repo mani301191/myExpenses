@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Asset } from './asset-data';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -14,11 +14,11 @@ import { AssetService } from '../../service/asset.service';
 import { DropDownData } from '../../config-data';
 
 @Component({
-  selector: 'app-assets',
-  templateUrl: './assets.component.html',
-  styleUrls: ['./assets.component.css'],
-  standalone: true,
-  imports: [MatSelectModule, MatCardModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatDialogModule, MatTooltipModule, CommonModule, MatInputModule, MatFormFieldModule]
+    selector: 'app-assets',
+    templateUrl: './assets.component.html',
+    styleUrls: ['./assets.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatSelectModule, MatCardModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatDialogModule, MatTooltipModule, MatInputModule, MatFormFieldModule]
 })
 export class AssetsComponent {
 

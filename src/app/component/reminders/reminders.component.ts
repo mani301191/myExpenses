@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormGroupDirective, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -17,14 +17,14 @@ import { EventsService } from '../../service/events.service';
 import { DropDownData } from '../../config-data';
 
 @Component({
-  selector: 'app-reminders',
-  standalone: true,
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
-    MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-    MatSelectModule, FormsModule, CommonModule,
-    MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
-  templateUrl: './reminders.component.html',
-  styleUrl: './reminders.component.css'
+    selector: 'app-reminders',
+    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
+        MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
+        MatSelectModule, FormsModule, CommonModule,
+        MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
+    templateUrl: './reminders.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './reminders.component.css'
 })
 export class RemindersComponent implements OnInit {
   formGroup: FormGroup;

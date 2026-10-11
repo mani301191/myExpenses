@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MonthlyIncome } from './monthly-income';
@@ -14,11 +14,11 @@ import { InrFormatPipe } from '../../pipes/indian-currency.pipe';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-monthly-income',
-  standalone: true,
-  imports: [MatCardModule, MatChipsModule, CommonModule, MatProgressBarModule,MatIcon,MatExpansionModule,MatTooltipModule, InrFormatPipe],
-  templateUrl: './monthly-income.component.html',
-  styleUrl: './monthly-income.component.css'
+    selector: 'app-monthly-income',
+    imports: [MatCardModule, MatChipsModule, CommonModule, MatProgressBarModule, MatIcon, MatExpansionModule, MatTooltipModule, InrFormatPipe],
+    templateUrl: './monthly-income.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './monthly-income.component.css'
 })
 export class MonthlyIncomeComponent {
   selectedDate: Date;

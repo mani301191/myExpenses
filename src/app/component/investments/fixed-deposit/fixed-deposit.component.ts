@@ -1,28 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FixedDeposit } from './fixed-deposit';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { CommonModule } from '@angular/common';
+
 import { MatExpansionModule } from '@angular/material/expansion';
 import { InvestmentService } from '../../../service/investment.service';
 import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
 
 @Component({
-  selector: 'app-fixed-deposit',
-  standalone: true,
-  imports: [ MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatExpansionModule,
-    InrFormatPipe],
-  templateUrl: './fixed-deposit.component.html',
-  styleUrl: './fixed-deposit.component.css'
+    selector: 'app-fixed-deposit',
+    imports: [MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatExpansionModule, InrFormatPipe],
+    templateUrl: './fixed-deposit.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './fixed-deposit.component.css'
 })
 export class FixedDepositComponent implements OnInit {
 

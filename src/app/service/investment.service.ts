@@ -66,7 +66,7 @@ export class InvestmentService extends BaseService {
     }
   
     fetchInvestmentDropdownData() {
-      this.http.get<any>(this.baseUrl + '/config/dropDown?key=Investment' ).subscribe(
+      this.http.get<any>(this.baseUrl + 'config/dropDown?key=Investment' ).subscribe(
        (res) => {  
            this.investmentResponse.next(res);
         },
@@ -75,7 +75,7 @@ export class InvestmentService extends BaseService {
    }
 
    fetchInvestmentStatusDropdownData() {
-    this.http.get<any>(this.baseUrl + '/config/dropDown?key=InvestmentStatus' ).subscribe(
+    this.http.get<any>(this.baseUrl + 'config/dropDown?key=InvestmentStatus' ).subscribe(
      (res) => {  
          this.investmentStatusResponse.next(res);
       },

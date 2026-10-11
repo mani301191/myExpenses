@@ -1,20 +1,20 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CommonModule } from '@angular/common';
+
 import { CommonService } from '../../service/common.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-profile-setting',
-  standalone: true,
-  imports: [MatIconModule, MatFormFieldModule,MatToolbarModule,MatInputModule,CommonModule,ReactiveFormsModule,MatTooltipModule ],
-  templateUrl: './profile-setting.component.html',
-  styleUrl: './profile-setting.component.css'
+    selector: 'app-profile-setting',
+    imports: [MatIconModule, MatFormFieldModule, MatToolbarModule, MatInputModule, ReactiveFormsModule, MatTooltipModule],
+    templateUrl: './profile-setting.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './profile-setting.component.css'
 })
 export class ProfileSettingComponent {
   url: any;

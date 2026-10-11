@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { FitnessDetailComponent } from './fitness-detail/fitness-detail.component';
-import { CommonModule } from '@angular/common';
+
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddPersonFitnessComponent } from './add-person-fitness/add-person-fitness.component';
 import { MedicalDetailsComponent } from './medical-details/medical-details.component';
@@ -14,12 +14,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-fitness',
-  standalone: true,
-  imports: [MatCardModule, MatIconModule, FitnessDetailComponent, CommonModule,
-    MatDialogModule,MatTooltipModule, MatButtonModule],
-  templateUrl: './fitness.component.html',
-  styleUrl: './fitness.component.css'
+    selector: 'app-fitness',
+    imports: [MatCardModule, MatIconModule, FitnessDetailComponent, MatDialogModule, MatTooltipModule, MatButtonModule],
+    templateUrl: './fitness.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './fitness.component.css'
 })
 export class FitnessComponent {
 

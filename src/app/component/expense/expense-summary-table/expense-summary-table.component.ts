@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonService } from '../../../service/common.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
@@ -21,13 +21,11 @@ import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
  * @title Data table with sorting, pagination, and filtering.
  */
 @Component({
-  selector: 'app-expense-summary-table',
-  templateUrl: './expense-summary-table.component.html',
-  styleUrl: './expense-summary-table.component.css',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
-    MatIconModule,MatDatepickerModule,MatNativeDateModule,CommonModule,FormsModule,NgxPrintDirective,
-    CanvasJSAngularChartsModule,MatTooltipModule,InrFormatPipe],
+    selector: 'app-expense-summary-table',
+    templateUrl: './expense-summary-table.component.html',
+    styleUrl: './expense-summary-table.component.css',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, MatDatepickerModule, MatNativeDateModule, FormsModule, NgxPrintDirective, CanvasJSAngularChartsModule, MatTooltipModule, InrFormatPipe]
 })
 export class ExpenseSummaryTableComponent {
   displayedColumns: string[] = ['year', 'month', 'income', 'expense','estimated','savings','actionsColumn'];

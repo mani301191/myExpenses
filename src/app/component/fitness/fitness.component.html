@@ -14,7 +14,8 @@
 </div>
 <hr class="lineBreak">
 <div class="cards-container">
-    <mat-card class="fitness-card" *ngFor="let data of fitnessData">
+  @for (data of fitnessData; track data) {
+    <mat-card class="fitness-card">
       <!-- Avatar & Info -->
       <div class="top-section">
         <img [src]="data.personPic || 'img/img_avatar.png'" class="avatar" />
@@ -27,50 +28,48 @@
         </div>
         <div class="col-xs-1">
           <button class="doNotPrint buttonIcon" (click)="deleteRow(data)"  matTooltip="Delete Record"
-          matTooltipPosition="after"> <mat-icon>delete</mat-icon> </button>
-        </div>
-      </div>
-  
-      <!-- Action Buttons Row -->
-      <div class="action-row doNotPrint">
-        <!-- Weight -->
-        <div class="action-group">
-          <div class="action-title">
-            <mat-icon color="primary">fitness_center</mat-icon> Weight
-          </div>
-          <div class="action-buttons">
-            <button mat-icon-button (click)="addWeightDetails(data)">
-              <mat-icon color="primary">add</mat-icon>
-            </button>
-            <button mat-icon-button (click)="openWeightDetails(data)">
-              <mat-icon color="primary">visibility</mat-icon>
-            </button>
+            matTooltipPosition="after"> <mat-icon>delete</mat-icon> </button>
           </div>
         </div>
-  
-        <!-- Medical -->
-        <div class="action-group">
-          <div class="action-title">
-            <mat-icon color="primary">medical_services</mat-icon> Medical
+        <!-- Action Buttons Row -->
+        <div class="action-row doNotPrint">
+          <!-- Weight -->
+          <div class="action-group">
+            <div class="action-title">
+              <mat-icon color="primary">fitness_center</mat-icon> Weight
+            </div>
+            <div class="action-buttons">
+              <button mat-icon-button (click)="addWeightDetails(data)">
+                <mat-icon color="primary">add</mat-icon>
+              </button>
+              <button mat-icon-button (click)="openWeightDetails(data)">
+                <mat-icon color="primary">visibility</mat-icon>
+              </button>
+            </div>
           </div>
-          <div class="action-buttons">
-            <button mat-icon-button (click)="addMedicalDetails(data)">
-              <mat-icon color="primary">add</mat-icon>
-            </button>
-            <button mat-icon-button (click)="openMedicalDetails(data)">
-              <mat-icon color="primary">visibility</mat-icon>
-            </button>
+          <!-- Medical -->
+          <div class="action-group">
+            <div class="action-title">
+              <mat-icon color="primary">medical_services</mat-icon> Medical
+            </div>
+            <div class="action-buttons">
+              <button mat-icon-button (click)="addMedicalDetails(data)">
+                <mat-icon color="primary">add</mat-icon>
+              </button>
+              <button mat-icon-button (click)="openMedicalDetails(data)">
+                <mat-icon color="primary">visibility</mat-icon>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-  
-      <!-- Chart -->
-      <div
-        class="chart-container"
-        [class.expanded]="expandedChart === data.personId"
-        (click)="toggleChartExpand(data.personId)"
-      ><h5 class="chart-title brandcolor doNotPrint">Click here to view Weight Trend</h5>
-        <app-fitness-detail [trend]="data.trend"></app-fitness-detail>
-      </div>
-    </mat-card>   
-</div>
+        <!-- Chart -->
+        <div
+          class="chart-container"
+          [class.expanded]="expandedChart === data.personId"
+          (click)="toggleChartExpand(data.personId)"
+          ><h5 class="chart-title brandcolor doNotPrint">Click here to view Weight Trend</h5>
+          <app-fitness-detail [trend]="data.trend"></app-fitness-detail>
+        </div>
+      </mat-card>
+    }
+  </div>

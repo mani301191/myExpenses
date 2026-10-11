@@ -1,20 +1,19 @@
-import { Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+
 import { FormGroup, FormsModule } from '@angular/forms';
 import { MatTable, MatTableModule } from '@angular/material/table';
-import { MatIcon } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AppConfigService } from '../../service/app-config.service';
 import { ConfigData } from '../../config-data';
 
 @Component({
-  selector: 'app-config',
-  standalone: true,
-  imports: [CommonModule, FormsModule, MatTableModule, MatIcon, MatFormFieldModule, MatInputModule],
-  templateUrl: './config.component.html',
-  styleUrls: ['./config.component.css'],
-  inputs: ['displayedColumns', 'dataSource']
+    selector: 'app-config',
+    imports: [FormsModule, MatTableModule, MatFormFieldModule, MatInputModule],
+    templateUrl: './config.component.html',
+    styleUrls: ['./config.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    inputs: ['displayedColumns', 'dataSource']
 })
 export class ConfigComponent {
   formGroup: FormGroup;

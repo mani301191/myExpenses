@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ExpenseMonthly } from '../component/expense/expense-monthly-table/expense-monthly-table';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { MonthlyIncome } from '../component/monthly-income/monthly-income';
 import { Dropdown, ExpenseStatus, MonthlyEstimate } from '../component/expense/estimate-add/estimate-month';
 import { ExpenseSummary } from '../component/expense/expense-summary-table/expense-summary-table';

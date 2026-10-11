@@ -7,123 +7,121 @@
       <div class="col-xs-2 doNotPrint">
         <button class="printIcon" (click)="printYearlyData()" matTooltip="Print"
           matTooltipPosition="before"><mat-icon>print</mat-icon></button>
+        </div>
       </div>
-    </div>
-    <hr class="lineBreak">
-    <div class="row">
-      <div class="col-xs-4 doNotPrint">
-        <mat-form-field>
-          <input matInput [matDatepicker]="dp2" placeholder="Select a Date" [(ngModel)]="selectedDate"
-            (click)="openDatePicker(dp2)">
-          <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-          <mat-datepicker #dp2 startView="multi-year" (yearSelected)="closeDatePicker($event, dp2)"></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="col-xs-2 doNotPrint">
-        <button mat-raised-button color="primary" (click)="toggleTable()" class="button">
-          {{ showMonthlyTable ? 'Yearly Summary' : 'Category Summary' }}
-        </button>
-      </div>
-      <div class="col-xs-2 doNotPrint">
-        <button mat-raised-button color="primary" (click)="loadYearlyData(null)" class="button">
-          {{ 'View All' }}
-        </button>
-      </div>
-    </div>
-    <div class=" row" id ="printableSummaryTable">
-      <div class="col-xs-12">
-        <div *ngIf="!showMonthlyTable">
-          <!--view table-->
-          <table mat-table [dataSource]="dataSource" matSort matSort #summarySort="matSort">
-
-            <!-- ExpenseYear Column -->
-            <ng-container matColumnDef="year">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseYear </th>
-              <td mat-cell *matCellDef="let row"> <a class="year-link" (click)="openYearComponent(row.year)">
-                {{ row.year }}
-              </a> </td>
-            </ng-container>
-
-            <!-- ExpenseAmount Column -->
-            <ng-container matColumnDef="expense">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseAmount </th>
-              <td mat-cell *matCellDef="let row"> {{row.expense| inrFormat }}</td>
-            </ng-container>
-
-            <!-- IncomeAmount Column -->
-            <ng-container matColumnDef="income">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Income Amount </th>
-              <td mat-cell *matCellDef="let row"> {{row.income| inrFormat }}</td>
-            </ng-container>
-            <!-- Savings Column -->
-            <ng-container matColumnDef="savings">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Savings </th>
-              <td mat-cell *matCellDef="let row"> {{row.savings| inrFormat }}</td>
-            </ng-container>
-
-            <!-- Estimated Column -->
-            <ng-container matColumnDef="estimated">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Estimated </th>
-              <td mat-cell *matCellDef="let row"> {{row.estimated| inrFormat }}</td>
-            </ng-container>
-            <ng-container matColumnDef="planned">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Planned </th>
-              <td mat-cell *matCellDef="let row"> {{row.category[0].amount==null?0:row.category[1]?.amount | inrFormat }}</td>
-            </ng-container>
-            <ng-container matColumnDef="unPlanned">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> UnPlanned </th>
-              <td mat-cell *matCellDef="let row"> {{row.category[1]?.amount==null?0:row.category[0]?.amount | inrFormat }}</td>
-            </ng-container>
-            <ng-container matColumnDef="investment">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Investment </th>
-              <td mat-cell *matCellDef="let row"> {{row.category[2]?.amount==null?0:row.category[2]?.amount | inrFormat }}
-              </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-
+      <hr class="lineBreak">
+      <div class="row">
+        <div class="col-xs-4 doNotPrint">
+          <mat-form-field>
+            <input matInput [matDatepicker]="dp2" placeholder="Select a Date" [(ngModel)]="selectedDate"
+              (click)="openDatePicker(dp2)">
+              <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+              <mat-datepicker #dp2 startView="multi-year" (yearSelected)="closeDatePicker($event, dp2)"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-2 doNotPrint">
+            <button mat-raised-button color="primary" (click)="toggleTable()" class="button">
+              {{ showMonthlyTable ? 'Yearly Summary' : 'Category Summary' }}
+            </button>
+          </div>
+          <div class="col-xs-2 doNotPrint">
+            <button mat-raised-button color="primary" (click)="loadYearlyData(null)" class="button">
+              {{ 'View All' }}
+            </button>
+          </div>
+        </div>
+        <div class=" row" id ="printableSummaryTable">
+          <div class="col-xs-12">
+            @if (!showMonthlyTable) {
+              <div>
+                <!--view table-->
+                <table mat-table [dataSource]="dataSource" matSort matSort #summarySort="matSort">
+                  <!-- ExpenseYear Column -->
+                  <ng-container matColumnDef="year">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseYear </th>
+                    <td mat-cell *matCellDef="let row"> <a class="year-link" (click)="openYearComponent(row.year)">
+                      {{ row.year }}
+                    </a> </td>
+                  </ng-container>
+                  <!-- ExpenseAmount Column -->
+                  <ng-container matColumnDef="expense">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseAmount </th>
+                    <td mat-cell *matCellDef="let row"> {{row.expense| inrFormat }}</td>
+                  </ng-container>
+                  <!-- IncomeAmount Column -->
+                  <ng-container matColumnDef="income">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Income Amount </th>
+                    <td mat-cell *matCellDef="let row"> {{row.income| inrFormat }}</td>
+                  </ng-container>
+                  <!-- Savings Column -->
+                  <ng-container matColumnDef="savings">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Savings </th>
+                    <td mat-cell *matCellDef="let row"> {{row.savings| inrFormat }}</td>
+                  </ng-container>
+                  <!-- Estimated Column -->
+                  <ng-container matColumnDef="estimated">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Estimated </th>
+                    <td mat-cell *matCellDef="let row"> {{row.estimated| inrFormat }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="planned">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Planned </th>
+                    <td mat-cell *matCellDef="let row"> {{row.category[0].amount==null?0:$safeNavigationMigration(row.category[1]?.amount) | inrFormat }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="unPlanned">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> UnPlanned </th>
+                    <td mat-cell *matCellDef="let row"> {{row.category[1]?.amount==null?0:$safeNavigationMigration(row.category[0]?.amount) | inrFormat }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="investment">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Investment </th>
+                    <td mat-cell *matCellDef="let row"> {{row.category[2]?.amount==null?0:$safeNavigationMigration(row.category[2]?.amount) | inrFormat }}
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </div>
+            }
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="row" id="printableCatTable">
-  <div class="col-xs-12">
-    <div *ngIf="showMonthlyTable">
-      <h3 class="text-center brandcolor">Monthly Expense by Category - {{selectedDate.getFullYear()}}</h3>
-      <div class="table-container">
-        <table mat-table [dataSource]="monthlyDataSource" matSort class="mat-elevation-z8"  matSort #monthlySort="matSort">
-
-          <!-- Category Column -->
-          <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Category </th>
-            <td mat-cell *matCellDef="let row"> {{ row.category }} </td>
-          </ng-container>
-
-          <!-- Month Columns -->
-          <ng-container *ngFor="let month of months" [matColumnDef]="month">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> {{ month }} </th>
-            <td mat-cell *matCellDef="let row"> {{ row[month] | inrFormat }} </td>
-          </ng-container>
-          <!-- Total Column -->
-          <ng-container matColumnDef="total">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Total </th>
-            <td mat-cell *matCellDef="let row"> {{ row.total | inrFormat }} </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedMonthlyColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedMonthlyColumns;"></tr>
-        </table>
+    <div class="row" id="printableCatTable">
+      <div class="col-xs-12">
+        @if (showMonthlyTable) {
+          <div>
+            <h3 class="text-center brandcolor">Monthly Expense by Category - {{selectedDate.getFullYear()}}</h3>
+            <div class="table-container">
+              <table mat-table [dataSource]="monthlyDataSource" matSort class="mat-elevation-z8"  matSort #monthlySort="matSort">
+                <!-- Category Column -->
+                <ng-container matColumnDef="category">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Category </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.category }} </td>
+                </ng-container>
+                <!-- Month Columns -->
+                @for (month of months; track month) {
+                  <ng-container [matColumnDef]="month">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> {{ month }} </th>
+                    <td mat-cell *matCellDef="let row"> {{ row[month] | inrFormat }} </td>
+                  </ng-container>
+                }
+                <!-- Total Column -->
+                <ng-container matColumnDef="total">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Total </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.total | inrFormat }} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedMonthlyColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedMonthlyColumns;"></tr>
+              </table>
+            </div>
+          </div>
+        }
       </div>
     </div>
-  </div>
-</div>
-  <div class="row">
-    <div class="col-xs-10">
-      <div class="chart-container">
-        <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
+    <div class="row">
+      <div class="col-xs-10">
+        <div class="chart-container">
+          <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
+        </div>
       </div>
     </div>
-  </div>

@@ -1,72 +1,76 @@
 <div class="container">
-    <div class="row">
-        <mat-toolbar role="toolbar" class="titleHeader">
-            <div class="col-xs-10">
-                <h4  class="myFont"> Add Expense Details</h4>
-            </div>
-            <div class="col-xs-2">
-                <button class="close" mat-icon-button 
-                (click)="close()"         
-                matTooltip="Close the form"
-                matTooltipPosition="before"><mat-icon>cancel</mat-icon> </button>
-            </div>
-        </mat-toolbar>
+  <div class="row">
+    <mat-toolbar role="toolbar" class="titleHeader">
+      <div class="col-xs-10">
+        <h4  class="myFont"> Add Expense Details</h4>
+      </div>
+      <div class="col-xs-2">
+        <button class="close" mat-icon-button
+          (click)="close()"
+          matTooltip="Close the form"
+          matTooltipPosition="before"><mat-icon>cancel</mat-icon> </button>
+        </div>
+      </mat-toolbar>
     </div>
     <br>
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
         <div class="row">
-            <div class="col-xs-4">
-                <mat-form-field appearance="outline" class="customformat">
-                    <mat-label>Expense Date</mat-label>
-                    <input matInput [matDatepicker]="picker" placeholder="Expense Date" formControlName="expenseDate" 
-                     (dateChange)="onDateChange($event)">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker ></mat-datepicker>
-                </mat-form-field>
+          <div class="col-xs-4">
+            <mat-form-field appearance="outline" class="customformat">
+              <mat-label>Expense Date</mat-label>
+              <input matInput [matDatepicker]="picker" placeholder="Expense Date" formControlName="expenseDate"
+                (dateChange)="onDateChange($event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker ></mat-datepicker>
+              </mat-form-field>
 
             </div>
             <div class="col-xs-4">
-                <mat-form-field appearance="outline" class="customformat">
-                    <mat-label>ExpenseType</mat-label>
-                    <mat-select placeholder="ExpenseType" formControlName="expenseType">
-                        <mat-option value="UnPlanned">UnPlanned</mat-option>
-                        <mat-option value="Planned">Planned</mat-option>
-                        <mat-option value="Investment">Investment</mat-option>
-                    </mat-select>
-                </mat-form-field>
+              <mat-form-field appearance="outline" class="customformat">
+                <mat-label>ExpenseType</mat-label>
+                <mat-select placeholder="ExpenseType" formControlName="expenseType">
+                  <mat-option value="UnPlanned">UnPlanned</mat-option>
+                  <mat-option value="Planned">Planned</mat-option>
+                  <mat-option value="Investment">Investment</mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
             <div class="col-xs-4">
-                <mat-form-field appearance="outline" class="customformat">
-                    <mat-label>ExpenseOf</mat-label>
-                    <mat-select placeholder="ExpenseOf" formControlName="expenseOf">
-                        <mat-option *ngFor="let e of items" [value]="e .value">{{e.value }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+              <mat-form-field appearance="outline" class="customformat">
+                <mat-label>ExpenseOf</mat-label>
+                <mat-select placeholder="ExpenseOf" formControlName="expenseOf">
+                  @for (e of items; track e) {
+                    <mat-option [value]="e .value">{{e.value }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
             </div>
-        </div>
-        <div class="row">
+          </div>
+          <div class="row">
             <div class="col-xs-4">
-                <mat-form-field appearance="outline" class="customformat">
-                    <mat-label>Description</mat-label>
-                    <input matInput placeholder="Description" formControlName="description">
-                </mat-form-field>
+              <mat-form-field appearance="outline" class="customformat">
+                <mat-label>Description</mat-label>
+                <input matInput placeholder="Description" formControlName="description">
+              </mat-form-field>
             </div>
             <div class="col-xs-4">
-                <mat-form-field appearance="outline" class="customformat">
-                    <mat-label>Amount</mat-label>
-                    <input matInput placeholder="Amount" formControlName="amount">
-                    <mat-icon matSuffix><span class="material-icons">
-                        currency_rupee
-                        </span></mat-icon>
-                        <mat-error *ngIf="formGroup.get('amount').hasError('pattern')">
-                            Please Enter only Numbers!
-                          </mat-error>
-                </mat-form-field>
+              <mat-form-field appearance="outline" class="customformat">
+                <mat-label>Amount</mat-label>
+                <input matInput placeholder="Amount" formControlName="amount">
+                <mat-icon matSuffix><span class="material-icons">
+                  currency_rupee
+                </span></mat-icon>
+                @if (formGroup.get('amount').hasError('pattern')) {
+                  <mat-error>
+                    Please Enter only Numbers!
+                  </mat-error>
+                }
+              </mat-form-field>
             </div>
             <div class="col-xs-4 ">
-                <button  color="primary" type="submit" class="button">Submit</button>
-                <a color="primary"   (click)="clear()">Clear</a>
+              <button  color="primary" type="submit" class="button">Submit</button>
+              <a color="primary"   (click)="clear()">Clear</a>
             </div>
-        </div>
-    </form>
-</div>
+          </div>
+        </form>
+      </div>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { CommonModule } from '@angular/common';
+
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ExpenseAddComponent } from '../expense-add/expense-add.component';
 import { IncomeAddComponent } from '../../income-add/income-add.component';
@@ -26,15 +26,12 @@ import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-expense-monthly-table',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule,
-    MatSelectModule, MatDatepickerModule, MatNativeDateModule, CommonModule, MatDialogModule, 
-    FormsModule,NgxPrintDirective,MatTooltipModule,CanvasJSAngularChartsModule,InrFormatPipe],
-  templateUrl: './expense-monthly-table.component.html',
-  styleUrl: './expense-monthly-table.component.css',
-  providers: [MatDatepickerModule, MatNativeDateModule]
-
+    selector: 'app-expense-monthly-table',
+    imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule, FormsModule, NgxPrintDirective, MatTooltipModule, CanvasJSAngularChartsModule, InrFormatPipe],
+    templateUrl: './expense-monthly-table.component.html',
+    styleUrl: './expense-monthly-table.component.css',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    providers: [MatDatepickerModule, MatNativeDateModule]
 })
 export class ExpenseMonthlyTableComponent {
   displayedColumns: string[] = ['expenseDate', 'expenseType', 'expenseOf', 'description', 'amount', 'actionsColumn'];

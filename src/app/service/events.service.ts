@@ -53,7 +53,7 @@ export class EventsService extends BaseService {
   }
 
   fetchEventTypeDropdownData() {
-    this.http.get<any>(this.baseUrl + '/config/dropDown?key=EventType').subscribe(
+    this.http.get<any>(this.baseUrl + 'config/dropDown?key=EventType').subscribe(
       (res) => {
         this.eventDropDownResponse.next(res);
       },

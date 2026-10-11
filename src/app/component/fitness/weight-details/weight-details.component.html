@@ -1,98 +1,100 @@
 <div class="scrollable-container">
-<div class="weightContainer" id="print-weight">
+  <div class="weightContainer" id="print-weight">
     <div class="col-xs-10 center doNotPrint">
-        <mat-form-field>
-            <mat-icon matTextPrefix>search</mat-icon>
-            <input matInput (keyup)="applyFilter($event)" #input>
-        </mat-form-field>
+      <mat-form-field>
+        <mat-icon matTextPrefix>search</mat-icon>
+        <input matInput (keyup)="applyFilter($event)" #input>
+      </mat-form-field>
     </div>
     <div class="col-xs-2 doNotPrint">
-        <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
-            [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="{{personName}} Fitness Detail"
-            type="button" printSectionId="print-weight" ngxPrint matTooltip="Print"
-            matTooltipPosition="before"><mat-icon>print</mat-icon></button>
+      <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
+        [hidePaginator]="true" mat-raised-button [useExistingCss]="true" printTitle="{{personName}} Fitness Detail"
+        type="button" printSectionId="print-weight" ngxPrint matTooltip="Print"
+        matTooltipPosition="before"><mat-icon>print</mat-icon></button>
         <button class="close" mat-icon-button (click)="close()" matTooltip="Close the form"
-            matTooltipPosition="before"><mat-icon>cancel</mat-icon> </button>
-    </div>
-    <div class="col-xs-12">
-        <div class="row print">
+          matTooltipPosition="before"><mat-icon>cancel</mat-icon> </button>
+        </div>
+        <div class="col-xs-12">
+          <div class="row print">
             <div class="col-xs-3">
-                <img [src]="personPic ? personPic  : 'img/img_avatar.png'" alt="personPic" width="65" height="65">
+              <img [src]="personPic ? personPic  : 'img/img_avatar.png'" alt="personPic" width="65" height="65">
             </div>
             <div class="col-xs-7">
-                <h3 class="text-center brandcolor">{{personName}} Fitness Detail</h3>
+              <h3 class="text-center brandcolor">{{personName}} Fitness Detail</h3>
             </div>
-        </div>
-        <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">
+          </div>
+          <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">
 
             <!-- Date Column -->
             <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Date </th>
-                <td mat-cell *matCellDef="let row"> {{row.date}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Date </th>
+              <td mat-cell *matCellDef="let row"> {{row.date}}</td>
             </ng-container>
 
             <!-- height Column -->
             <ng-container matColumnDef="height">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Height </th>
-                <td mat-cell *matCellDef="let row">
-                    <ng-container *ngIf="!row.isEditing; else editHeight">
-                        {{row.height}} cm
-                    </ng-container>
-                    <ng-template #editHeight>
-                        <input matInput [(ngModel)]="row.height" type="number" placeholder="Height (cm)">
-                    </ng-template>
-                </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Height </th>
+              <td mat-cell *matCellDef="let row">
+                @if (!row.isEditing) {
+                  {{row.height}} cm
+                } @else {
+                  <input matInput [(ngModel)]="row.height" type="number" placeholder="Height (cm)">
+                }
+              </td>
             </ng-container>
 
             <!-- weight Column -->
             <ng-container matColumnDef="weight">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Weight </th>
-                <td mat-cell *matCellDef="let row">
-                    <ng-container *ngIf="!row.isEditing; else editWeight">
-                        {{row.weight}} kg
-                    </ng-container>
-                    <ng-template #editWeight>
-                        <input matInput [(ngModel)]="row.weight" type="number" placeholder="Weight (kg)">
-                    </ng-template>
-                </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Weight </th>
+              <td mat-cell *matCellDef="let row">
+                @if (!row.isEditing) {
+                  {{row.weight}} kg
+                } @else {
+                  <input matInput [(ngModel)]="row.weight" type="number" placeholder="Weight (kg)">
+                }
+              </td>
             </ng-container>
 
             <!-- actionsColumn Column -->
             <ng-container matColumnDef="actionsColumn">
-                <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
-                <td mat-cell *matCellDef="let row;" class="doNotPrint">
-                    <button class="buttonIcon" (click)="enableEdit(row)" matTooltip="Edit Data" *ngIf="!row.isEditing">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button class="buttonIcon" (click)="updateRecord(row)" matTooltip="Save updated Data"
-                        *ngIf="row.isEditing">
-                        <mat-icon>save</mat-icon>
-                    </button>
-                    <button class="buttonIcon" (click)="deleteRow(row)" matTooltip="Delete Record"
-                        matTooltipPosition="after">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
+              <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> </th>
+              <td mat-cell *matCellDef="let row;" class="doNotPrint">
+                @if (!row.isEditing) {
+                  <button class="buttonIcon" (click)="enableEdit(row)" matTooltip="Edit Data">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                }
+                @if (row.isEditing) {
+                  <button class="buttonIcon" (click)="updateRecord(row)" matTooltip="Save updated Data"
+                    >
+                    <mat-icon>save</mat-icon>
+                  </button>
+                }
+                <button class="buttonIcon" (click)="deleteRow(row)" matTooltip="Delete Record"
+                  matTooltipPosition="after">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             <!-- Row shown when there is no matching data. -->
             <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="1">No data matching the filter "{{input.value}}"</td>
+              <td class="mat-cell" colspan="1">No data matching the filter "{{input.value}}"</td>
             </tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page "
-            id="mat-paginator"></mat-paginator>
-    </div>
-</div>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page "
+          id="mat-paginator"></mat-paginator>
+        </div>
+      </div>
 
-<div class="data">
-    <h3 class="brandcolor">Fitness Trend</h3>
-    <ng-container *ngIf="data?.length > 0">
-        <app-fitness-detail [trend]="data.reverse()" [chartHeight]="400" [chartWidth]="600"></app-fitness-detail>
-    </ng-container>
-    <ng-container *ngIf="!data || data.length === 0">
-        <p>Loading data...</p>
-    </ng-container>
-</div>
+      <div class="data">
+        <h3 class="brandcolor">Fitness Trend</h3>
+        @if (data?.length > 0) {
+          <app-fitness-detail [trend]="data.reverse()" [chartHeight]="400" [chartWidth]="600"></app-fitness-detail>
+        }
+        @if (!data || data.length === 0) {
+          <p>Loading data...</p>
+        }
+      </div>

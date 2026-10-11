@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,17 +9,16 @@ import { FitnessService } from '../../../service/fitness.service';
 import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { FitnessDetailComponent } from '../fitness-detail/fitness-detail.component';
 
 
 @Component({
-  selector: 'app-weight-details',
-  standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, 
-    MatInputModule, NgxPrintDirective,MatTooltipModule,FormsModule,CommonModule,FitnessDetailComponent],
-  templateUrl: './weight-details.component.html',
-  styleUrl: './weight-details.component.css'
+    selector: 'app-weight-details',
+    imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatFormFieldModule, MatInputModule, NgxPrintDirective, MatTooltipModule, FormsModule, FitnessDetailComponent],
+    templateUrl: './weight-details.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './weight-details.component.css'
 })
 export class WeightDetailsComponent {
 

@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ExpenseYearly, MonthlyExpByCatagory } from './expense-yearly';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
@@ -9,7 +9,6 @@ import { CommonService } from '../../../service/common.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
-import { NgxPrintDirective } from '../../../directive/ngx-print.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -17,13 +16,11 @@ import { InrFormatPipe } from '../../../pipes/indian-currency.pipe';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-expense-yearly',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule,
-    CommonModule, CanvasJSAngularChartsModule, MatDatepickerModule, MatNativeDateModule, FormsModule,
-    NgxPrintDirective, MatIconModule, MatTooltipModule, MatSortModule, InrFormatPipe],
-  templateUrl: './expense-yearly.component.html',
-  styleUrl: './expense-yearly.component.css'
+    selector: 'app-expense-yearly',
+    imports: [MatFormFieldModule, MatInputModule, MatTableModule, CanvasJSAngularChartsModule, MatDatepickerModule, MatNativeDateModule, FormsModule, MatIconModule, MatTooltipModule, MatSortModule, InrFormatPipe],
+    templateUrl: './expense-yearly.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './expense-yearly.component.css'
 })
 export class ExpenseYearlyComponent implements OnInit {
   displayedColumns: string[] = ['year', 'expense', 'income', 'savings', 'estimated', 'planned', 'unPlanned', 'investment'];

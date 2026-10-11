@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, inject, ViewChild } from '@angular/core';
+
+import { Component, Inject, inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,13 +14,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-add-medical-details',
-  standalone: true,
-  imports: [MatFormFieldModule, MatToolbarModule, ReactiveFormsModule,
-    MatInputModule, CommonModule, MatSelectModule, MatDatepickerModule, 
-    MatNativeDateModule, MatTooltipModule,MatIcon],
-  templateUrl: './add-medical-details.component.html',
-  styleUrl: './add-medical-details.component.css'
+    selector: 'app-add-medical-details',
+    imports: [MatFormFieldModule, MatToolbarModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatTooltipModule, MatIcon],
+    templateUrl: './add-medical-details.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './add-medical-details.component.css'
 })
 export class AddMedicalDetailsComponent {
 

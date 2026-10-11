@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormGroupDirective, FormBuilder, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,13 +16,13 @@ import { InvestmentData } from './investment-data';
 import { DropDownData } from '../../config-data';
 
 @Component({
-  selector: 'app-investments',
-  standalone: true,
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
-    MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
-    MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, MatTooltipModule],
-  templateUrl: './investments.component.html',
-  styleUrl: './investments.component.css'
+    selector: 'app-investments',
+    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule,
+        MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule,
+        MatSelectModule, FormsModule, CommonModule, NgxPrintDirective, MatTooltipModule],
+    templateUrl: './investments.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './investments.component.css'
 })
 export class InvestmentsComponent implements OnInit {
   formGroup: FormGroup;

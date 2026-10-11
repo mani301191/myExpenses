@@ -1,6 +1,6 @@
 # myExpenses
 
-A personal **expense and life-management dashboard** built with **Angular 17** and **Angular Material**. This application helps you track your finances (expenses, income, budgets, investments, insurance, assets), fitness/health data for family members, household appliances, career history, and reminders/events.
+A personal **expense and life-management dashboard** built with **Angular 22** and **Angular Material**. This application helps you track your finances (expenses, income, budgets, investments, insurance, assets), fitness/health data for family members, household appliances, career history, and reminders/events.
 
 The built output is deployed to a Spring Boot backend (`expenseTrackerService`) so the app runs as a single integrated web application.
 
@@ -21,16 +21,16 @@ The built output is deployed to a Spring Boot backend (`expenseTrackerService`) 
 
 ## Tech Stack
 
-- **Angular 17** (standalone components, reactive forms, routing)
-- **Angular Material 17** (tables, dialogs, datepickers, progress bars, chips)
+- **Angular 22** (standalone components, new control-flow syntax, reactive forms, routing)
+- **Angular Material 22** (tables, dialogs, datepickers, progress bars, chips)
 - **CanvasJS Angular Charts** (`@canvasjs/angular-charts`) for data visualization
 - **xlsx + file-saver** for Excel export
 - **RxJS** for reactive data flows
-- **TypeScript 5.4**
+- **TypeScript 6.0**
 
 ## Prerequisites
 
-- **Node.js** (18.x or later recommended)
+- **Node.js** (22.22.3 or later required by Angular 22)
 - **npm**
 - An instance of the backend REST API (default base URL: `http://localhost:8003/api/`) — this project is designed to build into a Spring Boot static-resource folder.
 

@@ -3,156 +3,162 @@
     <mat-icon>calendar_today</mat-icon>
   </div>
   <div class="col-xs-8">
-<h3 class="brandcolor">Monthly Expense Details - {{months[selectedDate.getMonth()]}} -
-  {{selectedDate.getFullYear()}}</h3>
+    <h3 class="brandcolor">Monthly Expense Details - {{months[selectedDate.getMonth()]}} -
+    {{selectedDate.getFullYear()}}</h3>
   </div>
   <div class="col-xs-2 doNotPrint">
     <button class="printIcon" [matTableDataSource]="dataSource" [paginator]="paginator" paginatorId="mat-paginator"
       [hidePaginator]="true" mat-raised-button [useExistingCss]="true"
-       printTitle="My Expense Tracker-{{months[selectedDate.getMonth()]}}-{{selectedDate.getFullYear()}}" 
-       type="button"printSectionId="print-section" ngxPrint matTooltip="Print"
-       matTooltipPosition="before"><mat-icon>print</mat-icon></button>
+      printTitle="My Expense Tracker-{{months[selectedDate.getMonth()]}}-{{selectedDate.getFullYear()}}"
+      type="button"printSectionId="print-section" ngxPrint matTooltip="Print"
+      matTooltipPosition="before"><mat-icon>print</mat-icon></button>
 
       <button class="printIcon" (click)="export()"  matTooltip="Download"
-      matTooltipPosition="after"><mat-icon>file_download</mat-icon></button>
-</div>
-</div>
-<hr class="lineBreak">
-<div class="row upload-container doNotPrint">
-  <span  class="brandcolor">Bulk Upload : </span>
-  <input type="file" (change)="onFileSelected($event)"/>
-  <button (click)="uploadStatement()" >Upload</button>
-  <a href="/assets/templates/expense/statement-template.xlsx" download class="template-download">
-    <i class="fa fa-file-excel-o" aria-hidden="true" style="margin-right: 6px;"></i>
-    <span>Statement Template.xlsx</span>
-  </a>
-</div>
-<div class="row doNotPrint">
-  <div class="col-xs-4">
-    <mat-form-field>
-      <input matInput [matDatepicker]="dp2" placeholder="Select a Date" [(ngModel)]="selectedDate"
-        (click)="openDatePicker(dp2)">
-      <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-      <mat-datepicker #dp2 startView="multi-year" (monthSelected)="closeDatePicker($event, dp2)"></mat-datepicker>
-    </mat-form-field>
-  </div>
-  <div class="col-xs-3">
-    <mat-form-field>
-      <mat-icon matTextPrefix>search</mat-icon>
-      <input matInput (keyup)="applyFilter($event)" #input>
-    </mat-form-field>
-  </div>
-  <div class="col-xs-5">
-    <div class="col-xs-4">
-      <button class="button" (click)="openEstimate()">Estimate</button>
+        matTooltipPosition="after"><mat-icon>file_download</mat-icon></button>
+      </div>
     </div>
-    <div class="col-xs-4">
-      <button class="button" (click)="openDialogIncome()">Income</button>
+    <hr class="lineBreak">
+    <div class="row upload-container doNotPrint">
+      <span  class="brandcolor">Bulk Upload : </span>
+      <input type="file" (change)="onFileSelected($event)"/>
+      <button (click)="uploadStatement()" >Upload</button>
+      <a href="/assets/templates/expense/statement-template.xlsx" download class="template-download">
+        <i class="fa fa-file-excel-o" aria-hidden="true" style="margin-right: 6px;"></i>
+        <span>Statement Template.xlsx</span>
+      </a>
     </div>
-    <div class="col-xs-4">
-      <button class="button" (click)="openDialogExpense()">Expense</button>
-    </div>
-  </div>
-</div>
-<div class="mat-elevation-z8" >
-
-  <!--view table-->
-  <table mat-table [dataSource]="dataSource" matSortActive="expenseDate" matSortDirection="desc" (matSortChange)="sortData($event)" matSort>
-
-    <!-- ExpenseDate Column -->
-    <ng-container matColumnDef="expenseDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseDate </th>
-      <td mat-cell *matCellDef="let row"> {{row.expenseDate}} </td>
-    </ng-container>
-
-    <!-- ExpenseType Column -->
-    <ng-container matColumnDef="expenseType">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseType </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-select [(ngModel)]="row.expenseType" 
-                    (selectionChange)="updateField(row, 'expenseType', $event.value)">
-          <mat-option *ngFor="let type of expenseTypes" [value]="type">
-            {{ type }}
-          </mat-option>
-        </mat-select>
-      </td>
-    </ng-container>
-    
-    
-    <!-- Expense Column -->
-    <ng-container matColumnDef="expenseOf">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Category </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-select [(ngModel)]="row.expenseOf" 
-                    (selectionChange)="updateField(row, 'expenseOf', $event.value)"
-                     placeholder="Uncategorised">
-          <mat-option *ngFor="let e of expenseCategories" [value]="e.value">{{e.value}}</mat-option>
-        </mat-select>
-      </td>
-    </ng-container>
-
-    <!-- Description Column -->
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader description"> Description </th>
-      <td mat-cell *matCellDef="let row" class="description">
-        <ng-container *ngIf="row.isEditing; else displayDescription">
+    <div class="row doNotPrint">
+      <div class="col-xs-4">
         <mat-form-field>
-          <input matInput [(ngModel)]="row.description" />
-        </mat-form-field>
-        </ng-container>
-        <ng-template #displayDescription>
-          {{row.description}}
-        </ng-template>
-      </td>
-    </ng-container>
+          <input matInput [matDatepicker]="dp2" placeholder="Select a Date" [(ngModel)]="selectedDate"
+            (click)="openDatePicker(dp2)">
+            <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+            <mat-datepicker #dp2 startView="multi-year" (monthSelected)="closeDatePicker($event, dp2)"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-xs-3">
+          <mat-form-field>
+            <mat-icon matTextPrefix>search</mat-icon>
+            <input matInput (keyup)="applyFilter($event)" #input>
+          </mat-form-field>
+        </div>
+        <div class="col-xs-5">
+          <div class="col-xs-4">
+            <button class="button" (click)="openEstimate()">Estimate</button>
+          </div>
+          <div class="col-xs-4">
+            <button class="button" (click)="openDialogIncome()">Income</button>
+          </div>
+          <div class="col-xs-4">
+            <button class="button" (click)="openDialogExpense()">Expense</button>
+          </div>
+        </div>
+      </div>
+      <div class="mat-elevation-z8" >
 
-    <!-- ExpenseAmount Column -->
-    <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseAmount </th>
-      <td mat-cell *matCellDef="let row">
-        <ng-container *ngIf="row.isEditing; else displayAmount">
-        <mat-form-field>
-          <input matInput [(ngModel)]="row.amount" type="number" />
-        </mat-form-field>
-        </ng-container>
-        <ng-template #displayAmount>
-          {{row.amount | inrFormat}}
-        </ng-template>
-      </td>
-    </ng-container>
-    
-    <ng-container matColumnDef="actionsColumn">
-      <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> Action </th>
-      <td mat-cell *matCellDef="let row;" class="doNotPrint">
-        <button class="buttonIcon" (click)="enableEdit(row)" matTooltip="Edit Data" *ngIf="!row.isEditing">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button class="buttonIcon" (click)="updateRecord(row)" matTooltip="Save updated Data" *ngIf="row.isEditing">
-          <mat-icon>save</mat-icon>
-        </button>
-        <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
-        matTooltipPosition="after">
-          <i class="fa fa-trash"></i>
-        </button>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!--view table-->
+        <table mat-table [dataSource]="dataSource" matSortActive="expenseDate" matSortDirection="desc" (matSortChange)="sortData($event)" matSort>
 
-    <!-- Row shown when there is no matching data. -->
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="1">No data matching the filter "{{input.value}}"</td>
-    </tr>
-  </table>
+          <!-- ExpenseDate Column -->
+          <ng-container matColumnDef="expenseDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseDate </th>
+            <td mat-cell *matCellDef="let row"> {{row.expenseDate}} </td>
+          </ng-container>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100,250]" aria-label="Select page" id="mat-paginator" showFirstLastButtons></mat-paginator>
-</div>
-<br>
-<div class="chart-container doNotPrint">
-      <canvasjs-chart id="dayWiseExpenseChart" [options]="chartOptions"></canvasjs-chart>
-</div>
-<br>
-<div class="chart-container doNotPrint">
-  <canvasjs-chart id="expenseOfChart" [options]="expenseOfChartOptions"></canvasjs-chart>
-</div>
-<br>
+          <!-- ExpenseType Column -->
+          <ng-container matColumnDef="expenseType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseType </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-select [(ngModel)]="row.expenseType"
+                (selectionChange)="updateField(row, 'expenseType', $event.value)">
+                @for (type of expenseTypes; track type) {
+                  <mat-option [value]="type">
+                    {{ type }}
+                  </mat-option>
+                }
+              </mat-select>
+            </td>
+          </ng-container>
+
+
+          <!-- Expense Column -->
+          <ng-container matColumnDef="expenseOf">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> Category </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-select [(ngModel)]="row.expenseOf"
+                (selectionChange)="updateField(row, 'expenseOf', $event.value)"
+                placeholder="Uncategorised">
+                @for (e of expenseCategories; track e) {
+                  <mat-option [value]="e.value">{{e.value}}</mat-option>
+                }
+              </mat-select>
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader description"> Description </th>
+            <td mat-cell *matCellDef="let row" class="description">
+              @if (row.isEditing) {
+                <mat-form-field>
+                  <input matInput [(ngModel)]="row.description" />
+                </mat-form-field>
+              } @else {
+                {{row.description}}
+              }
+            </td>
+          </ng-container>
+
+          <!-- ExpenseAmount Column -->
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader"> ExpenseAmount </th>
+            <td mat-cell *matCellDef="let row">
+              @if (row.isEditing) {
+                <mat-form-field>
+                  <input matInput [(ngModel)]="row.amount" type="number" />
+                </mat-form-field>
+              } @else {
+                {{row.amount | inrFormat}}
+              }
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actionsColumn">
+            <th mat-header-cell *matHeaderCellDef class="tableHeader doNotPrint"> Action </th>
+            <td mat-cell *matCellDef="let row;" class="doNotPrint">
+              @if (!row.isEditing) {
+                <button class="buttonIcon" (click)="enableEdit(row)" matTooltip="Edit Data">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
+              @if (row.isEditing) {
+                <button class="buttonIcon" (click)="updateRecord(row)" matTooltip="Save updated Data">
+                  <mat-icon>save</mat-icon>
+                </button>
+              }
+              <button class="buttonIcon" (click)="deleteRow(row)"  matTooltip="Delete Record"
+                matTooltipPosition="after">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="1">No data matching the filter "{{input.value}}"</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100,250]" aria-label="Select page" id="mat-paginator" showFirstLastButtons></mat-paginator>
+      </div>
+      <br>
+        <div class="chart-container doNotPrint">
+          <canvasjs-chart id="dayWiseExpenseChart" [options]="chartOptions"></canvasjs-chart>
+        </div>
+        <br>
+          <div class="chart-container doNotPrint">
+            <canvasjs-chart id="expenseOfChart" [options]="expenseOfChartOptions"></canvasjs-chart>
+          </div>
+          <br>

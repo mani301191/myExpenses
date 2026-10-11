@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { SummaryService } from '../service/summary.service';
@@ -7,11 +7,11 @@ import { InrFormatPipe } from '../pipes/indian-currency.pipe';
 
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [MatIconModule,CommonModule,CanvasJSAngularChartsModule, InrFormatPipe],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+    selector: 'app-dashboard',
+    imports: [MatIconModule, CommonModule, CanvasJSAngularChartsModule, InrFormatPipe],
+    templateUrl: './dashboard.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
   expenseTrackingData: any = {};
