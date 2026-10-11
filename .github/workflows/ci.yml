@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [24.x]
 
     steps:
       - name: Checkout source
@@ -35,7 +35,7 @@ jobs:
         run: npx ng build --output-path dist/myExpenses
 
       - name: Run unit tests (ChromeHeadless) and generate coverage
-        run: npx ng test --watch=false --karma-config karma.conf.js --code-coverage
+        run: npx ng test --watch=false --karma-config karma.conf.js --browsers=ChromeHeadlessCI --code-coverage
 
       - name: Upload coverage report
         if: always()
