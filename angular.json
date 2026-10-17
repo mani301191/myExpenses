@@ -13,7 +13,10 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "D://src/expenseTrackerService/src/main/resources/static",
+            "outputPath": {
+              "base": "D://src/expenseTrackerService/src/main/resources/static",
+              "browser": ""
+            },
             "index": "src/index.html",
             "polyfills": [
               "zone.js"

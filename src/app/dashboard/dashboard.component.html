@@ -57,6 +57,22 @@
                 </ng-template>
             </div>
         </div>
+        <div class="dashboard-card upcoming-events">
+            <div class="row title">Upcoming Events</div>
+            <div class="person-info">
+                <div *ngIf="upcomingEvents?.length > 0; else noEventData" class="events-list">
+                    <div *ngFor="let item of upcomingEvents" class="event-row">
+                        <mat-icon [ngClass]="getIconColor(item.eventType)" class="event-icon">{{ getIcon(item.eventType) }}</mat-icon>
+                        <div class="event-details">
+                            <b>{{ item.eventDate }} - {{ item.eventType }}</b> - <span>{{ item.eventDetail }}</span>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #noEventData>
+                    <div class="no-data">No data found</div>
+                </ng-template>
+            </div>
+        </div>
     </div>
     <div class="dashboard-card fitness-goals">
         <div *ngIf="fitnessData?.length > 0; else noData">
@@ -70,7 +86,7 @@
                 <div class="fitness-info" style="display: flex; gap: 16px; flex-wrap: nowrap; overflow-x: auto;" #scrollContainer>
                     <div *ngFor="let person of fitnessData" class="person-card">
                         <div class="row person-name" style="display: flex; align-items: center; gap: 8px;">
-                            <mat-icon class="person-icon">person</mat-icon>
+                            <img [src]="person.personPic || 'img/img_avatar.png'" class="person-avatar" alt="{{ person.name }}" />
                             <span>{{ person.name }}</span>
                         </div>
                         <div class="row" style="display: flex; align-items: center; gap: 8px;">

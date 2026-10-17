@@ -21,25 +21,35 @@ describe('RemindersComponent', () => {
 
   beforeEach(async () => {
     const now = new Date();
-    const currentMonthDate = toDmy(new Date(now.getFullYear(), now.getMonth(), 15));
-    const otherMonthDate = toDmy(new Date(now.getFullYear(), now.getMonth() + 1, 15));
+    now.setHours(0, 0, 0, 0);
+    const todayDate = toDmy(now);
+    const nextMonthDate = toDmy(new Date(now.getFullYear(), now.getMonth() + 1, 15));
+    const nextMonthHolidayDate = toDmy(new Date(now.getFullYear(), now.getMonth() + 1, 20));
+    const nextYearHolidayDate = toDmy(new Date(now.getFullYear() + 1, now.getMonth() + 1, 20));
+    const pastMonthDate = toDmy(new Date(now.getFullYear(), now.getMonth() - 1, 15));
 
     eventsServiceSpy = jasmine.createSpyObj('EventsService', [
       'fetchEventData',
       'fetchEventTypeDropdownData',
       'saveEventData',
-      'deleteRow'
+      'deleteRow',
+      'uploadEventFile'
     ]);
     eventsServiceSpy.fetchEventData.and.returnValue(
       of([
-        { eventDate: currentMonthDate, eventType: 'Birthday', eventDetail: 'Alice', recurrence: 'none' },
-        { eventDate: otherMonthDate, eventType: 'Travel', eventDetail: 'Trip', recurrence: 'none' },
+        { eventDate: todayDate, eventType: 'Birthday', eventDetail: 'Alice', recurrence: 'yearly' },
+        { eventDate: nextMonthDate, eventType: 'Travel', eventDetail: 'Trip', recurrence: 'none' },
+        { eventDate: nextMonthHolidayDate, eventType: 'Gazetted Holiday', eventDetail: 'Diwali', recurrence: 'none' },
+        { eventDate: nextYearHolidayDate, eventType: 'Gazetted Holiday', eventDetail: 'NextYearDiwali', recurrence: 'none' },
+        { eventDate: pastMonthDate, eventType: 'Holiday', eventDetail: 'Past', recurrence: 'none' },
         { eventDate: '', eventType: 'Holiday', eventDetail: 'X', recurrence: 'daily' }
       ] as any)
     );
     eventsServiceSpy.fetchEventTypeDropdownData.and.returnValue(
       of([{ id: '1', value: 'Birthday' }, { id: '2', value: 'Meeting' }])
     );
+    eventsServiceSpy.uploadEventFile.and.returnValue(of([]));
+    eventsServiceSpy.uploading = of(false);
 
     await TestBed.configureTestingModule({
       imports: [RemindersComponent, NoopAnimationsModule],
@@ -62,17 +72,21 @@ describe('RemindersComponent', () => {
   });
 
   describe('fetchEventData', () => {
-    it('should load all rows into the table', () => {
-      expect(component.dataSource.data.length).toBe(3);
+    it('should load only upcoming rows into the table (past excluded)', () => {
+      expect(component.dataSource.data.length).toBe(4);
+      expect(component.dataSource.data.map(r => r.eventDetail)).toEqual(['Alice', 'Trip', 'Diwali', 'NextYearDiwali']);
+    });
+
+    it('should order upcoming events nearest first', () => {
+      expect(component.dataSource.data[0].eventDetail).toBe('Alice');
     });
 
     it('should load the event type dropdown on init', () => {
       expect(component.eventTypes.length).toBe(2);
     });
 
-    it('should keep only events of the current month in eventData', () => {
-      expect(component.eventData.length).toBe(1);
-      expect(component.eventData[0].eventDetail).toBe('Alice');
+    it('should show only current/next-month events in the card, excluding future-year holidays', () => {
+      expect(component.eventData.map(r => r.eventDetail)).toEqual(['Alice', 'Diwali']);
     });
   });
 
@@ -127,6 +141,40 @@ describe('RemindersComponent', () => {
     });
   });
 
+  describe('onFileSelected', () => {
+    it('should capture the selected file', () => {
+      const file = new File(['data'], 'events.txt', { type: 'text/plain' });
+      component.onFileSelected({ target: { files: [file] } });
+      expect(component.selectedFile).toBe(file);
+    });
+
+    it('should clear the selection when no file is chosen', () => {
+      component.selectedFile = new File(['data'], 'events.txt');
+      component.onFileSelected({ target: { files: [] } });
+      expect(component.selectedFile).toBeNull();
+    });
+  });
+
+  describe('uploadEvents', () => {
+    it('should upload the selected file and reset the input', () => {
+      const file = new File(['data'], 'events.txt', { type: 'text/plain' });
+      component.selectedFile = file;
+      const input = { value: 'C:\\fakepath\\events.txt' } as HTMLInputElement;
+
+      component.uploadEvents(input);
+
+      expect(eventsServiceSpy.uploadEventFile).toHaveBeenCalledWith(file);
+      expect(input.value).toBe('');
+      expect(component.selectedFile).toBeNull();
+    });
+
+    it('should ask the service to warn when no file is selected', () => {
+      component.selectedFile = null;
+      component.uploadEvents();
+      expect(eventsServiceSpy.uploadEventFile).toHaveBeenCalledWith(null);
+    });
+  });
+
   describe('getIcon', () => {
     it('should map event types to icons case-insensitively', () => {
       expect(component.getIcon('birthday')).toBe('cake');
@@ -136,6 +184,11 @@ describe('RemindersComponent', () => {
       expect(component.getIcon('festival')).toBe('celebration');
       expect(component.getIcon('travel')).toBe('flight_takeoff');
       expect(component.getIcon('unknown')).toBe('notifications');
+    });
+
+    it('should match uploaded holiday event types like Gazetted Holiday', () => {
+      expect(component.getIcon('Gazetted Holiday')).toBe('beach_access');
+      expect(component.getIconColor('Gazetted Holiday')).toBe('holiday');
     });
   });
 

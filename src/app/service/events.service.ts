@@ -14,6 +14,8 @@ export class EventsService extends BaseService {
   eventData = this.eventDataResponse.asObservable();
   eventDropDownResponse = new BehaviorSubject<DropDownData[]>([]);
   eventDropDown = this.eventDropDownResponse.asObservable();
+  uploadingResponse = new BehaviorSubject<boolean>(false);
+  uploading = this.uploadingResponse.asObservable();
 
   constructor(private http: HttpClient) {
     super();
@@ -39,6 +41,25 @@ export class EventsService extends BaseService {
         this.eventDataResponse.next(res);
       },
       () => this.displayMessage('Error Occured, Contact System Admin'));
+    return this.eventData;
+  }
+
+  uploadEventFile(file: File) {
+    if (!file) {
+      this.displayMessage('Please select a file to upload');
+      return this.eventData;
+    }
+    const formData = new FormData();
+    formData.append('file', file);
+    this.uploadingResponse.next(true);
+    this.http.post(this.baseUrl + 'event/uploadEvents', formData, { responseType: 'text' })
+      .subscribe(
+        (res) => {
+          this.displayMessage(res);
+          this.fetchEventData();
+        },
+        () => this.displayMessage('Error Occured, Contact System Admin'),
+        () => this.uploadingResponse.next(false));
     return this.eventData;
   }
 

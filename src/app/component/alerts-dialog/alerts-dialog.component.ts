@@ -26,27 +26,25 @@ export class AlertsDialogComponent {
   }
 
   getIcon(notificationType: string): string {
-    switch (notificationType?.toLowerCase()) {
-      case 'birthday': return 'cake';
-      case 'meetings': return 'event';
-      case 'holiday': return 'beach_access';
-      case 'paymentdue': return 'payment';
-      case 'festival': return 'celebration';
-      case 'travel': return 'flight_takeoff';
-      default: return 'notifications';
-    }
+    const type = notificationType?.toLowerCase() ?? '';
+    if (type.includes('birthday')) return 'cake';
+    if (type.includes('holiday')) return 'beach_access';
+    if (type.includes('meeting')) return 'event';
+    if (type.includes('payment')) return 'payment';
+    if (type.includes('festival')) return 'celebration';
+    if (type.includes('travel')) return 'flight_takeoff';
+    return 'notifications';
   }
 
   getIconColor(eventType: string): string {
-    switch (eventType.toLowerCase()) {
-      case 'birthday': return 'birthday';
-      case 'meetings': return 'meeting';
-      case 'holiday': return 'holiday';
-      case 'paymentdue': return 'paymentdue';
-      case 'festival': return 'celebration';
-      case 'travel': return 'travel';
-      default: return 'default';
-    }
+    const type = eventType?.toLowerCase() ?? '';
+    if (type.includes('birthday')) return 'birthday';
+    if (type.includes('holiday')) return 'holiday';
+    if (type.includes('meeting')) return 'meeting';
+    if (type.includes('payment')) return 'paymentdue';
+    if (type.includes('festival')) return 'celebration';
+    if (type.includes('travel')) return 'travel';
+    return 'default';
   }
 }
 

@@ -1,9 +1,13 @@
+<div class="upload-overlay" *ngIf="eventService.uploading | async">
+  <mat-progress-spinner mode="indeterminate" [diameter]="70"></mat-progress-spinner>
+  <div class="upload-overlay-text">Uploading events, please wait...</div>
+</div>
 <div class="row content" >
   <div class="col-sm-2 sidenav"  id="event">
     <div class="row">
       <mat-card class="title_center" appearance="outlined">
         <mat-card-header class="header ">
-          <mat-card-title>Events </mat-card-title>
+          <mat-card-title class="brandcolor">Upcoming Events</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           @for (item of eventData; track item) {
@@ -12,8 +16,7 @@
                 <mat-icon [ngClass]="getIconColor(item.eventType)" class="event-icon">{{ getIcon(item.eventType) }}</mat-icon>
               </div>
               <div class="col">
-                <b>{{ item.eventDate }} - {{ item.eventType }}</b><br>
-                <span>{{ item.eventDetail }}</span>
+                <b>{{ item.eventDate }} - {{ item.eventType }}</b> - <span>{{ item.eventDetail }}</span>
               </div>
             </div>
           }
@@ -28,6 +31,12 @@
       </div>
     </div>
     <hr class="lineBreak doNotPrint">
+    <div class="row upload-container doNotPrint">
+      <span class="brandcolor">Bulk Upload : </span>
+      <input type="file" accept=".txt,.text" (change)="onFileSelected($event)" #eventFileInput>
+      <button (click)="uploadEvents(eventFileInput)" [disabled]="!selectedFile">Upload</button>
+      <span class="upload-hint">Format: id | date(yyyy-MM-dd) | name | type | recurrence</span>
+    </div>
     <div class="row">
       <div class="col-xs-12">
         <mat-form-field class="doNotPrint">

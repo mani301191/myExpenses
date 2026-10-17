@@ -42,24 +42,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.eventsService.fetchEventData().subscribe((res) => {
-      this.notificationResponse = [];
-      const currentMonth = new Date().getMonth();
-
-      const parseDate = (dateStr: string) => {
-        if (!dateStr) return null;
-        const [day, month, year] = dateStr.split('/').map(Number);
-        return new Date(year, month - 1, day);
-      };
-
-      res.forEach((event) => {
-        const eventDate = parseDate(event.eventDate?.toString());
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // reset to midnight
-        eventDate.setHours(0, 0, 0, 0);
-        if (eventDate.getMonth() === currentMonth && eventDate >= today) {
-          this.notificationResponse.push(event);
-        }
-      });
+      this.notificationResponse = this.buildNotifications(res);
       if (this.notificationResponse.length === 0) {
         this.notificationResponse.push({
           "eventId": "0", "eventDate": new Date(),"eventType": '', "eventDetail": '',
@@ -70,6 +53,38 @@ export class AppComponent {
       }
     });
     this.commonService.profileData().subscribe((res) => this.profileData = res);
+  }
+
+  private buildNotifications(events: EventData[]): EventData[] {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const currentYear = today.getFullYear();
+
+    return (events || [])
+      .map((event) => ({ event, effective: this.effectiveDate(event, today, currentYear) }))
+      .filter((row) => row.effective && row.effective >= today)
+      .sort((a, b) => a.effective.getTime() - b.effective.getTime())
+      .slice(0, 8)
+      .map((row) => row.event);
+  }
+
+  private effectiveDate(event: EventData, today: Date, currentYear: number): Date {
+    const original = this.parseDate(event.eventDate?.toString());
+    if (!original) return null;
+    if ((event.recurrence || '').toLowerCase() === 'yearly') {
+      const occurrence = new Date(currentYear, original.getMonth(), original.getDate());
+      return occurrence < today
+        ? new Date(currentYear + 1, original.getMonth(), original.getDate())
+        : occurrence;
+    }
+    return original;
+  }
+
+  private parseDate(dateStr: string): Date {
+    if (!dateStr) return null;
+    const [day, month, year] = dateStr.split('/').map(Number);
+    if (!day || !month || !year) return null;
+    return new Date(year, month - 1, day);
   }
   onNavClick(input: number): void {
     this.tabIndex = input;

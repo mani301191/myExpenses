@@ -7,9 +7,10 @@
 /* Dashboard grid layout */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 20px;
     padding: 10px;
+    align-items: start;
 }
 
 /* Dashboard card styling */
@@ -93,6 +94,14 @@
     gap: 8px;
 }
 
+.person-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
 /* Row styling */
 .row {
     display: flex;
@@ -147,6 +156,56 @@
     color: gray;
     font-style: italic;
     margin: 16px 0;
+}
+
+/* Upcoming events styling */
+.upcoming-events {
+    text-align: left;
+}
+
+.events-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.event-row:last-child {
+    border-bottom: none;
+}
+
+.event-icon {
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+.event-icon.birthday,
+.event-icon.celebration {
+    color: #f44336; /* red */
+}
+
+.event-icon.meeting,
+.event-icon.travel {
+    color: #2196f3; /* blue */
+}
+
+.event-icon.holiday,
+.event-icon.paymentdue {
+    color: #4caf50; /* green */
+}
+
+.event-icon.default {
+    color: #9e9e9e; /* grey */
+}
+
+.event-details {
+    color: #333;
 }
 
 /* Chart container styling */

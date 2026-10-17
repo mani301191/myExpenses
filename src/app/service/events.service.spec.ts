@@ -119,4 +119,49 @@ describe('EventsService', () => {
     expect(result).toEqual(expected);
     expect(service.eventDropDownResponse.getValue()).toEqual(expected as any);
   });
+
+  it('uploadEventFile should POST uploadEvents as FormData and refresh data', () => {
+    const file = new File(['data'], 'events.txt', { type: 'text/plain' });
+    service.uploadEventFile(file);
+
+    const postReq = httpMock.expectOne(r =>
+      r.url === baseUrl + 'event/uploadEvents' &&
+      r.method === 'POST'
+    );
+    expect(postReq.request.body instanceof FormData).toBeTrue();
+    expect((postReq.request.body as FormData).get('file')).toBe(file);
+    postReq.flush('Events uploaded successfully!');
+
+    httpMock.expectOne(r =>
+      r.url === baseUrl + 'event/eventDetail' &&
+      r.method === 'GET'
+    ).flush([]);
+
+    expect(snackBar.open).toHaveBeenCalledWith('Events uploaded successfully!', jasmine.any(String), jasmine.any(Object));
+  });
+
+  it('uploadEventFile should warn when no file is selected', () => {
+    service.uploadEventFile(null);
+
+    httpMock.expectNone(baseUrl + 'event/uploadEvents');
+    expect(snackBar.open).toHaveBeenCalledWith('Please select a file to upload', jasmine.any(String), jasmine.any(Object));
+    expect(service.uploadingResponse.getValue()).toBeFalse();
+  });
+
+  it('uploadEventFile should toggle uploading flag while the request is in flight', () => {
+    const flags: boolean[] = [];
+    service.uploading.subscribe(v => flags.push(v));
+    flags.length = 0;
+
+    const file = new File(['data'], 'events.txt', { type: 'text/plain' });
+    service.uploadEventFile(file);
+    expect(service.uploadingResponse.getValue()).toBeTrue();
+
+    const postReq = httpMock.expectOne(r => r.url === baseUrl + 'event/uploadEvents');
+    postReq.flush('ok');
+    httpMock.expectOne(r => r.url === baseUrl + 'event/eventDetail').flush([]);
+
+    expect(flags).toEqual([true, false]);
+    expect(service.uploadingResponse.getValue()).toBeFalse();
+  });
 });

@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 
 import { DashboardComponent } from './dashboard.component';
 import { SummaryService } from '../service/summary.service';
+import { EventsService } from '../service/events.service';
 
 function toDmy(date: Date): string {
   const day = ('0' + date.getDate()).slice(-2);
@@ -18,6 +19,7 @@ describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let summaryServiceSpy: jasmine.SpyObj<SummaryService>;
+  let eventsServiceSpy: jasmine.SpyObj<EventsService>;
 
   const dashboardData = () => ({
     expenseTrackingData: { income: 5000, estimate: 4000, expense: 3000, currentMonth: 'March' },
@@ -31,9 +33,22 @@ describe('DashboardComponent', () => {
     dayWiseExpenses: []
   });
 
+  const now = new Date();
+  const todayDate = toDmy(now);
+  const nextMonthHoliday = toDmy(new Date(now.getFullYear(), now.getMonth() + 1, 20));
+  const pastDate = toDmy(new Date(now.getFullYear(), now.getMonth() - 1, 15));
+  const eventsData = () => [
+    { eventDate: todayDate, eventType: 'Birthday', eventDetail: 'Alice', recurrence: 'yearly' },
+    { eventDate: nextMonthHoliday, eventType: 'Gazetted Holiday', eventDetail: 'Diwali', recurrence: 'none' },
+    { eventDate: pastDate, eventType: 'Holiday', eventDetail: 'Past', recurrence: 'none' }
+  ];
+
   beforeEach(async () => {
     summaryServiceSpy = jasmine.createSpyObj('SummaryService', ['fetchDashboardData']);
     summaryServiceSpy.fetchDashboardData.and.returnValue(of(dashboardData() as any));
+
+    eventsServiceSpy = jasmine.createSpyObj('EventsService', ['fetchEventData']);
+    eventsServiceSpy.fetchEventData.and.returnValue(of(eventsData() as any));
 
     await TestBed.configureTestingModule({
       imports: [DashboardComponent, NoopAnimationsModule],
@@ -41,7 +56,8 @@ describe('DashboardComponent', () => {
         provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         { provide: MatSnackBar, useValue: jasmine.createSpyObj('MatSnackBar', ['open']) },
-        { provide: SummaryService, useValue: summaryServiceSpy }
+        { provide: SummaryService, useValue: summaryServiceSpy },
+        { provide: EventsService, useValue: eventsServiceSpy }
       ]
     })
     .compileComponents();
@@ -61,6 +77,31 @@ describe('DashboardComponent', () => {
       expect(component.expenseTrackingData).toEqual(dashboardData().expenseTrackingData);
       expect(component.fitnessData.length).toBe(1);
       expect(component.insuranceData.length).toBe(1);
+    });
+  });
+
+  describe('fetchEventData', () => {
+    it('should load upcoming events across month boundaries, sorted by date', () => {
+      expect(eventsServiceSpy.fetchEventData).toHaveBeenCalled();
+      expect(component.upcomingEvents.map(e => e.eventDetail)).toEqual(['Alice', 'Diwali']);
+    });
+
+    it('should cap the list at the next 8 upcoming events', () => {
+      const many = Array.from({ length: 10 }, (_, i) => ({
+        eventDate: toDmy(new Date(now.getFullYear(), now.getMonth(), now.getDate() + i + 1)),
+        eventType: 'Birthday',
+        eventDetail: `E${i}`,
+        recurrence: 'yearly'
+      }));
+      const result = (component as any).buildUpcomingEvents(many);
+      expect(result.length).toBe(8);
+      expect(result.map((e: any) => e.eventDetail)).toEqual(['E0', 'E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7']);
+    });
+
+    it('should map icons for event types', () => {
+      expect(component.getIcon('Birthday')).toBe('cake');
+      expect(component.getIcon('Gazetted Holiday')).toBe('beach_access');
+      expect(component.getIcon('Unknown')).toBe('notifications');
     });
   });
 
