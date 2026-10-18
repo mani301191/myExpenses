@@ -1,22 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
 import { InvestmentsComponent } from './investments.component';
+import { InvestmentAddComponent } from './investment-add.component';
 import { InvestmentService } from '../../service/investment.service';
 
 describe('InvestmentsComponent', () => {
   let component: InvestmentsComponent;
   let fixture: ComponentFixture<InvestmentsComponent>;
   let investmentServiceSpy: jasmine.SpyObj<InvestmentService>;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
 
   beforeEach(async () => {
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    dialogSpy.open.and.returnValue({ afterClosed: () => of(null) } as any);
+
     investmentServiceSpy = jasmine.createSpyObj('InvestmentService', [
       'fetchInvestmentData',
-      'fetchInvestmentDropdownData',
       'fetchInvestmentStatusDropdownData',
       'saveInvestmentData',
       'updateInvestmentStatus',
@@ -27,9 +32,6 @@ describe('InvestmentsComponent', () => {
         { investment: 'PPF', investmentDetail: 'ACC', vendorAccountNumber: 'V1', nominee: 'A', status: 'Active' },
         { investment: 'Shares', investmentDetail: 'RELIANCE', vendorAccountNumber: 'V2', nominee: 'B', status: 'Inactive' }
       ] as any)
-    );
-    investmentServiceSpy.fetchInvestmentDropdownData.and.returnValue(
-      of([{ id: '1', value: 'PPF' }, { id: '2', value: 'FD' }])
     );
     investmentServiceSpy.fetchInvestmentStatusDropdownData.and.returnValue(
       of([{ id: '1', value: 'Active' }, { id: '2', value: 'Inactive' }])
@@ -43,8 +45,10 @@ describe('InvestmentsComponent', () => {
         { provide: MatSnackBar, useValue: { open: jasmine.createSpy('open') } },
         { provide: InvestmentService, useValue: investmentServiceSpy }
       ]
-    })
-    .compileComponents();
+    });
+
+    TestBed.overrideProvider(MatDialog, { useValue: dialogSpy });
+    await TestBed.compileComponents();
 
     fixture = TestBed.createComponent(InvestmentsComponent);
     component = fixture.componentInstance;
@@ -60,8 +64,7 @@ describe('InvestmentsComponent', () => {
       expect(component.dataSource.data.length).toBe(2);
     });
 
-    it('should load the dropdown data on init', () => {
-      expect(component.investmentsList.length).toBe(2);
+    it('should load the status dropdown data on init', () => {
       expect(component.investStatusList.length).toBe(2);
     });
 
@@ -71,47 +74,10 @@ describe('InvestmentsComponent', () => {
     });
   });
 
-  describe('form validation', () => {
-    it('should require the mandatory fields', () => {
-      expect(component.formGroup.valid).toBeFalse();
-      expect(component.formGroup.get('investment')!.errors?.['required']).toBeTruthy();
-      expect(component.formGroup.get('vendorAccountNumber')!.errors?.['required']).toBeTruthy();
-      expect(component.formGroup.get('status')!.errors?.['required']).toBeTruthy();
-    });
-
-    it('should become valid once required fields are filled', () => {
-      component.formGroup.setValue({
-        investment: 'PPF',
-        investmentDetail: 'ACC',
-        vendorAccountNumber: 'V9',
-        nominee: 'John',
-        status: 'Active',
-        additionalDetails: 'notes'
-      });
-      expect(component.formGroup.valid).toBeTrue();
-    });
-  });
-
-  describe('onSubmit', () => {
-    it('should save a valid form, refresh the table and clear the form', () => {
-      const value = {
-        investment: 'PPF',
-        investmentDetail: 'ACC',
-        vendorAccountNumber: 'V9',
-        nominee: 'John',
-        status: 'Active',
-        additionalDetails: 'notes'
-      };
-      component.formGroup.setValue(value);
-      component.onSubmit(component.formGroup.value);
-      expect(investmentServiceSpy.saveInvestmentData).toHaveBeenCalledWith(value);
-      expect(investmentServiceSpy.fetchInvestmentData).toHaveBeenCalledTimes(2);
-      expect(component.formGroup.get('investment')!.value).toBeNull();
-    });
-
-    it('should not save an invalid form', () => {
-      component.onSubmit(component.formGroup.value);
-      expect(investmentServiceSpy.saveInvestmentData).not.toHaveBeenCalled();
+  describe('openAddDialog', () => {
+    it('should open the dialog to add an investment record', () => {
+      component.openAddDialog();
+      expect(dialogSpy.open).toHaveBeenCalledWith(InvestmentAddComponent);
     });
   });
 

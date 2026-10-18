@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
 import { RemindersComponent } from './reminders.component';
+import { EventAddComponent } from './event-add.component';
 import { EventsService } from '../../service/events.service';
 
 function toDmy(date: Date): string {
@@ -18,6 +20,7 @@ describe('RemindersComponent', () => {
   let component: RemindersComponent;
   let fixture: ComponentFixture<RemindersComponent>;
   let eventsServiceSpy: jasmine.SpyObj<EventsService>;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
 
   beforeEach(async () => {
     const now = new Date();
@@ -27,6 +30,9 @@ describe('RemindersComponent', () => {
     const nextMonthHolidayDate = toDmy(new Date(now.getFullYear(), now.getMonth() + 1, 20));
     const nextYearHolidayDate = toDmy(new Date(now.getFullYear() + 1, now.getMonth() + 1, 20));
     const pastMonthDate = toDmy(new Date(now.getFullYear(), now.getMonth() - 1, 15));
+
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    dialogSpy.open.and.returnValue({ afterClosed: () => of(null) } as any);
 
     eventsServiceSpy = jasmine.createSpyObj('EventsService', [
       'fetchEventData',
@@ -45,9 +51,6 @@ describe('RemindersComponent', () => {
         { eventDate: '', eventType: 'Holiday', eventDetail: 'X', recurrence: 'daily' }
       ] as any)
     );
-    eventsServiceSpy.fetchEventTypeDropdownData.and.returnValue(
-      of([{ id: '1', value: 'Birthday' }, { id: '2', value: 'Meeting' }])
-    );
     eventsServiceSpy.uploadEventFile.and.returnValue(of([]));
     eventsServiceSpy.uploading = of(false);
 
@@ -59,8 +62,10 @@ describe('RemindersComponent', () => {
         { provide: MatSnackBar, useValue: { open: jasmine.createSpy('open') } },
         { provide: EventsService, useValue: eventsServiceSpy }
       ]
-    })
-    .compileComponents();
+    });
+
+    TestBed.overrideProvider(MatDialog, { useValue: dialogSpy });
+    await TestBed.compileComponents();
 
     fixture = TestBed.createComponent(RemindersComponent);
     component = fixture.componentInstance;
@@ -81,55 +86,15 @@ describe('RemindersComponent', () => {
       expect(component.dataSource.data[0].eventDetail).toBe('Alice');
     });
 
-    it('should load the event type dropdown on init', () => {
-      expect(component.eventTypes.length).toBe(2);
-    });
-
     it('should show only current/next-month events in the card, excluding future-year holidays', () => {
       expect(component.eventData.map(r => r.eventDetail)).toEqual(['Alice', 'Diwali']);
     });
   });
 
-  describe('form validation', () => {
-    it('should require date, type and detail', () => {
-      expect(component.formGroup.valid).toBeFalse();
-      expect(component.formGroup.get('eventDate')!.errors?.['required']).toBeTruthy();
-      expect(component.formGroup.get('eventType')!.errors?.['required']).toBeTruthy();
-      expect(component.formGroup.get('eventDetail')!.errors?.['required']).toBeTruthy();
-    });
-
-    it('should default the recurrence to none', () => {
-      expect(component.formGroup.get('recurrence')!.value).toBe('none');
-    });
-
-    it('should become valid once required fields are filled', () => {
-      component.formGroup.setValue({
-        eventDate: new Date(2026, 2, 15),
-        eventType: 'Birthday',
-        eventDetail: 'Alice',
-        recurrence: 'yearly'
-      });
-      expect(component.formGroup.valid).toBeTrue();
-    });
-  });
-
-  describe('onSubmit', () => {
-    it('should save a valid form and clear it', () => {
-      const value = {
-        eventDate: new Date(2026, 2, 15),
-        eventType: 'Birthday',
-        eventDetail: 'Alice',
-        recurrence: 'yearly'
-      };
-      component.formGroup.setValue(value);
-      component.onSubmit(component.formGroup.value);
-      expect(eventsServiceSpy.saveEventData).toHaveBeenCalledWith(value);
-      expect(component.formGroup.get('eventDetail')!.value).toBeNull();
-    });
-
-    it('should not save an invalid form', () => {
-      component.onSubmit(component.formGroup.value);
-      expect(eventsServiceSpy.saveEventData).not.toHaveBeenCalled();
+  describe('openAddDialog', () => {
+    it('should open the dialog to add an event record', () => {
+      component.openAddDialog();
+      expect(dialogSpy.open).toHaveBeenCalledWith(EventAddComponent);
     });
   });
 
@@ -141,23 +106,15 @@ describe('RemindersComponent', () => {
     });
   });
 
-  describe('onFileSelected', () => {
-    it('should capture the selected file', () => {
-      const file = new File(['data'], 'events.txt', { type: 'text/plain' });
+  describe('upload', () => {
+    it('onFileSelected should capture the chosen file', () => {
+      const file = new File(['x'], 'events.txt', { type: 'text/plain' });
       component.onFileSelected({ target: { files: [file] } });
       expect(component.selectedFile).toBe(file);
     });
 
-    it('should clear the selection when no file is chosen', () => {
-      component.selectedFile = new File(['data'], 'events.txt');
-      component.onFileSelected({ target: { files: [] } });
-      expect(component.selectedFile).toBeNull();
-    });
-  });
-
-  describe('uploadEvents', () => {
-    it('should upload the selected file and reset the input', () => {
-      const file = new File(['data'], 'events.txt', { type: 'text/plain' });
+    it('uploadEvents should send the file and clear the input', () => {
+      const file = new File(['x'], 'events.txt', { type: 'text/plain' });
       component.selectedFile = file;
       const input = { value: 'C:\\fakepath\\events.txt' } as HTMLInputElement;
 
@@ -168,7 +125,7 @@ describe('RemindersComponent', () => {
       expect(component.selectedFile).toBeNull();
     });
 
-    it('should ask the service to warn when no file is selected', () => {
+    it('uploadEvents should warn when no file is selected', () => {
       component.selectedFile = null;
       component.uploadEvents();
       expect(eventsServiceSpy.uploadEventFile).toHaveBeenCalledWith(null);

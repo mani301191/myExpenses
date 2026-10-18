@@ -89,7 +89,33 @@ describe('CareerService', () => {
     expect(service.careerDataResponse.getValue()).toEqual(expected as any);
   });
 
-  it('updateCareertDetail should PATCH careerDetail', () => {
+  it('fetchCareerData should send the personName filter when provided', () => {
+    service.fetchCareerData('Self').subscribe();
+
+    const req = httpMock.expectOne(r =>
+      r.url === baseUrl + 'career/careerDetail' &&
+      r.method === 'GET'
+    );
+    expect(req.request.params.get('personName')).toBe('Self');
+    req.flush([]);
+  });
+
+  it('fetchPersonNames should GET the PersonNames config dropdown', () => {
+    const expected = [{ id: 'Self', value: 'Self' }];
+
+    let result: any;
+    service.fetchPersonNames().subscribe(r => result = r);
+
+    const req = httpMock.expectOne(r =>
+      r.urlWithParams === baseUrl + 'config/dropDown?key=PersonNames'
+    );
+    req.flush(expected);
+
+    expect(result).toEqual(expected as any);
+    expect(service.personNamesResponse.getValue()).toEqual(expected as any);
+  });
+
+  it('updateCareertDetail should PATCH careerDetail and refresh data', () => {
     service.updateCareertDetail({ id: 1, company: 'NEWCO' });
 
     const req = httpMock.expectOne(r =>
@@ -97,6 +123,11 @@ describe('CareerService', () => {
       r.method === 'PATCH'
     );
     req.flush({ message: 'Updated' });
+
+    httpMock.expectOne(r =>
+      r.url === baseUrl + 'career/careerDetail' &&
+      r.method === 'GET'
+    ).flush([]);
 
     expect(snackBar.open).toHaveBeenCalledWith('Updated', jasmine.any(String), jasmine.any(Object));
   });

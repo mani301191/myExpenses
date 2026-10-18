@@ -24,10 +24,12 @@
       </mat-card>
     </div>
   </div>
-  <div class="col-sm-7">
+  <div class="col-sm-10">
     <div class="row">
       <div class="col-xs-10">
         <h3 class="brandcolor">Event Details</h3>
+      </div>
+      <div class="col-xs-2 doNotPrint">
       </div>
     </div>
     <hr class="lineBreak doNotPrint">
@@ -37,12 +39,22 @@
       <button (click)="uploadEvents(eventFileInput)" [disabled]="!selectedFile">Upload</button>
       <span class="upload-hint">Format: id | date(yyyy-MM-dd) | name | type | recurrence</span>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <mat-form-field class="doNotPrint">
+    <div class="row filter-row doNotPrint">
+      <div class="col-xs-10">
+        <mat-form-field class="doNotPrint" subscriptSizing="dynamic">
           <mat-icon matTextPrefix>search</mat-icon>
           <input matInput (keyup)="applyFilter($event)" #input>
         </mat-form-field>
+      </div>
+      <div class="col-xs-2">
+        <button color="primary" class="button addButton doNotPrint" (click)="openAddDialog()"
+          matTooltip="Add Event Details" type="button">
+          <mat-icon>add</mat-icon> Add
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
         <div class="mat-elevation-z8" id="eventDetails">
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
@@ -90,50 +102,4 @@
     </div>
 
   </div>
-  <div class="col-sm-3 sidenav doNotPrint">
-    <div class="row">
-      <h3 class="header">Add Event Details</h3>
-    </div>
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Event Date</mat-label>
-          <input matInput [matDatepicker]="eventDatePicker" placeholder="Event Date" formControlName="eventDate">
-          <mat-datepicker-toggle matSuffix [for]="eventDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #eventDatePicker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>EventType</mat-label>
-          <mat-select placeholder="EventType" formControlName="eventType">
-            @for (eventType of eventTypes; track eventType) {
-              <mat-option [value]="eventType.id">{{ eventType.value }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Event Detail</mat-label>
-          <input matInput placeholder="Event Detail" formControlName="eventDetail">
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Recurrence</mat-label>
-          <mat-select formControlName="recurrence">
-            <mat-option value="none">None</mat-option>
-            <mat-option value="daily">Daily</mat-option>
-            <mat-option value="weekly">Weekly</mat-option>
-            <mat-option value="monthly">Monthly</mat-option>
-            <mat-option value="yearly">Yearly</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <button color="primary" type="submit" class="button">Submit</button>
-        <a color="primary" (click)="clear()">Clear</a>
-      </div>
-    </form>
-  </div>
+</div>

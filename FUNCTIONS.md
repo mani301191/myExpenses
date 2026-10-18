@@ -144,12 +144,13 @@ Backed by `AssetService`.
 
 ### 5.1 Investments
 
-**Files:** `src/app/component/investments/investments.component.ts`, `investment-data.ts`
+**Files:** `src/app/component/investments/investments.component.ts`, `investment-add.component.ts`, `investment-data.ts`
 
 Backed by `InvestmentService`.
 
 - Investment data table (investment, detail, vendor account number, nominee, status, additional details) with sorting, pagination, filtering, in-place editing, and deletion.
 - **Active investments** summary filter.
+- **Add Investment Details** — opens an overlay dialog (`InvestmentAddComponent`, same pattern as the Monthly expense add dialog) via the Add button; the table keeps full width while browsing.
 - Add investment form with dropdowns for investment type and status.
 - Print support.
 
@@ -169,13 +170,14 @@ Backed by `InvestmentService`.
 
 ## 6. Insurance
 
-**Files:** `src/app/component/insurance/insurance.component.ts`, `insurance-data.ts`
+**Files:** `src/app/component/insurance/insurance.component.ts`, `insurance-add.component.ts`, `insurance-data.ts`
 
 Backed by `InsuranceService`.
 
 - Insurance policy table (type, provider, policy number, nominee, start/end dates, additional details) with sorting, pagination, filtering, in-place editing, and deletion.
 - **Active insurance filter** — lists policies whose end date is today or later.
 - **Smart flagging/sorting** (`sortAndMarkInsurance`) — expired policies are marked and pushed below current ones.
+- **Add Insurance Details** — opens an overlay dialog (`InsuranceAddComponent`, same pattern as the Monthly expense add dialog) via the Add button; the table keeps full width while browsing.
 - Add insurance form with insurance type dropdown.
 - Print support.
 
@@ -183,12 +185,13 @@ Backed by `InsuranceService`.
 
 ## 7. Appliances
 
-**Files:** `src/app/component/appliances/appliances.component.ts`, `appliances-data.ts`
+**Files:** `src/app/component/appliances/appliances.component.ts`, `appliances-add.component.ts`, `appliances-data.ts`
 
 Backed by `AppliancesService`.
 
 - Appliance table (name, AMC, AMC end date, last serviced date, additional details) with sorting, pagination, filtering, in-place editing, and deletion.
 - **Active AMC filter** — only appliances with AMC enabled whose AMC end date is on/after today (warranty / service contract reminders).
+- **Add Appliances Details** — opens an overlay dialog (`AppliancesAddComponent`, same pattern as the Monthly expense add dialog) via the Add button; the table keeps full width while browsing.
 - Add appliance form with date pickers for AMC end and last-serviced dates.
 - Print support.
 
@@ -196,14 +199,16 @@ Backed by `AppliancesService`.
 
 ## 8. Career
 
-**Files:** `src/app/component/career/career.component.ts`, `career-data.ts`
+**Files:** `src/app/component/career/career.component.ts`, `career-add.component.ts`, `career-data.ts`
 
 Backed by `CareerService`.
 
-- Career / employment record table (record type, org name, record id, designation, start/end dates, comments) with sorting, pagination, filtering, in-place editing, and deletion.
-- **Employment history highlight** — employment records sorted by end date (descending).
+- Career / employment record table (person, record type, org name, record id, designation, start/end dates, comments) with sorting, pagination, filtering, in-place editing, and deletion.
+- **Select Person** dropdown (options from `config/dropDown?key=PersonNames`), placed just before the search field in the filter row; the table and Work Summary stay empty until a person is picked, then show only that person's records.
+- **Add Employment/Education Details** — opens an overlay dialog (`CareerAddComponent`, same pattern as the Monthly expense add dialog) via the Add button; the table keeps full width while browsing.
+- **Employment history highlight** — employment records sorted by end date (descending), scoped to the selected person.
 - **Duration calculation** — years/months/days between start and end dates (or up to today if still employed).
-- Add career record form.
+- Add career record form (includes a required Person dropdown).
 - Print support.
 
 ---
@@ -212,13 +217,14 @@ Backed by `CareerService`.
 
 ### 9.1 Reminders
 
-**Files:** `src/app/component/reminders/reminders.component.ts`, `event-data.ts`
+**Files:** `src/app/component/reminders/reminders.component.ts`, `event-add.component.ts`, `event-data.ts`
 
 Backed by `EventsService`.
 
 - Event/reminder table (event date, type, detail, recurrence) with sorting, pagination, filtering, and deletion.
 - **Current-month events** filter for quick visibility.
 - **Icon rendering** — each event type maps to a Material icon and color (e.g., birthday → cake, travel → flight).
+- **Add Event Details** — opens an overlay dialog (`EventAddComponent`, same pattern as the Monthly expense add dialog) via the Add button; the table keeps full width while browsing.
 - Add event form (date, type dropdown, detail, recurrence dropdown: none/daily/weekly/monthly/yearly).
 
 ### 9.2 Alerts Dialog (Notifications)
@@ -254,6 +260,21 @@ Backed by `CommonService`.
 
 ---
 
+## 11. Documents
+
+**Files:** `src/app/component/documents/documents.component.ts`, `.html`, `document-data.ts`
+
+Backed by `DocumentService` (`/api/document`).
+
+- **Upload** a file with optional comma-separated keywords; the file is stored in the backend DB.
+- **Keyword search** — searches across file name and keywords (server-side), with a Clear action to reset.
+- **Documents table** — paginated/sortable table of available documents showing a preview, file name, keywords, size and upload date.
+- **Image preview** — image documents render as a thumbnail; non-images show a file icon.
+- **Download** — clicking the thumbnail/icon (or the download action) downloads the document; each row also has a delete action.
+- Client-side quick filter via the table filter input.
+
+---
+
 ## Cross-Cutting Utilities
 
 | Utility | Location | Purpose |
@@ -271,6 +292,7 @@ All services hit `http://localhost:8003/api/` (fitness additionally under `fitne
 - **`FitnessService`** — persons, weights, medical details.
 - **`InsuranceService`**, **`InvestmentService`**, **`AssetService`**, **`AppliancesService`**, **`CareerService`**, **`EventsService`**, **`AppConfigService`** — CRUD for their respective entities.
 - **`SummaryService`** — combined dashboard data.
+- **`DocumentService`** — document upload, keyword search, listing, download/preview URLs and delete.
 - **`ExcelServicesService`** — client-side Excel export.
 
 ---

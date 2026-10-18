@@ -1,0 +1,87 @@
+<div class="container">
+  <div class="row">
+    <mat-toolbar role="toolbar" class="titleHeader">
+      <div class="col-xs-10">
+        <h4 class="myFont">Add Investment Details</h4>
+      </div>
+      <div class="col-xs-2">
+        <button class="close" mat-icon-button (click)="close()" matTooltip="Close the form"
+          matTooltipPosition="before"><mat-icon>cancel</mat-icon></button>
+      </div>
+    </mat-toolbar>
+  </div>
+  <br>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+    <div class="row">
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Investment</mat-label>
+          <mat-select placeholder="Investment" formControlName="investment">
+            @for (investment of investmentsList; track investment) {
+              <mat-option [value]="investment.id">{{ investment.value }}</mat-option>
+            }
+          </mat-select>
+          @if (formGroup.get('investment').hasError('required')) {
+            <mat-error>Investment is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Investment Detail</mat-label>
+          <input matInput placeholder="Investment Detail" formControlName="investmentDetail">
+          @if (formGroup.get('investmentDetail').hasError('required')) {
+            <mat-error>Investment Detail is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Vendor Account Number</mat-label>
+          <input matInput placeholder="Vendor Account Number" formControlName="vendorAccountNumber">
+          @if (formGroup.get('vendorAccountNumber').hasError('required')) {
+            <mat-error>Vendor Account Number is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Nominee Details</mat-label>
+          <input matInput placeholder="Nominee Details" formControlName="nominee">
+          @if (formGroup.get('nominee').hasError('required')) {
+            <mat-error>Nominee Details are required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Status</mat-label>
+          <mat-select placeholder="Status" formControlName="status">
+            @for (status of investStatusList; track status) {
+              <mat-option [value]="status.id">{{ status.value }}</mat-option>
+            }
+          </mat-select>
+          @if (formGroup.get('status').hasError('required')) {
+            <mat-error>Status is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Additional Details</mat-label>
+          <input matInput placeholder="Additional Details" formControlName="additionalDetails">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row button-row">
+      <div class="col-xs-12">
+        <button color="primary" type="submit" class="button">Submit</button>
+        <a color="primary" (click)="clear()">Clear</a>
+      </div>
+    </div>
+  </form>
+</div>

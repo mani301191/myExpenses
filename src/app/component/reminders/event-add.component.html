@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row">
+    <mat-toolbar role="toolbar" class="titleHeader">
+      <div class="col-xs-10">
+        <h4 class="myFont">Add Event Details</h4>
+      </div>
+      <div class="col-xs-2">
+        <button class="close" mat-icon-button (click)="close()" matTooltip="Close the form"
+          matTooltipPosition="before"><mat-icon>cancel</mat-icon></button>
+      </div>
+    </mat-toolbar>
+  </div>
+  <br>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+    <div class="row">
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Event Date</mat-label>
+          <input matInput [matDatepicker]="eventDatePicker" placeholder="Event Date" formControlName="eventDate">
+          <mat-datepicker-toggle matSuffix [for]="eventDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #eventDatePicker></mat-datepicker>
+          @if (formGroup.get('eventDate').hasError('required')) {
+            <mat-error>Event Date is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Event Type</mat-label>
+          <mat-select placeholder="Event Type" formControlName="eventType">
+            @for (eventType of eventTypes; track eventType) {
+              <mat-option [value]="eventType.id">{{ eventType.value }}</mat-option>
+            }
+          </mat-select>
+          @if (formGroup.get('eventType').hasError('required')) {
+            <mat-error>Event Type is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Event Detail</mat-label>
+          <input matInput placeholder="Event Detail" formControlName="eventDetail">
+          @if (formGroup.get('eventDetail').hasError('required')) {
+            <mat-error>Event Detail is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Recurrence</mat-label>
+          <mat-select formControlName="recurrence">
+            <mat-option value="none">None</mat-option>
+            <mat-option value="daily">Daily</mat-option>
+            <mat-option value="weekly">Weekly</mat-option>
+            <mat-option value="monthly">Monthly</mat-option>
+            <mat-option value="yearly">Yearly</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row button-row">
+      <div class="col-xs-12">
+        <button color="primary" type="submit" class="button">Submit</button>
+        <a color="primary" (click)="clear()">Clear</a>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,8 +1,9 @@
 
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,55 +15,75 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxPrintDirective } from '../../directive/ngx-print.directive';
 import { CareerData } from './career-data';
+import { DropDownData } from '../../config-data';
 import { CareerService } from '../../service/career.service';
+import { CareerAddComponent } from './career-add.component';
 
 @Component({
     selector: 'app-career',
-    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule, MatSelectModule, FormsModule, NgxPrintDirective, MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
+    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule, MatSelectModule, FormsModule, NgxPrintDirective, MatDatepickerModule, MatNativeDateModule, MatDialogModule, MatTooltipModule],
     templateUrl: './career.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    styleUrl: './career.component.css'
+    styleUrls: ['./career.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class CareerComponent implements OnInit {
-  formGroup: FormGroup;
-  displayedColumns: string[] = ['recordType', 'orgName','recordId', 'designation', 'startDate', 'endDate', 'comments', 'actionsColumn'];
-  employmentData: any;
-  dataSource: MatTableDataSource<CareerData>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder, private careerService: CareerService) {
+  readonly dialog = inject(MatDialog);
+
+  displayedColumns: string[] = ['personName', 'recordType', 'orgName', 'recordId', 'designation', 'startDate', 'endDate', 'comments', 'actionsColumn'];
+  personNames: DropDownData[] = [];
+  selectedPerson = '';
+  dataSource: MatTableDataSource<CareerData> = new MatTableDataSource<CareerData>([]);
+  employmentData: CareerData[] = [];
+
+  private allData: CareerData[] = [];
+
+  constructor(private careerService: CareerService) {
   }
-
 
   ngOnInit() {
-    this.createForm();
-    this.fetchAppliancesData();
+    this.fetchPersonNames();
+    this.careerService.fetchCareerData().subscribe(data => {
+      this.allData = data ?? [];
+      this.applyPersonFilter();
+    });
   }
 
-  fetchAppliancesData() {
-    this.careerService.fetchCareerData().subscribe(
-      (res) => {
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.employmentData = this.dataSource.data
-          .filter(asset => asset.recordType === 'Employment')
-          .sort((a, b) => {
-            const parseDate = (dateStr: string) => {
-              if (!dateStr) return new Date(); // If no date, use current date
-              const [day, month, year] = dateStr.split('/').map(Number); // Parse dd/MM/yyyy
-              return new Date(year, month - 1, day); // Create a Date object
-            };
-            const dateA = parseDate(a.endDate?.toString());
-            const dateB = parseDate(b.endDate?.toString());
-  
-            return dateB.getTime() - dateA.getTime(); // Sort in descending order
-  
-          });
-      }
-    );
+  fetchPersonNames(): void {
+    this.careerService.fetchPersonNames().subscribe(data => {
+      this.personNames = data;
+    });
+  }
+
+  onPersonChange(): void {
+    this.applyPersonFilter();
+  }
+
+  openAddDialog(): void {
+    this.dialog.open(CareerAddComponent);
+  }
+
+  applyPersonFilter(): void {
+    const rows = this.selectedPerson
+      ? this.allData.filter(row => row.personName === this.selectedPerson)
+      : [];
+    this.dataSource = new MatTableDataSource<CareerData>(rows);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.employmentData = rows
+      .filter(row => row.recordType === 'Employment')
+      .sort((a, b) => {
+        const parseDate = (dateStr: string) => {
+          if (!dateStr) return new Date();
+          const [day, month, year] = dateStr.split('/').map(Number);
+          return new Date(year, month - 1, day);
+        };
+        const dateA = parseDate(a.endDate?.toString());
+        const dateB = parseDate(b.endDate?.toString());
+        return dateB.getTime() - dateA.getTime();
+      });
   }
 
   applyFilter(event: Event) {
@@ -74,34 +95,11 @@ export class CareerComponent implements OnInit {
     }
   }
 
-  createForm() {
-    this.formGroup = this.formBuilder.group({
-      recordType: [null, Validators.required],
-      orgName: [null, [Validators.required]],
-      recordId: [null, Validators.required],
-      designation: [null],
-      comments: [null],
-      startDate: [null, Validators.required],
-      endDate: [null]
-    });
-  }
-
-  clear(): void {
-    this.formGroupDirective.resetForm();
-  }
-
-  onSubmit(formData: any): void {
-    if (this.formGroup.valid) {
-      this.careerService.saveCareerData(formData);
-      this.clear();
-    }
-  }
-
   deleteRow(data: any): void {
     this.careerService.deleteRow(data);
   }
 
-  calculateDuration(startDate: string, endDate: string): string {
+  calculateDuration(startDate: any, endDate: any): string {
    const parseDate = (dateStr: string) => {
       if (!dateStr) return null;
       const [day, month, year] = dateStr.split('/').map(Number);
@@ -126,7 +124,7 @@ export class CareerComponent implements OnInit {
     return `${years} years, ${months} months, ${days} days`;
   }
 
-  
+
   enableEdit(element: any): void {
     // Set isEditing to true for the selected row
     element.isEditing = true;
@@ -136,5 +134,5 @@ export class CareerComponent implements OnInit {
     element.isEditing = false;
     this.careerService.updateCareertDetail(element);
   }
-  
+
 }

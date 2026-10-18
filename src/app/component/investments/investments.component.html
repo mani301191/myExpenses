@@ -31,7 +31,7 @@
       </mat-card>
     </div>
   </div>
-  <div class="col-sm-7">
+  <div class="col-sm-10">
     <div class="row">
       <div class="col-xs-10">
         <h3 class="brandcolor">Investment Details</h3>
@@ -45,12 +45,22 @@
       </div>
     </div>
     <hr class="lineBreak doNotPrint">
-    <div class="row">
-      <div class="col-xs-12">
-        <mat-form-field class="doNotPrint">
+    <div class="row filter-row doNotPrint">
+      <div class="col-xs-10">
+        <mat-form-field class="doNotPrint" subscriptSizing="dynamic">
           <mat-icon matTextPrefix>search</mat-icon>
           <input matInput (keyup)="applyFilter($event)" #input>
         </mat-form-field>
+      </div>
+      <div class="col-xs-2">
+        <button color="primary" class="button addButton doNotPrint" (click)="openAddDialog()"
+          matTooltip="Add Investment Details" type="button">
+          <mat-icon>add</mat-icon> Add
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
         <div class="mat-elevation-z8" id="investmentDetails">
           <table mat-table [dataSource]="dataSource"  matSort>
 
@@ -135,57 +145,4 @@
     </div>
    <br>
   </div>
-  <div class="col-sm-3 sidenav doNotPrint">
-    <div class="row">
-      <h3 class="header">Add Investment Details</h3>
-    </div>
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Investment</mat-label>
-          <mat-select placeholder="Investment" formControlName="investment">
-            <mat-option *ngFor="let investment of investmentsList" [value]="investment.id">{{ investment.value }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Investment Detail</mat-label>
-          <input matInput placeholder="Investment Detail" formControlName="investmentDetail">
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Vendor Account Number</mat-label>
-          <input matInput placeholder="Vendor Account Number" formControlName="vendorAccountNumber">
-          <mat-error *ngIf="formGroup.get('vendorAccountNumber').hasError('pattern')">
-            Please Enter only Numbers!
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Nominee Details</mat-label>
-          <input matInput placeholder="Nominee Details" formControlName="nominee">
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Status</mat-label>
-          <mat-select placeholder="Status" formControlName="status">
-            <mat-option *ngFor="let status of investStatusList" [value]="status.id">{{ status.value }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="outline" class="customformat">
-          <mat-label>Additional Details</mat-label>
-          <input matInput placeholder="Additional Details" formControlName="additionalDetails">
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <button color="primary" type="submit" class="button">Submit</button>
-        <a color="primary" (click)="clear()">Clear</a>
-      </div>
-    </form>
-  </div>
+</div>

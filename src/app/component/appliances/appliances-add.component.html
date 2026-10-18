@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row">
+    <mat-toolbar role="toolbar" class="titleHeader">
+      <div class="col-xs-10">
+        <h4 class="myFont">Add Appliances Details</h4>
+      </div>
+      <div class="col-xs-2">
+        <button class="close" mat-icon-button (click)="close()" matTooltip="Close the form"
+          matTooltipPosition="before"><mat-icon>cancel</mat-icon></button>
+      </div>
+    </mat-toolbar>
+  </div>
+  <br>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+    <div class="row">
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Appliance Name</mat-label>
+          <input matInput placeholder="Appliance Name" formControlName="applianceName">
+          @if (formGroup.get('applianceName').hasError('required')) {
+            <mat-error>Appliance Name is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>AMC</mat-label>
+          <mat-select placeholder="AMC" formControlName="amc">
+            <mat-option value="Yes">Yes</mat-option>
+            <mat-option value="No">No</mat-option>
+          </mat-select>
+          @if (formGroup.get('amc').hasError('required')) {
+            <mat-error>AMC is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>AMC End Date</mat-label>
+          <input matInput [matDatepicker]="amcEndDate" placeholder="AMC End Date" formControlName="amcEndDate">
+          <mat-datepicker-toggle matSuffix [for]="amcEndDate"></mat-datepicker-toggle>
+          <mat-datepicker #amcEndDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-6">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Last Serviced Date</mat-label>
+          <input matInput [matDatepicker]="lastServicedDate" placeholder="Last Serviced Date"
+            formControlName="lastServicedDate">
+          <mat-datepicker-toggle matSuffix [for]="lastServicedDate"></mat-datepicker-toggle>
+          <mat-datepicker #lastServicedDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Additional Details</mat-label>
+          <input matInput placeholder="Additional Details" formControlName="additionalDetails">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row button-row">
+      <div class="col-xs-12">
+        <button color="primary" type="submit" class="button">Submit</button>
+        <a color="primary" (click)="clear()">Clear</a>
+      </div>
+    </div>
+  </form>
+</div>

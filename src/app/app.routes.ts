@@ -12,6 +12,7 @@ import { HomeComponent } from './component/home/home.component';
 import { FixedDepositComponent } from './component/investments/fixed-deposit/fixed-deposit.component';
 import { ExpenseYearlyComponent } from './component/expense/expense-yearly/expense-yearly.component';
 import { ExpenseMonthlyComponent } from './component/expense/expense-monthly/expense-monthly.component';
+import { DocumentsComponent } from './component/documents/documents.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: 'insurance', component: InsuranceComponent },
     { path: 'appliance', component: AppliancesComponent },
     { path: 'career', component: CareerComponent },
+    { path: 'documents', component: DocumentsComponent },
     { path: 'reminders', component: RemindersComponent },
     { path: 'config', component: ConfigComponent },
     { path: 'investment/fixed-deposit', component: FixedDepositComponent },

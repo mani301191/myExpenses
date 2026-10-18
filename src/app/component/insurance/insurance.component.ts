@@ -1,7 +1,9 @@
-
-import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, FormGroup, FormGroupDirective, FormBuilder, Validators } from '@angular/forms';
+import { Component, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -9,43 +11,40 @@ import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { NgxPrintDirective } from '../../directive/ngx-print.directive';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxPrintDirective } from '../../directive/ngx-print.directive';
 import { InsuranceData } from './insurance-data';
-import { DropDownData } from '../../config-data';
 import { InsuranceService } from '../../service/insurance.service';
+import { InsuranceAddComponent } from './insurance-add.component';
 
 @Component({
     selector: 'app-insurance',
-    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, ReactiveFormsModule, MatSelectModule, FormsModule, NgxPrintDirective, MatDatepickerModule, MatNativeDateModule, MatTooltipModule],
+    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, MatSelectModule, FormsModule, NgxPrintDirective, MatDatepickerModule, MatNativeDateModule, MatTooltipModule, MatDialogModule],
     templateUrl: './insurance.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './insurance.component.css'
 })
 export class InsuranceComponent {
 
-  formGroup: FormGroup;
   displayedColumns: string[] = ['insuranceType', 'insuranceProvider', 'policyNumber', 'nominee', 'startDate', 'endDate','additionalDetails', 'actionsColumn'];
   readonly currentDate = new Date();
   activeInsuranceData: any;
   dataSource: MatTableDataSource<InsuranceData>;
-  insuranceTypes: DropDownData[];
+
+  readonly dialog = inject(MatDialog);
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-  constructor(private formBuilder: FormBuilder, private insuranceService: InsuranceService) {
+  constructor(private insuranceService: InsuranceService) {
   }
 
   ngOnInit() {
-    this.createForm();
-    this.insuranceService.fetchInsuranceTypeDropdownData().subscribe(data => {
-    this.insuranceTypes = data;
-    });
     this.fetchInsuranceData();
+  }
+
+  openAddDialog(): void {
+    this.dialog.open(InsuranceAddComponent);
   }
 
   fetchInsuranceData() {
@@ -54,12 +53,12 @@ export class InsuranceComponent {
         this.dataSource = new MatTableDataSource(this.sortAndMarkInsurance(res));
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-       // Parse endDate and filter active insurance data
-      this.activeInsuranceData = this.dataSource.data.filter(insurance => {
-        const [day, month, year] = insurance.endDate?.toString().split('/').map(Number); // Split and parse dd/MM/yyyy
-        const parsedEndDate = new Date(year, month - 1, day).setHours(0, 0, 0, 0); // Create a Date object
-        return parsedEndDate >= this.currentDate.setHours(0, 0, 0, 0); // Compare with current date
-      });
+       // Parse dd/MM/yyyy
+        this.activeInsuranceData = this.dataSource.data.filter(insurance => {
+          const [day, month, year] = insurance.endDate?.toString().split('/').map(Number);
+          const parsedEndDate = new Date(year, month - 1, day).setHours(0, 0, 0, 0);
+          return parsedEndDate >= this.currentDate.setHours(0, 0, 0, 0);
+        });
       }
     );
   }
@@ -70,29 +69,6 @@ export class InsuranceComponent {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
-    }
-  }
-
-  createForm() {
-    this.formGroup = this.formBuilder.group({
-      insuranceType: ['', Validators.required],
-      insuranceProvider: ['', Validators.required],
-      policyNumber: ['', [Validators.required]],
-      nominee: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      additionalDetails: [null]
-    });
-  }
-
-  clear(): void {
-    this.formGroupDirective.resetForm();
-  }
-
-  onSubmit(formData: any): void {
-    if (this.formGroup.valid) {
-      this.insuranceService.saveInsuranceData(formData);
-      this.clear();
     }
   }
 
@@ -117,8 +93,8 @@ export class InsuranceComponent {
     data.forEach(item => {
       let endDateObj = null;
       try {
-        const [day, month, year] = item.endDate?.toString().split('/').map(Number); // Split and parse dd/MM/yyyy
-        const parsedEndDate = new Date(year, month - 1, day).setHours(0, 0, 0, 0); 
+        const [day, month, year] = item.endDate?.toString().split('/').map(Number);
+        const parsedEndDate = new Date(year, month - 1, day).setHours(0, 0, 0, 0);
 
         endDateObj = item.endDate ? parsedEndDate : null;
       } catch {

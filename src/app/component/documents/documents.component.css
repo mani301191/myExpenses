@@ -1,0 +1,100 @@
+.document-section {
+  padding: 24px;
+}
+
+.upload-panel {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #fafafa;
+}
+
+.upload-panel .row {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+/* every column is a bottom-aligned flex stack so its control lines up */
+.upload-panel .row > [class^="col-"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.upload-label {
+  display: block;
+  color: var(--app-primary);
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* give the native file picker the same height as the Material field */
+.upload-panel input[type="file"].form-control {
+  height: 44px;
+  padding: 6px 12px;
+}
+
+/* compact Material field to match the file picker height */
+.upload-panel mat-form-field {
+  --mat-form-field-container-height: 44px;
+  --mat-form-field-container-vertical-padding: 10px;
+  margin-bottom: -22px;
+}
+
+.upload-panel .row > .keyword-action {
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.keyword-action .keyword-field {
+  flex: 0 1 320px;
+}
+
+.search-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-row {
+  margin-bottom: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.document-section table {
+  width: 100%;
+}
+
+.document-section th,
+.document-section td {
+  padding: 6px 8px;
+}
+
+.document-section a.buttonIcon {
+  text-decoration: none;
+  color: var(--app-primary);
+}
+
+.document-section img.document-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+}
+
+.document-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: var(--app-primary);
+}

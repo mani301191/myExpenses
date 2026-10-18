@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="row">
+    <mat-toolbar role="toolbar" class="titleHeader">
+      <div class="col-xs-10">
+        <h4 class="myFont"> Add Employment/Education Details</h4>
+      </div>
+      <div class="col-xs-2">
+        <button class="close" mat-icon-button
+          (click)="close()"
+          matTooltip="Close the form"
+          matTooltipPosition="before"><mat-icon>cancel</mat-icon> </button>
+      </div>
+    </mat-toolbar>
+  </div>
+  <br>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+    <div class="row">
+      <div class="col-xs-4">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Person</mat-label>
+          <mat-select placeholder="Person" formControlName="personName">
+            @for (person of personNames; track person.id) {
+              <mat-option [value]="person.id">{{ person.value }}</mat-option>
+            }
+          </mat-select>
+          @if (formGroup.get('personName').hasError('required')) {
+            <mat-error>Person is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-4">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Record Type</mat-label>
+          <mat-select placeholder="Record Type" formControlName="recordType">
+            <mat-option value="Education">Education</mat-option>
+            <mat-option value="Employment">Employment</mat-option>
+          </mat-select>
+          @if (formGroup.get('recordType').hasError('required')) {
+            <mat-error>Record Type is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-4">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Employment/Education</mat-label>
+          <input matInput placeholder="Name" formControlName="orgName">
+          @if (formGroup.get('orgName').hasError('required')) {
+            <mat-error>Name is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Emp/Edu Id</mat-label>
+          <input matInput placeholder="Emp/Edu Id" formControlName="recordId">
+          @if (formGroup.get('recordId').hasError('required')) {
+            <mat-error>Emp/Edu Id is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-4">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Designation</mat-label>
+          <input matInput placeholder="Designation" formControlName="designation">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-4">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>Comments</mat-label>
+          <input matInput placeholder="comments" formControlName="comments">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>StartDate</mat-label>
+          <input matInput [matDatepicker]="startDatePicker" placeholder="Start Date" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+          @if (formGroup.get('startDate').hasError('required')) {
+            <mat-error>Start Date is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-xs-4">
+        <mat-form-field appearance="outline" class="customformat">
+          <mat-label>EndDate</mat-label>
+          <input matInput [matDatepicker]="endDatePicker" placeholder="End Date" formControlName="endDate">
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row button-row">
+      <div class="col-xs-12">
+        <button color="primary" type="submit" class="button">Submit</button>
+        <a color="primary" (click)="clear()">Clear</a>
+      </div>
+    </div>
+  </form>
+</div>

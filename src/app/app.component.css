@@ -333,6 +333,30 @@ footer {
   font-size: 14px !important;
 }
 
+/* Filter row: keep the search field and the Add button vertically aligned */
+.filter-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-row .filter-field {
+  flex: 1 1 auto;
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+/* Center the action buttons (Submit / Clear) inside dialog forms */
+.button-row {
+  text-align: center;
+}
+
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
   .sidenav {

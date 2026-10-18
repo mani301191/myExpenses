@@ -1,5 +1,6 @@
 export interface CareerData {
     id: string;
+    personName: string;
     recordType: string;
     recordId:string;
     orgName: string;

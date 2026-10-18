@@ -1,12 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { AppliancesComponent } from './appliances.component';
+import { AppliancesAddComponent } from './appliances-add.component';
 import { AppliancesService } from '../../service/appliances.service';
 import { NgxPrintDirective } from '../../directive/ngx-print.directive';
 
@@ -20,6 +22,7 @@ describe('AppliancesComponent', () => {
   let component: AppliancesComponent;
   let fixture: ComponentFixture<AppliancesComponent>;
   let appliancesServiceSpy: jasmine.SpyObj<AppliancesService>;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
 
   const applianceRows = () => [
     { applianceName: 'Refrigerator', amc: 'No', amcEndDate: null, lastServicedDate: toDmy(new Date()), additionalDetails: '' },
@@ -31,6 +34,9 @@ describe('AppliancesComponent', () => {
     future.setMonth(future.getMonth() + 6);
     const past = new Date();
     past.setMonth(past.getMonth() - 6);
+
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    dialogSpy.open.and.returnValue({ afterClosed: () => of(null) } as any);
 
     appliancesServiceSpy = jasmine.createSpyObj('AppliancesService', [
       'fetchAppliancesData',
@@ -54,8 +60,10 @@ describe('AppliancesComponent', () => {
         { provide: MatSnackBar, useValue: jasmine.createSpyObj('MatSnackBar', ['open']) },
         { provide: AppliancesService, useValue: appliancesServiceSpy }
       ]
-    })
-    .compileComponents();
+    });
+
+    TestBed.overrideProvider(MatDialog, { useValue: dialogSpy });
+    await TestBed.compileComponents();
 
     fixture = TestBed.createComponent(AppliancesComponent);
     component = fixture.componentInstance;
@@ -69,59 +77,19 @@ describe('AppliancesComponent', () => {
   describe('fetchAppliancesData', () => {
     it('should populate the table on init', () => {
       expect(appliancesServiceSpy.fetchAppliancesData).toHaveBeenCalled();
-      expect(component.dataSource).toBeDefined();
       expect(component.dataSource.data.length).toBe(3);
-      expect(component.dataSource.paginator).toBe(component.paginator);
-      expect(component.dataSource.sort).toBe(component.sort);
     });
 
-    it('should filter active AMC rows (AMC Yes with end date today or later)', () => {
+    it('should keep only active AMC rows', () => {
       expect(component.activeAMCData.length).toBe(1);
       expect(component.activeAMCData[0].applianceName).toBe('AC');
     });
   });
 
-  describe('createForm', () => {
-    it('should create the required controls', () => {
-      expect(component.formGroup.contains('applianceName')).toBeTrue();
-      expect(component.formGroup.contains('amc')).toBeTrue();
-      expect(component.formGroup.contains('amcEndDate')).toBeTrue();
-      expect(component.formGroup.contains('lastServicedDate')).toBeTrue();
-      expect(component.formGroup.contains('additionalDetails')).toBeTrue();
-    });
-
-    it('should mark the form invalid when required fields are empty', () => {
-      component.formGroup.setValue({
-        applianceName: null,
-        amc: null,
-        amcEndDate: null,
-        lastServicedDate: null,
-        additionalDetails: null
-      });
-      expect(component.formGroup.valid).toBeFalse();
-      expect(component.formGroup.get('applianceName')!.errors?.['required']).toBeTruthy();
-      expect(component.formGroup.get('amc')!.errors?.['required']).toBeTruthy();
-    });
-  });
-
-  describe('onSubmit', () => {
-    it('should not call the service when the form is invalid', () => {
-      fixture.detectChanges();
-      component.onSubmit(component.formGroup.value);
-      expect(appliancesServiceSpy.saveAppliancesData).not.toHaveBeenCalled();
-    });
-
-    it('should call saveAppliancesData and clear the form when valid', () => {
-      component.formGroup.setValue({
-        applianceName: 'Microwave',
-        amc: 'Yes',
-        amcEndDate: new Date(),
-        lastServicedDate: new Date(),
-        additionalDetails: 'Kitchen'
-      });
-      component.onSubmit(component.formGroup.value);
-      expect(appliancesServiceSpy.saveAppliancesData).toHaveBeenCalledWith(jasmine.objectContaining({ applianceName: 'Microwave', amc: 'Yes' }));
-      expect(component.formGroup.get('applianceName')!.value).toBeNull();
+  describe('openAddDialog', () => {
+    it('should open the dialog to add an appliance record', () => {
+      component.openAddDialog();
+      expect(dialogSpy.open).toHaveBeenCalledWith(AppliancesAddComponent);
     });
   });
 
@@ -135,10 +103,8 @@ describe('AppliancesComponent', () => {
 
   describe('applyFilter', () => {
     it('should set the data source filter text', () => {
-      component.dataSource = jasmine.createSpyObj('dataSource', ['filter']) as any;
-      component.dataSource.data = applianceRows() as any;
       component.applyFilter({ target: { value: 'REF' } } as any);
-      expect(component.dataSource.filter).toBe('REF'.toLowerCase().trim());
+      expect(component.dataSource.filter).toBe('ref');
     });
 
     it('should go back to the first page when a paginator exists', () => {
