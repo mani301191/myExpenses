@@ -52,6 +52,11 @@ describe('DocumentsComponent', () => {
     expect(component.dataSource.data.length).toBe(2);
   });
 
+  it('should wire the paginator and sort to the table data source', () => {
+    expect(component.dataSource.paginator).toBe(component.paginator);
+    expect(component.dataSource.sort).toBe(component.sort);
+  });
+
   it('search should call the service with the keyword', () => {
     component.searchKeyword = 'work';
     component.search();

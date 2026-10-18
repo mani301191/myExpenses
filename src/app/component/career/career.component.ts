@@ -32,7 +32,7 @@ export class CareerComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
 
-  displayedColumns: string[] = ['personName', 'recordType', 'orgName', 'recordId', 'designation', 'startDate', 'endDate', 'comments', 'actionsColumn'];
+  displayedColumns: string[] = [ 'recordType', 'orgName', 'recordId', 'designation', 'startDate', 'endDate', 'comments', 'actionsColumn'];
   personNames: DropDownData[] = [];
   selectedPerson = '';
   dataSource: MatTableDataSource<CareerData> = new MatTableDataSource<CareerData>([]);

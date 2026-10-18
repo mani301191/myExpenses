@@ -8,9 +8,6 @@
         <mat-card-content>
           @for (item of employmentData; track item) {
             <div class="cardContent">
-              @if (item.personName) {
-                <div class="row"><div class="col-xs-12"><i>{{item.personName}}</i></div></div>
-              }
               <div class="row"><div class="col-xs-12"><b>{{item.orgName}}</b></div></div>
               <div class="row"><div class="col-xs-12">{{item.designation}}</div> </div>
               <div class="row"><div class="col-xs-12">{{item.startDate}} - {{item.endDate ? item.endDate : 'Present'}}</div></div>
@@ -63,11 +60,6 @@
         <div class="col-xs-12">
           <div class="mat-elevation-z8" id="careerDetails">
             <table mat-table [dataSource]="dataSource" matSort>
-              <ng-container matColumnDef="personName">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Person</th>
-                <td mat-cell *matCellDef="let element">{{element.personName}}</td>
-              </ng-container>
-
               <ng-container matColumnDef="recordType">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableHeader">Record Type</th>
                 <td mat-cell *matCellDef="let element">{{element.recordType}}</td>
